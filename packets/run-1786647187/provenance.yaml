@@ -1,0 +1,29 @@
+schema: kestrel-evidence-packet/v1
+instance: kestrel
+thread_id: run-1786647187
+exported_at: '2026-09-02T18:04:49.269371+00:00'
+bundler_version: 0.1.0
+ledger_path: /Users/williamcorbett/.kestrel/runs.jsonl
+capture_context: retro
+runs:
+- thread_id: run-1786647187
+  timestamp: '2026-08-13T19:04:15.635348+00:00'
+  instance: null
+  team: claude_squad
+  executor: claude_code
+  outcome: done
+  delivery: delivered
+  pr_url: https://github.com/wcorbett36/kestrel-team/pull/15
+sessions:
+- session_id: 139b5b92-cdf6-49ed-85ba-6d4036f2cfcb
+  ledger_row: 1
+  attempt: 1
+  transcript: transcripts/139b5b92-cdf6-49ed-85ba-6d4036f2cfcb.jsonl
+  source_path: /Users/williamcorbett/.claude/projects/-private-var-folders-2r-01lqd7td60358-tqbqjsyfnr0000gn-T-kestrel-runs-tkmdejat-repo/139b5b92-cdf6-49ed-85ba-6d4036f2cfcb.jsonl
+- session_id: 929e7160-c9ff-4023-b41f-a0544359ec23
+  ledger_row: 1
+  attempt: 2
+  transcript: transcripts/929e7160-c9ff-4023-b41f-a0544359ec23.jsonl
+  source_path: /Users/williamcorbett/.claude/projects/-private-var-folders-2r-01lqd7td60358-tqbqjsyfnr0000gn-T-kestrel-runs-tkmdejat-repo/929e7160-c9ff-4023-b41f-a0544359ec23.jsonl
+queue_item_source: /Users/williamcorbett/working/repos/artemis/kestrel-systems/kestrel-helm/queue/0028-non-tty-drain-confirms.md
+absent_by_design: []

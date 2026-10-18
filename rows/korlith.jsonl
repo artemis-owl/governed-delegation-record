@@ -1,0 +1,2 @@
+{"delivery": "undelivered", "executor": "claude_code", "instance": "korlith", "outcome": "aborted", "pr_url": null, "thread_id": "run-1789577922", "timestamp": "2026-09-16T17:51:55.682756+00:00"}
+{"delivery": "delivered", "executor": "claude_code", "instance": "korlith", "outcome": "retry-cap", "pr_url": "https://github.com/wcorbett36/korlith/pull/1", "thread_id": "run-1789581310", "timestamp": "2026-09-16T18:40:26.100783+00:00"}
