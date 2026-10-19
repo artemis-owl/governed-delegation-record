@@ -16,3 +16,4 @@ verifier's quoted output (practice-helm CHARTER.md §1).
 
 - 2026-10-18 — repo created, private, scaffold only (README, LICENSE, ROADMAP, `.agent-context/`). No verifier yet.
 - 2026-10-19 — first proof: `verify.sh` (stdlib-only gate, checks a–e) and `packets/SHA256SUMS` added; `./verify.sh` passes (73 rows, 59 delivered, 1 packet, 1 resumed run) and fails on the korlith pr_url mutation. Queue 0001.
+- 2026-10-19 — CI: `.github/workflows/verify.yml` added on `main` as an attended commit (`7b92a28`) after PR #1 merged (`9cca672`); first run https://github.com/artemis-owl/governed-delegation-record/actions/runs/39261254023 — `completed success`, last line `PASS: record is internally consistent — rows: 73, delivered: 59, packets: 1, resumed runs: 1`. First proof complete, CI clause included.
