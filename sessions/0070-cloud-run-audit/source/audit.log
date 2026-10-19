@@ -1,0 +1,348 @@
+[fetch_and_match] $ git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
+[exit 0]
+
+[fetch_and_match] $ git remote set-url --push origin no-push://audit
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git fetch -q origin '+refs/*:refs/remotes/origin/*'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[containment] $ git ls-remote https://github.com/wcorbett36/kestrel-team
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
+de04eca3a42c2251b8773b8d987df547569aadca	HEAD
+a9331234fa35c75dd662e9c47cb64abf16fd0ff5	refs/heads/cloud/0070-cloud-run-audit
+2c24c5083caae652d969320250b12e69cd89eb4f	refs/heads/feat/agent-1786402322-recovery
+48536c18683ba5276caf2d361160f21a5b66d819	refs/heads/feat/agent-1788561886
+05b5ebfc46bc4d8d859c7b1533ee4588e83e7859	refs/heads/feat/agent-1788570312
+685b70d12504d2cb3903dfeafbe20dc9f69cc0ae	refs/heads/feat/agent-1788627695
+de04eca3a42c2251b8773b8d987df547569aadca	refs/heads/main
+b7adec2ba8ef3060c78c714609dff552e41a2d0f	refs/heads/task/0070-cloud-run-audit
+2015dcc6f89152ec443db6a9d48297e3489f8f8a	refs/pull/1/head
+1d370e7263cfd52544dc96616f539ff5b62fa3d8	refs/pull/10/head
+de55dfb43717c2c9ecdb5d2ad3c453995af8d5cf	refs/pull/11/head
+8fa7363dec1330cc6665663b551b17bd1ffbb711	refs/pull/12/head
+2c24c5083caae652d969320250b12e69cd89eb4f	refs/pull/13/head
+9babbbae414d697f37cb33776f361202067739a6	refs/pull/14/head
+7b2f83bd5b687bcd3b996de02b00078bef6bbc66	refs/pull/15/head
+182ca4afea9c5b88dc2bc294fc075cd47e55b682	refs/pull/16/head
+168cca897921d44b8f2763c1e62161780392fd14	refs/pull/17/head
+8fddfeb3f254188d9d97b487dbdfd5fc41077aed	refs/pull/18/head
+3f35bdf3f9384da84a9a083c2f1d24c187330b00	refs/pull/19/head
+1b774d0d281db42d15e55f57cb486106de4457f1	refs/pull/2/head
+48536c18683ba5276caf2d361160f21a5b66d819	refs/pull/20/head
+05b5ebfc46bc4d8d859c7b1533ee4588e83e7859	refs/pull/21/head
+685b70d12504d2cb3903dfeafbe20dc9f69cc0ae	refs/pull/22/head
+4c06482bdf98e1c44b86e04d7ea01f4d862267aa	refs/pull/23/head
+a4aa3702aef0448f3d03c2209bd28c2e28d46f65	refs/pull/24/head
+fbf4655cf1888afb657819189ad27151117c9525	refs/pull/25/head
+5a261893b8bf1a16093b775b9a5f1e7f74811383	refs/pull/26/head
+bcc7597a7dddc6c17c9523851916dbc97681f9c8	refs/pull/27/head
+20459fdec845b9f667f513d21eb68eef2b9a6645	refs/pull/28/head
+94f2732aaa01600422cfdb591a085a24e61915a7	refs/pull/29/head
+e52be55c2b98a13fe1b6a67f802b9436c8b82448	refs/pull/3/head
+e8d916c05c239d16feebd98541ec6dc3e7739c95	refs/pull/30/head
+1eda2f1e2034490712788d89e2c5f7cc4254e48c	refs/pull/31/head
+b527dee82b46c87f2a3047066e94c1c21cfe0b6e	refs/pull/32/head
+45fe2766475a5b0c5a7a882e2b30c235ca529fda	refs/pull/33/head
+e54f9f665dcfe9b9d29c7f5ca2708b42b57c629d	refs/pull/4/head
+b618eb693a01d43b0e0b8fab744bc677b7b7a264	refs/pull/5/head
+0ff2f077a6ac4486e69ff85e22ceb61076a967de	refs/pull/6/head
+8a1a0ef7c4b1a0be9d423ac379513353d925178b	refs/pull/7/head
+17a4232c815e530dc854ddf16577003985c5f3dd	refs/pull/8/head
+5d1ccb43b1caa07287ceea962155f198289b950c	refs/pull/9/head
+915d8be76645357c57808ee0c1d63e6841c49ab7	refs/tags/v0.2.0
+b163fe733970cd22151248a948ee4acb509bdb63	refs/tags/v0.2.0^{}
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet '1d6c25e^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+1d6c25e5db3c85ce765c98309797c97501f00876
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor 1d6c25e5db3c85ce765c98309797c97501f00876 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet '6d3dcd4^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+6d3dcd4a240003b2645f013d729b1950af56f5f5
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor 6d3dcd4a240003b2645f013d729b1950af56f5f5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet '7f904e5^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+7f904e50f4532ef94c0b80f1f2b19c7b4c34c928
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor 7f904e50f4532ef94c0b80f1f2b19c7b4c34c928 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'a933123^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a9331234fa35c75dd662e9c47cb64abf16fd0ff5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'a9331234fa35c75dd662e9c47cb64abf16fd0ff5^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a9331234fa35c75dd662e9c47cb64abf16fd0ff5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'b9001eb^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+b9001ebf9eb50dbe985a7e9993d3ae77e2378994
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor b9001ebf9eb50dbe985a7e9993d3ae77e2378994 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'cd01a52^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+cd01a526aa54163f7a06d12fc2557b09b8c1c32c
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor cd01a526aa54163f7a06d12fc2557b09b8c1c32c a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'de04eca^{commit}'
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+de04eca3a42c2251b8773b8d987df547569aadca
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[containment] $ git diff --name-only de04eca3a42c2251b8773b8d987df547569aadca..a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+CHANGELOG.md
+CLAUDE.md
+OVERVIEW.md
+README.md
+ROADMAP.md
+docs/cloud.md
+docs/queue_item_contract.md
+kestrel_team/cli/app.py
+kestrel_team/core/cloud.py
+kestrel_team/core/cloud_audit.py
+kestrel_team/core/queue_items.py
+tests/fixtures/queue_item.md
+tests/test_cloud_audit.py
+tests/test_contract_fixtures.py
+[exit 0]
+
+[containment] $ git ls-tree -r --name-only a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+.agent-context/design-principles.md
+.agent-context/strategy_governance.md
+.agent-context/task_lifecycle.md
+.env.example
+.env.pre-gateway-migration
+.github/workflows/test.yml
+.gitignore
+.python-version
+CHANGELOG.md
+CLAUDE.md
+Dockerfile.sandbox
+OVERVIEW.md
+README.md
+ROADMAP.md
+docs/capabilities.md
+docs/cloud.md
+docs/drain.md
+docs/ecosystem-and-strategy.md
+docs/evidence_packet_contract.md
+docs/instance_manifest_contract.md
+docs/poc/sandbox_and_tokenomics_experiment.md
+docs/queue_item_contract.md
+docs/run-lifecycle.md
+examples/tasks/README.md
+examples/tasks/dogfood_429.json
+examples/tasks/scoop_task_1.json
+examples/tasks/task.json
+kestrel_team/__init__.py
+kestrel_team/cli/__init__.py
+kestrel_team/cli/app.py
+kestrel_team/configs/inference.yaml
+kestrel_team/configs/personas/aider_probe.yaml
+kestrel_team/configs/personas/claude_dev.yaml
+kestrel_team/configs/personas/dev_agent.yaml
+kestrel_team/configs/personas/gemini_dev.yaml
+kestrel_team/configs/personas/gemini_free.yaml
+kestrel_team/configs/personas/planner.yaml
+kestrel_team/configs/personas/reviewer_agent.yaml
+kestrel_team/configs/personas/unity_coder.yaml
+kestrel_team/configs/personas/unity_planner.yaml
+kestrel_team/configs/personas/unity_reviewer.yaml
+kestrel_team/configs/teams/aider_squad.yaml
+kestrel_team/configs/teams/claude_squad.yaml
+kestrel_team/configs/teams/gemini_team.yaml
+kestrel_team/configs/teams/test_team.yaml
+kestrel_team/configs/teams/unity_squad.yaml
+kestrel_team/core/__init__.py
+kestrel_team/core/audit.py
+kestrel_team/core/bootstrap.py
+kestrel_team/core/cloud.py
+kestrel_team/core/cloud_audit.py
+kestrel_team/core/consent.py
+kestrel_team/core/cost.py
+kestrel_team/core/drain.py
+kestrel_team/core/env.py
+kestrel_team/core/evidence.py
+kestrel_team/core/executors/__init__.py
+kestrel_team/core/executors/aider.py
+kestrel_team/core/executors/base.py
+kestrel_team/core/executors/claude_code.py
+kestrel_team/core/executors/native.py
+kestrel_team/core/housekeeping.py
+kestrel_team/core/instance.py
+kestrel_team/core/introspect.py
+kestrel_team/core/ledger.py
+kestrel_team/core/liveness.py
+kestrel_team/core/llm.py
+kestrel_team/core/manifests.py
+kestrel_team/core/mcp.py
+kestrel_team/core/nodes/__init__.py
+kestrel_team/core/nodes/plan.py
+kestrel_team/core/nodes/review.py
+kestrel_team/core/nodes/supervisor.py
+kestrel_team/core/nodes/worker.py
+kestrel_team/core/nodes/wrap_up.py
+kestrel_team/core/orchestrator.py
+kestrel_team/core/paths.py
+kestrel_team/core/persistence.py
+kestrel_team/core/provisioning.py
+kestrel_team/core/queue_items.py
+kestrel_team/core/routing.py
+kestrel_team/core/run_logs.py
+kestrel_team/core/state.py
+kestrel_team/core/tools.py
+kestrel_team/core/unit_push.py
+kestrel_team/git/__init__.py
+kestrel_team/git/wrapper.py
+pyproject.toml
+scripts/manual_governance_check.py
+tests/conftest.py
+tests/fixtures/instance_manifest.yaml
+tests/fixtures/provenance.yaml
+tests/fixtures/queue_item.md
+tests/test_aider_executor.py
+tests/test_auth_abort.py
+tests/test_bootstrap.py
+tests/test_boundary_audit.py
+tests/test_budget.py
+tests/test_claude_auth_preflight.py
+tests/test_claude_code_executor.py
+tests/test_cloud_audit.py
+tests/test_cloud_prepare.py
+tests/test_config_migration.py
+tests/test_consent_gates.py
+tests/test_contract_fixtures.py
+tests/test_cost.py
+tests/test_doctor.py
+tests/test_drain_execute.py
+tests/test_drain_ledger.py
+tests/test_drain_select.py
+tests/test_env_loading.py
+tests/test_evidence_export.py
+tests/test_fail_closed_gate.py
+tests/test_git_wrapper.py
+tests/test_hitl_abort.py
+tests/test_inference_routing.py
+tests/test_instance_manifest.py
+tests/test_ledger.py
+tests/test_ledger_fidelity.py
+tests/test_liveness.py
+tests/test_llm_retry.py
+tests/test_manifests.py
+tests/test_needs_env_preflight.py
+tests/test_persistence.py
+tests/test_plan_node.py
+tests/test_provisioning.py
+tests/test_queue_items.py
+tests/test_review_node.py
+tests/test_routing.py
+tests/test_run_logs.py
+tests/test_sandbox_permissions.py
+tests/test_sandbox_preflight.py
+tests/test_state_root.py
+tests/test_summarization.py
+tests/test_unit_push.py
+tests/test_version.py
+tests/test_warm_session.py
+tests/test_worker_node.py
+tests/test_workspace.py
+tests/test_workspace_cleanup.py
+tests/test_wrap_up_delivery.py
+uv.lock
+[exit 0]
+
+[host_gate] $ git worktree add -q --detach /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[exit 0]
+
+[host_gate] $ uv run --locked python -m pytest tests/ -q
+  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work)
+warning: `VIRTUAL_ENV=/private/tmp/claude-501/-Users-williamcorbett-working-repos-artemis-kestrel-systems-kestrel-helm/d6cf41f8-8c0c-4792-a38e-ead62b1ebd3a/scratchpad/wt0070/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Using CPython 3.12.11 interpreter at: /opt/homebrew/opt/python@3.12/bin/python3.12
+Creating virtual environment at: .venv
+   Building kestrel-team @ file:///Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
+      Built kestrel-team @ file:///Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
+Installed 122 packages in 266ms
+........................................................................ [  6%]
+........................................................................ [ 12%]
+.......................F................................................ [ 18%]
+........................................................................ [ 24%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 42%]
+........................................................................ [ 48%]
+........................................................................ [ 54%]
+........................................................................ [ 60%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+........................................................................ [ 78%]
+........................................................................ [ 84%]
+........................................................................ [ 90%]
+........................................................................ [ 97%]
+...................................                                      [100%]
+=================================== FAILURES ===================================
+______________________ test_containment_main_moved_fails _______________________
+
+ran = {'base': '9a304a3d014467c400fe84977f57478a9860aa2c', 'home': PosixPath('/private/var/folders/2r/01lqd7td60358_tqbqjsyf...ytest-of-williamcorbett/pytest-37/test_containment_main_moved_fa0/home/cloud-runs/0099-cloud-thing', pushed=True), ...}
+
+    def test_containment_main_moved_fails(ran):
+        _push_to(ran, "refs/heads/main")
+        check = _check(_audit(), "containment")
+>       assert check.status == "FAIL" and "moved refs/heads/main" in check.reason
+E       AssertionError: assert ('FAIL' == 'FAIL'
+E         
+E           FAIL and 'moved refs/heads/main' in 'refs changed besides the work branch: moved HEAD, refs/heads/main')
+E        +  where 'refs changed besides the work branch: moved HEAD, refs/heads/main' = Check(name='containment', status='FAIL', reason='refs changed besides the work branch: moved HEAD, refs/heads/main', c...s={'refs_added': ['refs/heads/cloud/0099-cloud-thing'], 'refs_deleted': [], 'refs_moved': ['HEAD', 'refs/heads/main']}).reason
+
+tests/test_cloud_audit.py:384: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cloud_audit.py::test_containment_main_moved_fails - Asserti...
+1 failed, 1186 passed in 65.98s (0:01:05)
+[exit 1]
+
