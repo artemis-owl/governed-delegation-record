@@ -28,7 +28,9 @@ ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/wcorbett36/kestrel-team/pull/15)
 ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (6 files)
-PASS: record is internally consistent — rows: 73, delivered: 59, packets: 1, resumed runs: 1
+ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
+ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
+PASS: record is internally consistent — rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1
 ```
 
 Strip the PR reference from a delivered row (here the korlith one) and it fails:
@@ -37,7 +39,13 @@ Strip the PR reference from a delivered row (here the korlith one) and it fails:
 FAIL (b) rows: every delivered row has a pull-request pr_url: rows/korlith.jsonl:2 run-1789581310 is delivered but pr_url is null
 ```
 
-`./verify.sh --write-sums` regenerates `packets/SHA256SUMS` (and checks nothing); plain
+Flip the mapped vendor session's decision to `allow` when its trusted-host audit said FAIL and it fails:
+
+```text
+FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr-f39865b445dc0115/decision_traces.jsonl:1 policy.decision 'allow' != 'deny' (audit verdict FAIL)
+```
+
+`./verify.sh --write-sums` regenerates `packets/SHA256SUMS` and `sessions/SHA256SUMS` (and checks nothing); plain
 `./verify.sh` never writes.
 
 ## Layout
@@ -46,6 +54,9 @@ FAIL (b) rows: every delivered row has a pull-request pr_url: rows/korlith.jsonl
 rows/              one file per ledger instance, each row projected to seven public fields (rows/README.md)
 packets/           evidence packets, byte-verbatim and never edited (packets/README.md)
 packets/SHA256SUMS sums of every file under every packet directory, checked on every run
+sessions/          vendor cloud-run sessions: source/ byte-verbatim, packet/corr-*/ in the Agent Audit
+                   Packet layout, RESULT.md with the packet verifier's output (sessions/README.md)
+sessions/SHA256SUMS sums of every file under every sessions/<id>/source/, checked on every run
 verify.sh          the gate
 ```
 

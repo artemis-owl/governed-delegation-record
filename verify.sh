@@ -3,7 +3,8 @@
 #
 #   ./verify.sh               check the record; exit 0 when internally consistent,
 #                             exit 1 naming the first failure otherwise. Writes nothing.
-#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS and exit 0 without checking.
+#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS and sessions/SHA256SUMS and exit 0
+#                             without checking.
 #
 # Stack: bash + python3 -I, standard library only. No network, no dependencies.
 set -euo pipefail
@@ -25,6 +26,9 @@ DELIVERIES = {"delivered", "undelivered", "skipped"}
 ROWS = Path("rows")
 PACKETS = Path("packets")
 SUMS = PACKETS / "SHA256SUMS"
+SESSIONS = Path("sessions")
+SESSION_SUMS = SESSIONS / "SHA256SUMS"
+VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
 
 
 def ok(what):
@@ -47,6 +51,42 @@ def expected_sums():
             rel = f.relative_to(PACKETS).as_posix()
             lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
     return sorted(lines, key=lambda l: l.split("  ", 1)[1])
+
+
+def session_dirs():
+    return sorted(p for p in SESSIONS.iterdir() if p.is_dir()) if SESSIONS.is_dir() else []
+
+
+def expected_session_sums():
+    lines = []
+    for d in session_dirs():
+        for f in sorted(p for p in (d / "source").rglob("*") if p.is_file()):
+            rel = f.relative_to(SESSIONS).as_posix()
+            lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
+    return sorted(lines, key=lambda l: l.split("  ", 1)[1])
+
+
+def check_sums(what, sums, want, label, owner):
+    if not sums.is_file():
+        fail(what, f"{sums} missing (run ./verify.sh --write-sums)")
+    have = sums.read_text(encoding="utf-8").splitlines()
+    want_by_path = {l.split("  ", 1)[1]: l for l in want}
+    for n, line in enumerate(have, 1):
+        m = re.match(r"^([0-9a-f]{64})  (\S.*)$", line)
+        if not m:
+            fail(what, f"{label}:{n} is not a `sha256  path` line: {line!r}")
+        if m.group(2) not in want_by_path:
+            fail(what, f"{label}:{n} lists {m.group(2)!r}, not a file under any {owner}")
+        if want_by_path[m.group(2)] != line:
+            fail(what, f"{label}:{n} sum mismatch for {m.group(2)}")
+    paths = [l.split("  ", 1)[1] for l in have]
+    for p in sorted(set(want_by_path) - set(paths)):
+        fail(what, f"{p} is not listed")
+    if len(paths) != len(set(paths)):
+        fail(what, "a path is listed more than once")
+    if paths != sorted(paths):
+        fail(what, "lines are not in sorted path order")
+    return len(have)
 
 
 def read_jsonl(path, what):
@@ -98,6 +138,9 @@ def read_provenance(path):
 def write_sums():
     SUMS.write_text("".join(l + "\n" for l in expected_sums()), encoding="utf-8")
     print(f"wrote {SUMS} ({len(expected_sums())} files)")
+    want = expected_session_sums()
+    SESSION_SUMS.write_text("".join(l + "\n" for l in want), encoding="utf-8")
+    print(f"wrote {SESSION_SUMS} ({len(want)} files)")
 
 
 def check():
@@ -229,9 +272,57 @@ def check():
         fail(what, "lines are not in sorted path order")
     ok(f"{what} ({len(have)} files)")
 
-    # (f)
+    # (f) mapped vendor sessions agree with their trusted-host audit
+    sessions = session_dirs()
+    for d in sessions:
+        sid = d.name
+        what = f"(f) session {sid}"
+        audit_path = d / "source" / "audit.json"
+        if not audit_path.is_file():
+            fail(what, "source/audit.json missing")
+        try:
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            fail(what, f"source/audit.json does not parse as JSON ({e.msg})")
+        verdict = audit.get("verdict") if isinstance(audit, dict) else None
+        if not isinstance(verdict, str) or not verdict:
+            fail(what, "source/audit.json has no verdict")
+        want_decision = "allow" if verdict == "PASS" else "deny"
+        corr = sorted(p for p in (d / "packet").glob("corr-*") if p.is_dir())
+        if len(corr) != 1:
+            fail(what, f"expected exactly one packet/corr-*/ directory, found {len(corr)}")
+        cdir = corr[0]
+        counts = {}
+        for name in ("decision_traces.jsonl", "evidence.jsonl"):
+            path = cdir / name
+            if not path.is_file():
+                fail(what, f"{path} missing")
+            recs = read_jsonl(path, what)
+            for n, r in recs:
+                if r.get("correlation_id") != cdir.name:
+                    fail(what, f"{path}:{n} correlation_id {r.get('correlation_id')!r} != {cdir.name!r}")
+                if name == "decision_traces.jsonl":
+                    got = (r.get("policy") or {}).get("decision")
+                    if got != want_decision:
+                        fail(what, f"{path}:{n} policy.decision {got!r} != {want_decision!r} "
+                                   f"(audit verdict {verdict})")
+            counts[name] = len(recs)
+        result = d / "RESULT.md"
+        if not result.is_file():
+            fail(what, "RESULT.md missing")
+        if not VERIFIER_EXIT_RE.search(result.read_text(encoding="utf-8")):
+            fail(what, "RESULT.md has no line matching ^packet-verifier exit: \\d+$")
+        ok(f"{what}: {cdir.name} has {counts['decision_traces.jsonl']} trace(s) and "
+           f"{counts['evidence.jsonl']} evidence record(s); every trace's decision is "
+           f"{want_decision!r} for audit verdict {verdict}; RESULT.md records the packet verifier's exit")
+
+    # (g) session sources are pinned
+    what = "(g) sessions: SHA256SUMS covers every source/ file and every sum matches"
+    n = check_sums(what, SESSION_SUMS, expected_session_sums(), "sessions/SHA256SUMS", "session source/ directory")
+    ok(f"{what} ({n} files)")
+
     print(f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
-          f"packets: {len(dirs)}, resumed runs: {len(resumed)}")
+          f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
 
 
 args = sys.argv[1:]
