@@ -3,7 +3,7 @@
 Each `sessions/<item_id>/` holds one run that a vendor cloud agent executed under the kestrel
 delegation contract (kestrel-helm decisions/0023): `source/` is what the operator's side holds
 about it, byte-verbatim and never edited — the vendor's RUN REPORT and condensed log as the
-run-log API returned them, the prepared task (`prepared.json`, `TASK.md`, `refs_before.txt`),
+run-log API returned them, the prepared task (`prepared.json`, `TASK.delivered.md` — the delivered task file, renamed because the cloud audit refuses any `TASK.md` in a tip tree — and `refs_before.txt`),
 and the trusted-host audit (`audit.json`, `audit.log`, from `spawner cloud audit`). `packet/`
 is that run mapped into the Agent Audit Packet layout (decision traces, evidence, policy
 metadata, schemas, observability pointers; github.com/artemis-owl/agent-audit-packet), and
