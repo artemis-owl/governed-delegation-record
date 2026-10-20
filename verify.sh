@@ -5,6 +5,8 @@
 #                             exit 1 naming the first failure otherwise. Writes nothing.
 #   ./verify.sh --write-sums  (re)write packets/SHA256SUMS and sessions/SHA256SUMS and exit 0
 #                             without checking.
+#   ./verify.sh --controls    print, per check, the controls it evidences and exit 0 without
+#                             checking; add --markdown for the table CONTROLS.md is generated from.
 #
 # Stack: bash + python3 -I, standard library only. No network, no dependencies.
 set -euo pipefail
@@ -29,6 +31,64 @@ SUMS = PACKETS / "SHA256SUMS"
 SESSIONS = Path("sessions")
 SESSION_SUMS = SESSIONS / "SHA256SUMS"
 VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
+CONTROLS_MD = Path("CONTROLS.md")
+
+# The control map: one row per check, letter -> (title as printed, NIST AI RMF, ISO/IEC 42001,
+# OWASP Agentic Top 10, EU AI Act, rationale). An argued mapping, not a certification claim.
+CONTROLS = [
+    ("a", "rows: every line is a well-formed projected row",
+     "NIST AI RMF GOVERN 1.5",
+     "ISO/IEC 42001 7.5 Documented information; A.6.2.8 AI system recording of event logs",
+     "OWASP ASI10 Rogue Agents",
+     "EU AI Act Art. 12(1)",
+     "every governed run leaves an automatic, well-formed record over the system's lifetime; "
+     "an agent run with no row is the rogue the inventory would miss."),
+    ("b", "rows: every delivered row has a pull-request pr_url",
+     "NIST AI RMF MANAGE 4.1",
+     "ISO/IEC 42001 A.6.2.6 AI system operation and monitoring; 9.1 Monitoring, measurement, analysis and evaluation",
+     "OWASP ASI05 Unexpected Code Execution",
+     "EU AI Act Art. 12(2)(c)",
+     "a delivery exists only as a reviewable pull request, never as code that ran into main; "
+     "the deployer can monitor what was changed and by which run."),
+    ("c", "rows: resumed runs counted, not failed",
+     "NIST AI RMF MEASURE 3.1",
+     "ISO/IEC 42001 10.2 Nonconformity and corrective action",
+     "OWASP ASI08 Cascading Failures",
+     "EU AI Act Art. 12(2)(a)",
+     "a resumed run is a contained failure kept visible as a second row, not collapsed into a "
+     "clean story; the situations that may present risk stay identifiable."),
+    ("d", "packet <id>: provenance and ledger rows match rows/, and pr_refs.txt and provenance "
+          "runs[].pr_url agree with the packet rows",
+     "NIST AI RMF MEASURE 2.8",
+     "ISO/IEC 42001 A.7.5 Data provenance; A.6.2.8 AI system recording of event logs",
+     "OWASP ASI09 Human-Agent Trust Exploitation",
+     "EU AI Act Art. 12(2)(b)",
+     "the evidence packet, the ledger and the PR reference agree with each other, so a reader "
+     "trusts the record, not the agent's report of itself; this is the post-market monitoring data."),
+    ("e", "packets: SHA256SUMS covers every packet file and every sum matches",
+     "NIST AI RMF MEASURE 2.7",
+     "ISO/IEC 42001 7.5.3 Control of documented information",
+     "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
+     "EU AI Act Art. 12(1)",
+     "packet bytes are hash-covered; a changed byte anywhere fails the gate, so the record's "
+     "integrity holds over its lifetime."),
+    ("f", "session <id>: trace and evidence records parse, every trace's decision matches the "
+          "audit verdict, RESULT.md records the packet verifier's exit",
+     "NIST AI RMF MANAGE 2.4",
+     "ISO/IEC 42001 9.2 Internal audit; A.6.2.6 AI system operation and monitoring",
+     "OWASP ASI02 Tool Misuse and Exploitation",
+     "EU AI Act Art. 12(2)(a)",
+     "a vendor session's actions are judged by a trusted-host audit after the fact (containment, "
+     "gate, mutation, connector scan); a deny verdict is recorded as a deny, and the mapped "
+     "decision cannot disagree with it."),
+    ("g", "sessions: SHA256SUMS covers every source/ file and every sum matches",
+     "NIST AI RMF MEASURE 2.7",
+     "ISO/IEC 42001 7.5.3 Control of documented information",
+     "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
+     "EU AI Act Art. 12(1)",
+     "the vendor-run source files are hash-covered exactly as packets are."),
+]
+FRAMEWORKS = ("NIST AI RMF", "ISO/IEC 42001", "OWASP", "EU AI Act")
 
 
 def ok(what):
@@ -133,6 +193,38 @@ def read_provenance(path):
         if runs:
             runs[-1][m.group(2)] = scalar(m.group(3))
     return top, runs
+
+
+def control_codes(row):
+    """The four codes of a CONTROLS row, each without its framework prefix."""
+    return [code[len(fw) + 1:] for fw, code in zip(FRAMEWORKS, row[2:6])]
+
+
+def controls_text():
+    out = ["Control map: per check, the control it evidences "
+           "(argued mapping, 2026-10-19; not a certification claim)"]
+    for row in CONTROLS:
+        out.append(f"{row[0]}  {row[1]}")
+        out.append("     " + "  | ".join(f"{fw}: {c}" for fw, c in zip(FRAMEWORKS, control_codes(row))))
+    return "".join(l + "\n" for l in out)
+
+
+def controls_markdown():
+    out = [
+        "# Controls",
+        "",
+        "The mapping below was drafted by the practice on 2026-10-19 from steering's "
+        "docs/control-map.md and the standards named; it is an ARGUED mapping, reviewed by the "
+        "operator, not a certification claim. The frameworks are outcome-level; the sub-outcome "
+        "codes are the practice's reading of them.",
+        "",
+        "| Check | NIST AI RMF | ISO/IEC 42001 | OWASP Agentic Top 10 (2026) | EU AI Act | Why |",
+        "| :- | :- | :- | :- | :- | :- |",
+    ]
+    for row in CONTROLS:
+        title = row[1].replace("<", "&lt;").replace(">", "&gt;")
+        out.append("| " + " | ".join([f"({row[0]}) {title}", *control_codes(row), row[6]]) + " |")
+    return "".join(l + "\n" for l in out)
 
 
 def write_sums():
@@ -321,6 +413,20 @@ def check():
     n = check_sums(what, SESSION_SUMS, expected_session_sums(), "sessions/SHA256SUMS", "session source/ directory")
     ok(f"{what} ({n} files)")
 
+    # (h) CONTROLS.md is the verifier's control table, byte for byte
+    what = "(h) controls"
+    if not CONTROLS_MD.is_file():
+        fail(what, f"{CONTROLS_MD} missing (run ./verify.sh --controls --markdown > CONTROLS.md)")
+    have_bytes, want = CONTROLS_MD.read_bytes(), controls_markdown()
+    if have_bytes != want.encode("utf-8"):
+        have = have_bytes.decode("utf-8", errors="replace").splitlines(keepends=True)
+        want_lines = want.splitlines(keepends=True)
+        n = next((i for i, (h, w) in enumerate(zip(have, want_lines)) if h != w),
+                 min(len(have), len(want_lines)))
+        line = repr(have[n].rstrip("\n")) if n < len(have) else "(end of file)"
+        fail(what, f"{CONTROLS_MD} differs from verify.sh's table: line {n + 1}: {line}")
+    ok(f"{what}: {CONTROLS_MD} matches the verifier's control table ({len(CONTROLS)} checks)")
+
     print(f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
           f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
 
@@ -328,9 +434,13 @@ def check():
 args = sys.argv[1:]
 if args == ["--write-sums"]:
     write_sums()
+elif args == ["--controls"]:
+    sys.stdout.write(controls_text())
+elif args == ["--controls", "--markdown"]:
+    sys.stdout.write(controls_markdown())
 elif not args:
     check()
 else:
-    print("usage: ./verify.sh [--write-sums]", file=sys.stderr)
+    print("usage: ./verify.sh [--write-sums | --controls [--markdown]]", file=sys.stderr)
     sys.exit(2)
 PY
