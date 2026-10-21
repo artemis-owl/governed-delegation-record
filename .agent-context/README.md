@@ -1,21 +1,16 @@
-# .agent-context/ — copy into each product repo
+# .agent-context/ — read before touching this repo
 
-Everything an executor must know before touching this repo, injected into
-every delegated task's prompt. Keep it to what a careful new contributor would
-need on day one:
-
-## Verification gate (charter §1, spelled as commands)
+## Verification gate
 
 ```
-{{exact test command(s) — e.g. venv/bin/python -m pytest -q}}
+./verify.sh
 ```
 
-Nothing is "done" without this passing and its real output quoted.
+Exit 0 and the output quoted; CI runs it on every push.
 
 ## Conventions
 
-- {{code style / structure norms that are not obvious from reading the code}}
-- {{where task lifecycle lives — e.g. ROADMAP.md statuses; agents update
-  statuses, humans set scope and priority}}
-- {{anything that has bitten before — the findings a fresh agent would
-  otherwise rediscover at full turn price}}
+- Nothing is written down unless something enforces it (practice-helm CHARTER.md §2): a file here is data, verify.sh, or output verify.sh generates and checks; README.md is the one exception; task status and findings live in practice-helm queue/, never here.
+- rows/, packets/<id>/ and sessions/<id>/source/ are never edited; any rename or addition under them needs `./verify.sh --write-sums`.
+- Never commit a TASK.md — the cloud audit refuses any TASK.md in the tip tree.
+- Never touch .github/ — containment forbids it; CI changes are attended commits.

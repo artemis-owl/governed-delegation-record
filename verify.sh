@@ -32,6 +32,8 @@ SESSIONS = Path("sessions")
 SESSION_SUMS = SESSIONS / "SHA256SUMS"
 VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
 CONTROLS_MD = Path("CONTROLS.md")
+INSTANCE_KEYS = ("instance", "repo", "about")
+REPO_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+$")
 
 # The control map: one row per check, letter -> (title as printed, NIST AI RMF, ISO/IEC 42001,
 # OWASP Agentic Top 10, EU AI Act, rationale). An argued mapping, not a certification claim.
@@ -91,8 +93,13 @@ CONTROLS = [
 FRAMEWORKS = ("NIST AI RMF", "ISO/IEC 42001", "OWASP", "EU AI Act")
 
 
+PRINTED = []
+
+
 def ok(what):
-    print(f"ok   {what}")
+    line = f"ok   {what}"
+    PRINTED.append(line)
+    print(line)
 
 
 def fail(what, detail):
@@ -214,8 +221,8 @@ def controls_markdown():
         "# Controls",
         "",
         "The mapping below was drafted by the practice on 2026-10-19 from steering's "
-        "docs/control-map.md and the standards named; it is an ARGUED mapping, reviewed by the "
-        "operator, not a certification claim. The frameworks are outcome-level; the sub-outcome "
+        "docs/control-map.md and the standards named; it is an ARGUED mapping, not a "
+        "certification claim. The frameworks are outcome-level; the sub-outcome "
         "codes are the practice's reading of them.",
         "",
         "| Check | NIST AI RMF | ISO/IEC 42001 | OWASP Agentic Top 10 (2026) | EU AI Act | Why |",
@@ -427,8 +434,53 @@ def check():
         fail(what, f"{CONTROLS_MD} differs from verify.sh's table: line {n + 1}: {line}")
     ok(f"{what}: {CONTROLS_MD} matches the verifier's control table ({len(CONTROLS)} checks)")
 
-    print(f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
-          f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
+    # (i) instances.jsonl names every tenant that has a rows file, and no other
+    what = "(i) instances"
+    inst_path = Path("instances.jsonl")
+    if not inst_path.is_file():
+        fail(what, "instances.jsonl missing")
+    names = []
+    for n, r in read_jsonl(inst_path, what):
+        where = f"instances.jsonl:{n}"
+        if sorted(r) != sorted(INSTANCE_KEYS):
+            fail(what, f"{where} keys {sorted(r)} != {sorted(INSTANCE_KEYS)}")
+        for k in INSTANCE_KEYS:
+            if not isinstance(r[k], str) or not r[k]:
+                fail(what, f"{where} {k} is not a non-empty string")
+        if not REPO_RE.match(r["repo"]):
+            fail(what, f"{where} repo {r['repo']!r} does not match ^https://github\\.com/[^/]+/[^/]+$")
+        names.append(r["instance"])
+    if len(names) != len(set(names)):
+        fail(what, "an instance is listed more than once")
+    if names != sorted(names):
+        fail(what, "lines are not sorted by instance")
+    if sorted(names) != sorted(rows):
+        fail(what, f"listed instances {sorted(names)} != rows files {sorted(rows)}")
+    ok(f"{what}: every rows file names a listed tenant and every listed tenant has a rows file ({len(names)})")
+
+    # (j) README.md quotes this run's output, byte for byte
+    what = "(j) readme"
+    pass_line = (f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
+                 f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
+    j_ok = f"ok   {what}: the quoted verifier output in README.md matches this run"
+    expected = PRINTED + [j_ok, pass_line]
+    readme = Path("README.md")
+    if not readme.is_file():
+        fail(what, "README.md missing")
+    blocks = re.findall(r"<!-- verify:begin -->\n```text\n(.*?)\n```\n<!-- verify:end -->",
+                        readme.read_text(encoding="utf-8"), re.S)
+    if len(blocks) != 1:
+        fail(what, f"README.md has {len(blocks)} verify block(s), expected exactly one")
+    got = blocks[0].split("\n")
+    for n, (g, e) in enumerate(zip(got, expected), 1):
+        if g != e:
+            fail(what, f"README.md's verify block differs from this run's output: line {n}: {g}")
+    if len(got) != len(expected):
+        n = min(len(got), len(expected)) + 1
+        line = got[n - 1] if n <= len(got) else "(end of block)"
+        fail(what, f"README.md's verify block differs from this run's output: line {n}: {line}")
+    print(j_ok)
+    print(pass_line)
 
 
 args = sys.argv[1:]
