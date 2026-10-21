@@ -58,6 +58,8 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   `thread_id`, `timestamp`, `instance`, `executor`, `outcome`, `delivery`, `pr_url`. Goals,
   costs, token counts and session ids are not projected; they live, verbatim, in the packets.
   A resumed run is a second row with the same `thread_id`, counted as one run.
+  The pull requests the rows reference live in private repositories; the verifier checks that
+  every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
   full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
   edited; a packet that cannot be published as-is is excluded, not changed.
