@@ -1,6 +1,6 @@
 # Controls
 
-The mapping below was drafted by the practice on 2026-10-19 from steering's docs/control-map.md and the standards named; it is an ARGUED mapping, reviewed by the operator, not a certification claim. The frameworks are outcome-level; the sub-outcome codes are the practice's reading of them.
+The mapping below was drafted by the practice on 2026-10-19 from steering's docs/control-map.md and the standards named; it is an ARGUED mapping, not a certification claim. The frameworks are outcome-level; the sub-outcome codes are the practice's reading of them.
 
 | Check | NIST AI RMF | ISO/IEC 42001 | OWASP Agentic Top 10 (2026) | EU AI Act | Why |
 | :- | :- | :- | :- | :- | :- |

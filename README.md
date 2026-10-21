@@ -1,26 +1,28 @@
 # governed-delegation-record
 
-**Status: in progress, private until the first proof (practice-helm decisions/0001, chartered 2026-10-18).**
+A record of work that AI agents delivered under governance, published so the governance can
+be checked rather than described. It holds the delivery ledger of one small ecosystem of
+agent-run projects, the evidence packets behind those deliveries, one vendor cloud session
+mapped into an auditable packet, and a verifier that fails when any of it disagrees with
+itself.
 
-The governed-delegation record: the delivered rows of an ecosystem's agent-run ledgers (reduced to
-id, date, instance, outcome, pull-request reference), the evidence packets that back them, and a
-verifier that fails when any delivered row lacks a PR reference, when any packet's ledger rows
-disagree with the ledger, or when a mapped vendor session fails the packet's checks.
+Four tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
+runs and audits delegated work, with its satellite repos. **lark** and **korlith** are two
+products that took governed deliveries from it. **artemis** is the professional site of the
+practice that runs the other three. `instances.jsonl` names each with its repository, and
+the verifier refuses a ledger file with no listed tenant.
 
-It is the receipts behind an applied governance case study, published as an object a platform
-leader can hand to an auditor, not as an essay. Its verifier is the same discipline as the
-[Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet): one script, run in CI,
-quoted output, nothing "done" without it.
-
-## Verify it
+## Check it yourself
 
 ```bash
 ./verify.sh
 ```
 
-Bash and `python3 -I`, standard library only; no install, no network. Exit 0 when the record is
-internally consistent, exit 1 naming the first failure. Output on this commit:
+Bash and `python3 -I`, standard library only; no install, no network. Exit 0 when the record
+is internally consistent, exit 1 naming the first failure. Its output on this commit — and
+check (j) fails if this block stops matching what it prints:
 
+<!-- verify:begin -->
 ```text
 ok   (a) rows: every line is a well-formed projected row (73 rows in 4 files: artemis 1, kestrel 62, korlith 2, lark 8)
 ok   (b) rows: every delivered row has a pull-request pr_url (59 delivered)
@@ -31,8 +33,11 @@ ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (6 f
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
+ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (4)
+ok   (j) readme: the quoted verifier output in README.md matches this run
 PASS: record is internally consistent — rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1
 ```
+<!-- verify:end -->
 
 Strip the PR reference from a delivered row (here the korlith one) and it fails:
 
@@ -40,40 +45,40 @@ Strip the PR reference from a delivered row (here the korlith one) and it fails:
 FAIL (b) rows: every delivered row has a pull-request pr_url: rows/korlith.jsonl:2 run-1789581310 is delivered but pr_url is null
 ```
 
-Flip the mapped vendor session's decision to `allow` when its trusted-host audit said FAIL and it fails:
+Flip the mapped vendor session's decision to `allow` when its trusted-host audit said FAIL
+and it fails:
 
 ```text
 FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr-f39865b445dc0115/decision_traces.jsonl:1 policy.decision 'allow' != 'deny' (audit verdict FAIL)
 ```
 
-`./verify.sh --write-sums` regenerates `packets/SHA256SUMS` and `sessions/SHA256SUMS` (and checks nothing); plain
-`./verify.sh` never writes.
+## What it holds
 
-## Controls
+- `rows/` — one file per tenant. Each line is one ledger row projected to seven fields:
+  `thread_id`, `timestamp`, `instance`, `executor`, `outcome`, `delivery`, `pr_url`. Goals,
+  costs, token counts and session ids are not projected; they live, verbatim, in the packets.
+  A resumed run is a second row with the same `thread_id`, counted as one run.
+- `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
+  full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
+  edited; a packet that cannot be published as-is is excluded, not changed.
+- `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
+  side holds about it (the task, the vendor's run report and log, the trusted-host audit),
+  byte-verbatim; `packet/` is that run mapped into the
+  [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
+  `RESULT.md` is that packet verifier's raw output over it.
+- `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
+  Act Art. 12 item it evidences. An argued mapping, not a certification claim; generated from
+  the verifier's own table, and check (h) fails if the two differ by a byte.
+- `SHA256SUMS` in `packets/` and `sessions/` pin every packet file and every session source
+  file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
+  never writes.
 
-`./verify.sh --controls` prints, per check and without running any, the NIST AI RMF subcategory, ISO/IEC
-42001 clause, OWASP Agentic Top 10 item and EU AI Act Art. 12 purpose that check evidences — an argued
-mapping, not a certification claim. [`CONTROLS.md`](CONTROLS.md) is generated from the same table
-(`./verify.sh --controls --markdown > CONTROLS.md`) and check (h) fails when the two differ by a byte.
+## The vendor session
 
-```text
-a  rows: every line is a well-formed projected row
-     NIST AI RMF: GOVERN 1.5  | ISO/IEC 42001: 7.5 Documented information; A.6.2.8 AI system recording of event logs  | OWASP: ASI10 Rogue Agents  | EU AI Act: Art. 12(1)
-b  rows: every delivered row has a pull-request pr_url
-     NIST AI RMF: MANAGE 4.1  | ISO/IEC 42001: A.6.2.6 AI system operation and monitoring; 9.1 Monitoring, measurement, analysis and evaluation  | OWASP: ASI05 Unexpected Code Execution  | EU AI Act: Art. 12(2)(c)
-```
+The one mapped session reported `1187 passed` and `result: success`. The trusted-host audit
+re-ran the same gate on the same commit and got `1 failed, 1186 passed`, so the recorded
+decision is `deny`: five pushes happened, and the policy that judges them did not allow
+them. The packet verifier closes its first three checks on that session and cannot run the
+fourth, because a vendor's log does not say which decision each action was taken under.
 
-## Layout
-
-```text
-rows/              one file per ledger instance, each row projected to seven public fields (rows/README.md)
-packets/           evidence packets, byte-verbatim and never edited (packets/README.md)
-packets/SHA256SUMS sums of every file under every packet directory, checked on every run
-sessions/          vendor cloud-run sessions: source/ byte-verbatim, packet/corr-*/ in the Agent Audit
-                   Packet layout, RESULT.md with the packet verifier's output (sessions/README.md)
-sessions/SHA256SUMS sums of every file under every sessions/<id>/source/, checked on every run
-CONTROLS.md        the control map, generated by ./verify.sh --controls --markdown and gated by check (h)
-verify.sh          the gate
-```
-
-Intent plane: practice-helm (`decisions/0001`, `CHARTER.md` §1). Apache-2.0.
+Intent plane: practice-helm. Apache-2.0.
