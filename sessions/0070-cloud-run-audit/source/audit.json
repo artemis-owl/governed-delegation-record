@@ -13,7 +13,7 @@
       "status": "PASS",
       "reason": "cloud/0070-cloud-run-audit at a9331234fa35 descends from base de04eca3a42c; all 8 commit(s) the report names are on the branch, the tip among them",
       "commands": [
-        "git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone",
+        "git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone",
         "git remote set-url --push origin no-push://audit",
         "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
         "git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5",
@@ -64,7 +64,7 @@
       "status": "FAIL",
       "reason": "`uv run --locked python -m pytest tests/ -q` exited 1: 1 failed, 1186 passed in 65.98s (0:01:05)",
       "commands": [
-        "git worktree add -q --detach /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work a9331234fa35c75dd662e9c47cb64abf16fd0ff5",
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work a9331234fa35c75dd662e9c47cb64abf16fd0ff5",
         "uv run --locked python -m pytest tests/ -q"
       ],
       "gate": "uv run --locked python -m pytest tests/ -q",
@@ -81,15 +81,15 @@
       "status": "PASS",
       "reason": "only pinned tools invoked (seen: none)",
       "commands": [
-        "scan /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/run-log.condensed.txt"
+        "scan ~/.kestrel/cloud-runs/0070-cloud-run-audit/run-log.condensed.txt"
       ],
       "tools_seen": {},
       "connector_tokens": [],
       "not_allowed": []
     }
   },
-  "report": "/Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/RUN_REPORT.md",
-  "run_log": "/Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/run-log.condensed.txt",
-  "audit_log": "/Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/audit.log",
+  "report": "~/.kestrel/cloud-runs/0070-cloud-run-audit/RUN_REPORT.md",
+  "run_log": "~/.kestrel/cloud-runs/0070-cloud-run-audit/run-log.condensed.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/audit.log",
   "notes": []
 }
