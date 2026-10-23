@@ -1,17 +1,17 @@
-[fetch_and_match] $ git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
+[fetch_and_match] $ git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
 [exit 0]
 
 [fetch_and_match] $ git remote set-url --push origin no-push://audit
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git fetch -q origin '+refs/*:refs/remotes/origin/*'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [containment] $ git ls-remote https://github.com/wcorbett36/kestrel-team
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
 de04eca3a42c2251b8773b8d987df547569aadca	HEAD
 a9331234fa35c75dd662e9c47cb64abf16fd0ff5	refs/heads/cloud/0070-cloud-run-audit
 2c24c5083caae652d969320250b12e69cd89eb4f	refs/heads/feat/agent-1786402322-recovery
@@ -58,83 +58,83 @@ b163fe733970cd22151248a948ee4acb509bdb63	refs/tags/v0.2.0^{}
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet '1d6c25e^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 1d6c25e5db3c85ce765c98309797c97501f00876
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor 1d6c25e5db3c85ce765c98309797c97501f00876 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet '6d3dcd4^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 6d3dcd4a240003b2645f013d729b1950af56f5f5
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor 6d3dcd4a240003b2645f013d729b1950af56f5f5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet '7f904e5^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 7f904e50f4532ef94c0b80f1f2b19c7b4c34c928
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor 7f904e50f4532ef94c0b80f1f2b19c7b4c34c928 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet 'a933123^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor a9331234fa35c75dd662e9c47cb64abf16fd0ff5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet 'a9331234fa35c75dd662e9c47cb64abf16fd0ff5^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor a9331234fa35c75dd662e9c47cb64abf16fd0ff5 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet 'b9001eb^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 b9001ebf9eb50dbe985a7e9993d3ae77e2378994
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor b9001ebf9eb50dbe985a7e9993d3ae77e2378994 a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet 'cd01a52^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 cd01a526aa54163f7a06d12fc2557b09b8c1c32c
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor cd01a526aa54163f7a06d12fc2557b09b8c1c32c a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [fetch_and_match] $ git rev-parse --verify --quiet 'de04eca^{commit}'
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 de04eca3a42c2251b8773b8d987df547569aadca
 [exit 0]
 
 [fetch_and_match] $ git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [containment] $ git diff --name-only de04eca3a42c2251b8773b8d987df547569aadca..a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 CHANGELOG.md
 CLAUDE.md
 OVERVIEW.md
@@ -152,7 +152,7 @@ tests/test_contract_fixtures.py
 [exit 0]
 
 [containment] $ git ls-tree -r --name-only a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 .agent-context/design-principles.md
 .agent-context/strategy_governance.md
 .agent-context/task_lifecycle.md
@@ -297,17 +297,17 @@ tests/test_wrap_up_delivery.py
 uv.lock
 [exit 0]
 
-[host_gate] $ git worktree add -q --detach /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work a9331234fa35c75dd662e9c47cb64abf16fd0ff5
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
+[host_gate] $ git worktree add -q --detach ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work a9331234fa35c75dd662e9c47cb64abf16fd0ff5
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
 [host_gate] $ uv run --locked python -m pytest tests/ -q
-  (cwd /Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work)
-warning: `VIRTUAL_ENV=/private/tmp/claude-501/-Users-williamcorbett-working-repos-artemis-kestrel-systems-kestrel-helm/d6cf41f8-8c0c-4792-a38e-ead62b1ebd3a/scratchpad/wt0070/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+  (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work)
+warning: `VIRTUAL_ENV=/private/tmp/claude-501/-~-working-repos-artemis-kestrel-systems-kestrel-helm/d6cf41f8-8c0c-4792-a38e-ead62b1ebd3a/scratchpad/wt0070/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
 Using CPython 3.12.11 interpreter at: /opt/homebrew/opt/python@3.12/bin/python3.12
 Creating virtual environment at: .venv
-   Building kestrel-team @ file:///Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
-      Built kestrel-team @ file:///Users/williamcorbett/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
+   Building kestrel-team @ file://~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
+      Built kestrel-team @ file://~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/work
 Installed 122 packages in 266ms
 ........................................................................ [  6%]
 ........................................................................ [ 12%]
@@ -329,7 +329,7 @@ Installed 122 packages in 266ms
 =================================== FAILURES ===================================
 ______________________ test_containment_main_moved_fails _______________________
 
-ran = {'base': '9a304a3d014467c400fe84977f57478a9860aa2c', 'home': PosixPath('/private/var/folders/2r/01lqd7td60358_tqbqjsyf...ytest-of-williamcorbett/pytest-37/test_containment_main_moved_fa0/home/cloud-runs/0099-cloud-thing', pushed=True), ...}
+ran = {'base': '9a304a3d014467c400fe84977f57478a9860aa2c', 'home': PosixPath('/private/var/folders/2r/01lqd7td60358_tqbqjsyf...ytest-of-~/pytest-37/test_containment_main_moved_fa0/home/cloud-runs/0099-cloud-thing', pushed=True), ...}
 
     def test_containment_main_moved_fails(ran):
         _push_to(ran, "refs/heads/main")
