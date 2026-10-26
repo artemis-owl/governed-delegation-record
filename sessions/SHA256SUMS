@@ -1,7 +1,7 @@
-b64e8a7d5e44a3e9f5fc734606467eb52be83a3d7becf4815239e58ba4e688aa  0070-cloud-run-audit/source/RUN_REPORT.md
+b3050f56a79c00bdfa184e1ddf6f8f56c7f8d8b54930bae793419d9ad2734088  0070-cloud-run-audit/source/RUN_REPORT.md
 2beaf741e1a8a0804696fa91949f7b56a6e11288e3f68e4207209d88071e4da6  0070-cloud-run-audit/source/TASK.delivered.md
-755a51a05f306e79395fad202455c1bb3bf10f40a3ee1672452f4bd4e6cc06c9  0070-cloud-run-audit/source/audit.json
-2ee7704a9013daf448b90a1cbb1f037faaa416e5118d4108c828b1856c03e27d  0070-cloud-run-audit/source/audit.log
-9d524064f91cc22a0a958e790becbc332dad8294a757c00b966f4cf2b71f6bfa  0070-cloud-run-audit/source/prepared.json
+d199699ee5e9b322b67e2c03d3eff122040a3ad93563a5600e9476de63f730ed  0070-cloud-run-audit/source/audit.json
+dee1ff9ee42c1bf7188581aff919f7b51de82f410f03fd24207ef0ad151a7bb5  0070-cloud-run-audit/source/audit.log
+21f5d0cd7ac42869c09db60e9b29aebdcb3815ca9b791030ca8bee75f512ad39  0070-cloud-run-audit/source/prepared.json
 6643bf9d411b651e74609b85c1ce54690e32cd7f7a343b6b196b1174adedcf36  0070-cloud-run-audit/source/refs_before.txt
 f1c356037f108cef7d48151619706eed24c241c55c6f738cea391ce6953e7092  0070-cloud-run-audit/source/run-log.condensed.txt

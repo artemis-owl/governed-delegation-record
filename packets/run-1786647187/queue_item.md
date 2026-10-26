@@ -5,7 +5,7 @@ failure_policy: medium
 mode: delegated
 group: abort-path
 status: delivered
-target_repo: https://github.com/wcorbett36/kestrel-team
+target_repo: https://github.com/artemis-owl/kestrel-team
 team: claude_squad
 goal: |
   In kestrel-team (Python; the agent-dispatch governor), make drain/spawn

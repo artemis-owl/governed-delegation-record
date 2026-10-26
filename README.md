@@ -28,7 +28,7 @@ ok   (a) rows: every line is a well-formed projected row (73 rows in 4 files: ar
 ok   (b) rows: every delivered row has a pull-request pr_url (59 delivered)
 ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
-ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/wcorbett36/kestrel-team/pull/15)
+ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
 ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (6 files)
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
@@ -63,11 +63,12 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
   full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
   edited; a packet that cannot be published as-is is excluded, not changed. One exception, stated here so it can
-  be checked: paths under the operator's home directory are shortened to `~`; no other byte is
-  changed.
+  be checked: paths under the operator's home directory are shortened to `~`, and repository URLs name
+  the organization the repositories moved to; no other byte is changed.
 - `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
   side holds about it (the task, the vendor's run report and log, the trusted-host audit),
-  byte-verbatim except that same `~` shortening; `packet/` is that run mapped into the
+  byte-verbatim except that same `~` shortening, and repository URLs name the organization the
+  repositories moved to; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
   `RESULT.md` is that packet verifier's raw output over it.
 - `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI

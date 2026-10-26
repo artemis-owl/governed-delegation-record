@@ -1,6 +1,6 @@
 {
   "item_id": "0070-cloud-run-audit",
-  "target_repo": "https://github.com/wcorbett36/kestrel-team",
+  "target_repo": "https://github.com/artemis-owl/kestrel-team",
   "task_branch": "task/0070-cloud-run-audit",
   "task_branch_status": "pushed and verified",
   "work_branch": "cloud/0070-cloud-run-audit",

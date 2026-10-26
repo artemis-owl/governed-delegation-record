@@ -13,7 +13,7 @@
       "status": "PASS",
       "reason": "cloud/0070-cloud-run-audit at a9331234fa35 descends from base de04eca3a42c; all 8 commit(s) the report names are on the branch, the tip among them",
       "commands": [
-        "git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone",
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone",
         "git remote set-url --push origin no-push://audit",
         "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
         "git merge-base --is-ancestor de04eca3a42c2251b8773b8d987df547569aadca a9331234fa35c75dd662e9c47cb64abf16fd0ff5",
@@ -50,7 +50,7 @@
       "status": "PASS",
       "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
       "commands": [
-        "git ls-remote https://github.com/wcorbett36/kestrel-team",
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
         "git diff --name-only de04eca3a42c2251b8773b8d987df547569aadca..a9331234fa35c75dd662e9c47cb64abf16fd0ff5",
         "git ls-tree -r --name-only a9331234fa35c75dd662e9c47cb64abf16fd0ff5"
       ],
