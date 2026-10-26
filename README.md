@@ -62,10 +62,12 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
   full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
-  edited; a packet that cannot be published as-is is excluded, not changed.
+  edited; a packet that cannot be published as-is is excluded, not changed. One exception, stated here so it can
+  be checked: paths under the operator's home directory are shortened to `~`; no other byte is
+  changed.
 - `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
   side holds about it (the task, the vendor's run report and log, the trusted-host audit),
-  byte-verbatim; `packet/` is that run mapped into the
+  byte-verbatim except that same `~` shortening; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
   `RESULT.md` is that packet verifier's raw output over it.
 - `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
