@@ -1,7 +1,7 @@
 # 0070-cloud-run-audit — the packet verifier over a vendor session
 
 Session `cse_01W6mixYaieBkixHXEvdpAdn` (claude-opus-5-5, 33 turns, 670 s; target
-`wcorbett36/kestrel-team`, branch `cloud/0070-cloud-run-audit`, tip `a933123`) mapped into
+`artemis-owl/kestrel-team`, branch `cloud/0070-cloud-run-audit`, tip `a933123`) mapped into
 `packet/corr-f39865b445dc0115/` and checked by the Agent Audit Packet's own verifier
 (github.com/artemis-owl/agent-audit-packet at `cd4c2c6`, unmodified), run as:
 

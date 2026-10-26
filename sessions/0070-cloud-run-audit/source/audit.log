@@ -1,4 +1,4 @@
-[fetch_and_match] $ git clone -q --no-checkout https://github.com/wcorbett36/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone
+[fetch_and_match] $ git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone
   (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
 [exit 0]
 
@@ -10,7 +10,7 @@
   (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit/clone)
 [exit 0]
 
-[containment] $ git ls-remote https://github.com/wcorbett36/kestrel-team
+[containment] $ git ls-remote https://github.com/artemis-owl/kestrel-team
   (cwd ~/.kestrel/cloud-runs/0070-cloud-run-audit/audit)
 de04eca3a42c2251b8773b8d987df547569aadca	HEAD
 a9331234fa35c75dd662e9c47cb64abf16fd0ff5	refs/heads/cloud/0070-cloud-run-audit

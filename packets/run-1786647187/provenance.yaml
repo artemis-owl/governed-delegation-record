@@ -13,7 +13,7 @@ runs:
   executor: claude_code
   outcome: done
   delivery: delivered
-  pr_url: https://github.com/wcorbett36/kestrel-team/pull/15
+  pr_url: https://github.com/artemis-owl/kestrel-team/pull/15
 sessions:
 - session_id: 139b5b92-cdf6-49ed-85ba-6d4036f2cfcb
   ledger_row: 1
