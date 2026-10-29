@@ -1,0 +1,2 @@
+{"delivery": "undelivered", "executor": "cloud", "instance": "practice", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0004-legibility-pass", "timestamp": "2026-10-21T17:05:01Z"}
+{"delivery": "delivered", "executor": "cloud", "instance": "practice", "outcome": "aborted", "pr_url": "https://github.com/artemis-owl/governed-delegation-record/pull/7", "thread_id": "cloud-0005-record-urls-to-artemis-owl", "timestamp": "2026-10-26T17:03:34Z"}

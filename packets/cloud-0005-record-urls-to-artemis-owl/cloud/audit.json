@@ -1,0 +1,75 @@
+{
+  "item_id": "0005-record-urls-to-artemis-owl",
+  "work_branch": "cloud/0005-record-urls-to-artemis-owl",
+  "tip": "29ec8619b3acd67ccd5eb56608f5a10d7e7a8564",
+  "base_sha": "20648c144d9b2e3f521636b1fa7cda582ed0948c",
+  "verdict": "FAIL",
+  "audited_at": "2026-10-26T17:03:34Z",
+  "declared_by": "prepared",
+  "gate": "./verify.sh",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('instances.jsonl');s=p.read_text();assert 'artemis-owl/kestrel-team' in s;p.write_text(s.replace('artemis-owl/kestrel-team','artemis-owl/kestrel-tean',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "NOT_RUN",
+      "reason": "no --report: the RUN REPORT's shas were not matched",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/governed-delegation-record ~/.kestrel-practice/cloud-runs/0005-record-urls-to-artemis-owl/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor 20648c144d9b2e3f521636b1fa7cda582ed0948c 29ec8619b3acd67ccd5eb56608f5a10d7e7a8564"
+      ]
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/governed-delegation-record",
+        "git diff --name-only 20648c144d9b2e3f521636b1fa7cda582ed0948c..29ec8619b3acd67ccd5eb56608f5a10d7e7a8564",
+        "git ls-tree -r --name-only 29ec8619b3acd67ccd5eb56608f5a10d7e7a8564"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0005-record-urls-to-artemis-owl"
+      ],
+      "refs_deleted": [],
+      "refs_moved": []
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`./verify.sh` exited 0: PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel-practice/cloud-runs/0005-record-urls-to-artemis-owl/audit/work 29ec8619b3acd67ccd5eb56608f5a10d7e7a8564",
+        "./verify.sh"
+      ],
+      "gate": "./verify.sh",
+      "exit_code": 0,
+      "last_line": "PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1"
+    },
+    "mutation": {
+      "status": "FAIL",
+      "reason": "the gate stayed green after `python3 -c \"import pathlib;p=pathlib.Path('instances.jsonl');s=p.read_text();assert 'artemis-owl/kestrel-team' in s;p.write_text(s.replace('artemis-owl/kestrel-team','artemis-owl/kestrel-tean',1))\"`: it does not prove the change",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('instances.jsonl');s=p.read_text();assert 'artemis-owl/kestrel-team' in s;p.write_text(s.replace('artemis-owl/kestrel-team','artemis-owl/kestrel-tean',1))\"",
+        "git status --porcelain",
+        "./verify.sh",
+        "git reset -q --hard 29ec8619b3acd67ccd5eb56608f5a10d7e7a8564",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('instances.jsonl');s=p.read_text();assert 'artemis-owl/kestrel-team' in s;p.write_text(s.replace('artemis-owl/kestrel-team','artemis-owl/kestrel-tean',1))\"",
+      "exit_code": 0,
+      "last_line": "PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "NOT_RUN",
+      "reason": "no --run-log: the session's tool calls were not scanned",
+      "commands": []
+    }
+  },
+  "report": null,
+  "run_log": null,
+  "audit_log": "~/.kestrel-practice/cloud-runs/0005-record-urls-to-artemis-owl/audit/audit.log",
+  "notes": []
+}

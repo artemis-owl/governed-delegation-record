@@ -1,0 +1,75 @@
+{
+  "item_id": "0004-legibility-pass",
+  "work_branch": "cloud/0004-legibility-pass",
+  "tip": "bb2362817a5693b3ad3180d5b7cf7b6143048996",
+  "base_sha": "bb2362817a5693b3ad3180d5b7cf7b6143048996",
+  "verdict": "FAIL",
+  "audited_at": "2026-10-21T17:05:01Z",
+  "declared_by": "prepared",
+  "gate": "./verify.sh",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('README.md');s=p.read_text();assert 'rows: 73,' in s;p.write_text(s.replace('rows: 73,','rows: 74,',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "NOT_RUN",
+      "reason": "no --report: the RUN REPORT's shas were not matched",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/governed-delegation-record ~/.kestrel-practice/cloud-runs/0004-legibility-pass/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor bb2362817a5693b3ad3180d5b7cf7b6143048996 bb2362817a5693b3ad3180d5b7cf7b6143048996"
+      ]
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/governed-delegation-record",
+        "git diff --name-only bb2362817a5693b3ad3180d5b7cf7b6143048996..bb2362817a5693b3ad3180d5b7cf7b6143048996",
+        "git ls-tree -r --name-only bb2362817a5693b3ad3180d5b7cf7b6143048996"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0004-legibility-pass"
+      ],
+      "refs_deleted": [],
+      "refs_moved": []
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`./verify.sh` exited 0: PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel-practice/cloud-runs/0004-legibility-pass/audit/work bb2362817a5693b3ad3180d5b7cf7b6143048996",
+        "./verify.sh"
+      ],
+      "gate": "./verify.sh",
+      "exit_code": 0,
+      "last_line": "PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1"
+    },
+    "mutation": {
+      "status": "FAIL",
+      "reason": "the gate stayed green after `python3 -c \"import pathlib;p=pathlib.Path('README.md');s=p.read_text();assert 'rows: 73,' in s;p.write_text(s.replace('rows: 73,','rows: 74,',1))\"`: it does not prove the change",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('README.md');s=p.read_text();assert 'rows: 73,' in s;p.write_text(s.replace('rows: 73,','rows: 74,',1))\"",
+        "git status --porcelain",
+        "./verify.sh",
+        "git reset -q --hard bb2362817a5693b3ad3180d5b7cf7b6143048996",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('README.md');s=p.read_text();assert 'rows: 73,' in s;p.write_text(s.replace('rows: 73,','rows: 74,',1))\"",
+      "exit_code": 0,
+      "last_line": "PASS: record is internally consistent \u2014 rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "NOT_RUN",
+      "reason": "no --run-log: the session's tool calls were not scanned",
+      "commands": []
+    }
+  },
+  "report": null,
+  "run_log": null,
+  "audit_log": "~/.kestrel-practice/cloud-runs/0004-legibility-pass/audit/audit.log",
+  "notes": []
+}
