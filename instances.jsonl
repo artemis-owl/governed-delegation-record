@@ -2,3 +2,4 @@
 {"about": "the engine: the harness that commissions, runs and audits delegated work, and its satellite repos", "instance": "kestrel", "repo": "https://github.com/artemis-owl/kestrel-team"}
 {"about": "a product that took governed deliveries from the engine", "instance": "korlith", "repo": "https://github.com/wcorbett36/korlith"}
 {"about": "a product that took governed deliveries from the engine", "instance": "lark", "repo": "https://github.com/wcorbett36/lark-press"}
+{"about": "the professional practice that runs the other four; this record is its product", "instance": "practice", "repo": "https://github.com/artemis-owl/governed-delegation-record"}

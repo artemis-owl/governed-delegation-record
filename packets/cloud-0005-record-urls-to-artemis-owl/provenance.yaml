@@ -1,0 +1,28 @@
+schema: kestrel-evidence-packet/v1
+instance: practice
+thread_id: cloud-0005-record-urls-to-artemis-owl
+exported_at: '2026-10-28T23:09:51.021096+00:00'
+bundler_version: 0.3.0
+ledger_path: ~/.kestrel-practice/runs.jsonl
+capture_context: retro
+delivery_target: null
+runs:
+- thread_id: cloud-0005-record-urls-to-artemis-owl
+  timestamp: '2026-10-26T17:03:34Z'
+  instance: practice
+  team: null
+  executor: cloud
+  outcome: aborted
+  delivery: delivered
+  pr_url: https://github.com/artemis-owl/governed-delegation-record/pull/7
+sessions: []
+run_log:
+  path: null
+  source_path: null
+queue_item_source: null
+absent_by_design:
+- 'run_log.txt: no attempt in this chain recorded a log_path — absent (not recorded),
+  which is every run that finished before run logs were persisted, and any run nothing
+  teed (a `spawner resume`).'
+- 'queue_item.md: no queue item was supplied to this export (--queue-item); the run
+  may not have come from the queue at all.'

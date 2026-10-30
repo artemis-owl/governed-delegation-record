@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 KEYS = ("thread_id", "timestamp", "instance", "executor", "outcome", "delivery", "pr_url")
-THREAD_RE = re.compile(r"^run-\d+$")
+THREAD_RE = re.compile(r"^(run-\d+|cloud-\d{4}-[a-z0-9-]+)$")
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?$")
 PR_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+/pull/\d+$")
 OUTCOMES = {"done", "retry-cap", "timebox", "aborted"}
@@ -257,7 +257,7 @@ def check():
             if extra:
                 fail(what, f"{where} has keys outside the seven: {', '.join(extra)}")
             if not isinstance(r.get("thread_id"), str) or not THREAD_RE.match(r["thread_id"]):
-                fail(what, f"{where} thread_id {r.get('thread_id')!r} does not match ^run-\\d+$")
+                fail(what, f"{where} thread_id {r.get('thread_id')!r} does not match ^(run-\\d+|cloud-\\d{4}-[a-z0-9-]+)$")
             if not isinstance(r.get("timestamp"), str) or not TS_RE.match(r["timestamp"]):
                 fail(what, f"{where} timestamp {r.get('timestamp')!r} is not ISO-8601")
             if r.get("outcome") not in OUTCOMES:
@@ -297,7 +297,7 @@ def check():
         pid = d.name
         what = f"(d) packet {pid}"
         if not THREAD_RE.match(pid):
-            fail(what, "directory name does not match ^run-\\d+$")
+            fail(what, "directory name does not match ^(run-\\d+|cloud-\\d{4}-[a-z0-9-]+)$")
         prov_path = d / "provenance.yaml"
         if not prov_path.is_file():
             fail(what, "provenance.yaml missing")

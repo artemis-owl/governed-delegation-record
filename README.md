@@ -6,10 +6,12 @@ agent-run projects, the evidence packets behind those deliveries, one vendor clo
 mapped into an auditable packet, and a verifier that fails when any of it disagrees with
 itself.
 
-Four tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
+Five tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
 runs and audits delegated work, with its satellite repos. **lark** and **korlith** are two
 products that took governed deliveries from it. **artemis** is the professional site of the
-practice that runs the other three. `instances.jsonl` names each with its repository, and
+practice that runs the other three. **practice** is the professional practice that runs the other
+four; this record is its product, and its two rows are the first runs that reached the ledger from
+the vendor's cloud path. `instances.jsonl` names each with its repository, and
 the verifier refuses a ledger file with no listed tenant.
 
 ## Check it yourself
@@ -24,18 +26,22 @@ check (j) fails if this block stops matching what it prints:
 
 <!-- verify:begin -->
 ```text
-ok   (a) rows: every line is a well-formed projected row (73 rows in 4 files: artemis 1, kestrel 62, korlith 2, lark 8)
-ok   (b) rows: every delivered row has a pull-request pr_url (59 delivered)
+ok   (a) rows: every line is a well-formed projected row (75 rows in 5 files: artemis 1, kestrel 62, korlith 2, lark 8, practice 2)
+ok   (b) rows: every delivered row has a pull-request pr_url (60 delivered)
 ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
+ok   (d) packet cloud-0004-legibility-pass: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0004-legibility-pass: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0005-record-urls-to-artemis-owl: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0005-record-urls-to-artemis-owl: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/governed-delegation-record/pull/7)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
-ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (6 files)
+ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (13 files)
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
-ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (4)
+ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
 ok   (j) readme: the quoted verifier output in README.md matches this run
-PASS: record is internally consistent — rows: 73, delivered: 59, packets: 1, resumed runs: 1, sessions: 1
+PASS: record is internally consistent — rows: 75, delivered: 60, packets: 3, resumed runs: 1, sessions: 1
 ```
 <!-- verify:end -->
 
@@ -58,6 +64,8 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   `thread_id`, `timestamp`, `instance`, `executor`, `outcome`, `delivery`, `pr_url`. Goals,
   costs, token counts and session ids are not projected; they live, verbatim, in the packets.
   A resumed run is a second row with the same `thread_id`, counted as one run.
+  A run executed on the vendor's cloud path carries a `cloud-<item>` thread id; its row and packet
+  are what `spawner cloud ingest` wrote from the trusted-host audit.
   The pull requests the rows reference live in private repositories; the verifier checks that
   every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
