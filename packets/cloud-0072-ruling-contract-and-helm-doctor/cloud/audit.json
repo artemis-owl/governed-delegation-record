@@ -1,0 +1,76 @@
+{
+  "item_id": "0072-ruling-contract-and-helm-doctor",
+  "work_branch": "cloud/0072-ruling-contract-and-helm-doctor",
+  "tip": "4727cd694b74bb55e15511a0c21cefdc8d2a89b4",
+  "base_sha": "a52438bd23c56ea024ab114524be9d5a77e44107",
+  "verdict": "FAIL",
+  "audited_at": "2026-10-29T16:29:30Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/helm_checks.py');s=p.read_text();assert s.count('PLACEHOLDER = \\\"{{\\\"')==1;p.write_text(s.replace('PLACEHOLDER = \\\"{{\\\"','PLACEHOLDER = \\\"%%\\\"',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "NOT_RUN",
+      "reason": "no --report: the RUN REPORT's shas were not matched",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0072-ruling-contract-and-helm-doctor/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor a52438bd23c56ea024ab114524be9d5a77e44107 4727cd694b74bb55e15511a0c21cefdc8d2a89b4"
+      ]
+    },
+    "containment": {
+      "status": "FAIL",
+      "reason": "refs changed besides the work branch: added refs/heads/cloud/0075-cloud-instance-flag",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git diff --name-only a52438bd23c56ea024ab114524be9d5a77e44107..4727cd694b74bb55e15511a0c21cefdc8d2a89b4",
+        "git ls-tree -r --name-only 4727cd694b74bb55e15511a0c21cefdc8d2a89b4"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0072-ruling-contract-and-helm-doctor",
+        "refs/heads/cloud/0075-cloud-instance-flag"
+      ],
+      "refs_deleted": [],
+      "refs_moved": []
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1245 passed in 66.52s (0:01:06)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0072-ruling-contract-and-helm-doctor/audit/work 4727cd694b74bb55e15511a0c21cefdc8d2a89b4",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1245 passed in 66.52s (0:01:06)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/helm_checks.py');s=p.read_text();assert s.count('PLACEHOLDER = \\\"{{\\\"')==1;p.write_text(s.replace('PLACEHOLDER = \\\"{{\\\"','PLACEHOLDER = \\\"%%\\\"',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/helm_checks.py');s=p.read_text();assert s.count('PLACEHOLDER = \\\"{{\\\"')==1;p.write_text(s.replace('PLACEHOLDER = \\\"{{\\\"','PLACEHOLDER = \\\"%%\\\"',1))\"",
+        "git status --porcelain",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 4727cd694b74bb55e15511a0c21cefdc8d2a89b4",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/helm_checks.py');s=p.read_text();assert s.count('PLACEHOLDER = \\\"{{\\\"')==1;p.write_text(s.replace('PLACEHOLDER = \\\"{{\\\"','PLACEHOLDER = \\\"%%\\\"',1))\"",
+      "exit_code": 1,
+      "last_line": "2 failed, 1243 passed in 63.27s (0:01:03)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "NOT_RUN",
+      "reason": "no --run-log: the session's tool calls were not scanned",
+      "commands": []
+    }
+  },
+  "report": null,
+  "run_log": null,
+  "audit_log": "~/.kestrel/cloud-runs/0072-ruling-contract-and-helm-doctor/audit/audit.log",
+  "notes": []
+}

@@ -1,0 +1,75 @@
+{
+  "item_id": "0076-cloud-instance-flag-portable",
+  "work_branch": "cloud/0076-cloud-instance-flag-portable",
+  "tip": "0fa188f20a48ae5e60cc2cade83e3b14817c1b57",
+  "base_sha": "a52438bd23c56ea024ab114524be9d5a77e44107",
+  "verdict": "INCOMPLETE",
+  "audited_at": "2026-10-29T16:58:57Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();assert s.count('root = instance.ledger_root()')==1;p.write_text(s.replace('root = instance.ledger_root()','root = None',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "NOT_RUN",
+      "reason": "no --report: the RUN REPORT's shas were not matched",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0076-cloud-instance-flag-portable/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor a52438bd23c56ea024ab114524be9d5a77e44107 0fa188f20a48ae5e60cc2cade83e3b14817c1b57"
+      ]
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git diff --name-only a52438bd23c56ea024ab114524be9d5a77e44107..0fa188f20a48ae5e60cc2cade83e3b14817c1b57",
+        "git ls-tree -r --name-only 0fa188f20a48ae5e60cc2cade83e3b14817c1b57"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0076-cloud-instance-flag-portable"
+      ],
+      "refs_deleted": [],
+      "refs_moved": []
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1223 passed in 74.10s (0:01:14)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0076-cloud-instance-flag-portable/audit/work 0fa188f20a48ae5e60cc2cade83e3b14817c1b57",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1223 passed in 74.10s (0:01:14)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();assert s.count('root = instance.ledger_root()')==1;p.write_text(s.replace('root = instance.ledger_root()','root = None',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();assert s.count('root = instance.ledger_root()')==1;p.write_text(s.replace('root = instance.ledger_root()','root = None',1))\"",
+        "git status --porcelain",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 0fa188f20a48ae5e60cc2cade83e3b14817c1b57",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();assert s.count('root = instance.ledger_root()')==1;p.write_text(s.replace('root = instance.ledger_root()','root = None',1))\"",
+      "exit_code": 1,
+      "last_line": "5 failed, 1218 passed in 65.26s (0:01:05)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "NOT_RUN",
+      "reason": "no --run-log: the session's tool calls were not scanned",
+      "commands": []
+    }
+  },
+  "report": null,
+  "run_log": null,
+  "audit_log": "~/.kestrel/cloud-runs/0076-cloud-instance-flag-portable/audit/audit.log",
+  "notes": []
+}

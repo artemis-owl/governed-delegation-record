@@ -60,3 +60,7 @@
 {"delivery": "delivered", "executor": "claude_code", "instance": "kestrel", "outcome": "done", "pr_url": "https://github.com/artemis-owl/kestrel-team/pull/31", "thread_id": "run-1788997720", "timestamp": "2026-09-09T23:57:18.854636+00:00"}
 {"delivery": "delivered", "executor": "claude_code", "instance": "kestrel", "outcome": "done", "pr_url": "https://github.com/artemis-owl/kestrel-team/pull/32", "thread_id": "run-1788998544", "timestamp": "2026-09-10T00:13:20.916051+00:00"}
 {"delivery": "delivered", "executor": "claude_code", "instance": "kestrel", "outcome": "done", "pr_url": "https://github.com/artemis-owl/kestrel-team/pull/33", "thread_id": "run-1789002928", "timestamp": "2026-09-10T01:34:39.066427+00:00"}
+{"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0072-ruling-contract-and-helm-doctor", "timestamp": "2026-10-29T16:29:30Z"}
+{"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0076-cloud-instance-flag-portable", "timestamp": "2026-10-29T16:58:57Z"}
+{"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "done", "pr_url": null, "thread_id": "cloud-0077-containment-accounts-for-known-refs", "timestamp": "2026-10-30T16:47:44Z"}
+{"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0078-connector-scan-reads-the-api-log", "timestamp": "2026-10-30T18:54:35Z"}

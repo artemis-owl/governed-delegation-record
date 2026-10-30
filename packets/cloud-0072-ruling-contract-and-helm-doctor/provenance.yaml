@@ -1,0 +1,30 @@
+schema: kestrel-evidence-packet/v1
+instance: kestrel
+thread_id: cloud-0072-ruling-contract-and-helm-doctor
+exported_at: '2026-10-29T17:06:58.854708+00:00'
+bundler_version: 0.3.0
+ledger_path: ~/.kestrel/runs.jsonl
+capture_context: retro
+delivery_target: null
+runs:
+- thread_id: cloud-0072-ruling-contract-and-helm-doctor
+  timestamp: '2026-10-29T16:29:30Z'
+  instance: kestrel
+  team: null
+  executor: cloud
+  outcome: aborted
+  delivery: undelivered
+  pr_url: null
+sessions: []
+run_log:
+  path: null
+  source_path: null
+queue_item_source: null
+absent_by_design:
+- 'run_log.txt: no attempt in this chain recorded a log_path — absent (not recorded),
+  which is every run that finished before run logs were persisted, and any run nothing
+  teed (a `spawner resume`).'
+- 'queue_item.md: no queue item was supplied to this export (--queue-item); the run
+  may not have come from the queue at all.'
+- 'pr_refs.txt: no matching ledger row carries a pr_url — this run delivered no pull
+  request.'
