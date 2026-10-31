@@ -26,22 +26,30 @@ check (j) fails if this block stops matching what it prints:
 
 <!-- verify:begin -->
 ```text
-ok   (a) rows: every line is a well-formed projected row (75 rows in 5 files: artemis 1, kestrel 62, korlith 2, lark 8, practice 2)
+ok   (a) rows: every line is a well-formed projected row (79 rows in 5 files: artemis 1, kestrel 66, korlith 2, lark 8, practice 2)
 ok   (b) rows: every delivered row has a pull-request pr_url (60 delivered)
 ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
 ok   (d) packet cloud-0004-legibility-pass: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0004-legibility-pass: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/governed-delegation-record/pull/7)
+ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0076-cloud-instance-flag-portable: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0076-cloud-instance-flag-portable: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0077-containment-accounts-for-known-refs: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0077-containment-accounts-for-known-refs: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
-ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (13 files)
+ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (29 files)
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
 ok   (j) readme: the quoted verifier output in README.md matches this run
-PASS: record is internally consistent — rows: 75, delivered: 60, packets: 3, resumed runs: 1, sessions: 1
+PASS: record is internally consistent — rows: 79, delivered: 60, packets: 7, resumed runs: 1, sessions: 1
 ```
 <!-- verify:end -->
 
@@ -66,6 +74,9 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   A resumed run is a second row with the same `thread_id`, counted as one run.
   A run executed on the vendor's cloud path carries a `cloud-<item>` thread id; its row and packet
   are what `spawner cloud ingest` wrote from the trusted-host audit.
+  The four kestrel cloud rows of 2026-10-29/30 read `undelivered` with no `pr_url` because each
+  was ingested before its pull request was opened; the merges are recorded in the tenant's helm,
+  not here.
   The pull requests the rows reference live in private repositories; the verifier checks that
   every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
