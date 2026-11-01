@@ -1,0 +1,87 @@
+{
+  "item_id": "0002-downloads-page-links-the-record",
+  "work_branch": "cloud/0002-downloads-page-links-the-record",
+  "tip": "a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+  "base_sha": "a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+  "verdict": "FAIL",
+  "audited_at": "2026-11-01T13:01:26Z",
+  "declared_by": "prepared",
+  "gate": "npm ci --no-audit --no-fund && npm test",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/downloads/audit-packet.md');s=p.read_text();assert 'evidenceLevel = \\\"E3\\\"' in s;p.write_text(s.replace('evidenceLevel = \\\"E3\\\"','evidenceLevel = \\\"E9\\\"',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "FAIL",
+      "reason": "the report never names the tip a983e97b5f93",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/artemis_home ~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor a983e97b5f9325f0faea4378dfe917cd7f567c3d a983e97b5f9325f0faea4378dfe917cd7f567c3d"
+      ],
+      "report_commits": [],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/artemis_home",
+        "git diff --name-only a983e97b5f9325f0faea4378dfe917cd7f567c3d..a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+        "git ls-tree -r --name-only a983e97b5f9325f0faea4378dfe917cd7f567c3d"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0002-downloads-page-links-the-record"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [],
+      "refs_accounted": {}
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`npm ci --no-audit --no-fund && npm test` exited 0: added 84 packages in 618ms",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/audit/work a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+        "npm ci --no-audit --no-fund '&&' npm test"
+      ],
+      "gate": "npm ci --no-audit --no-fund && npm test",
+      "exit_code": 0,
+      "last_line": "added 84 packages in 618ms"
+    },
+    "mutation": {
+      "status": "FAIL",
+      "reason": "the gate stayed green after `python3 -c \"import pathlib;p=pathlib.Path('content/downloads/audit-packet.md');s=p.read_text();assert 'evidenceLevel = \\\"E3\\\"' in s;p.write_text(s.replace('evidenceLevel = \\\"E3\\\"','evidenceLevel = \\\"E9\\\"',1))\"`: it does not prove the change",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('content/downloads/audit-packet.md');s=p.read_text();assert 'evidenceLevel = \\\"E3\\\"' in s;p.write_text(s.replace('evidenceLevel = \\\"E3\\\"','evidenceLevel = \\\"E9\\\"',1))\"",
+        "git status --porcelain",
+        "git diff --name-only a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+        "npm ci --no-audit --no-fund '&&' npm test",
+        "git reset -q --hard a983e97b5f9325f0faea4378dfe917cd7f567c3d",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/downloads/audit-packet.md');s=p.read_text();assert 'evidenceLevel = \\\"E3\\\"' in s;p.write_text(s.replace('evidenceLevel = \\\"E3\\\"','evidenceLevel = \\\"E9\\\"',1))\"",
+      "prose_only": false,
+      "exit_code": 0,
+      "last_line": "added 84 packages in 608ms",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d75)",
+      "commands": [
+        "scan ~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 5
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/session/run_report.md",
+  "run_log": "~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/session/run_log.txt",
+  "audit_log": "~/.kestrel-artemis/cloud-runs/0002-downloads-page-links-the-record/audit/audit.log",
+  "notes": []
+}
