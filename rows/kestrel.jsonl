@@ -64,3 +64,4 @@
 {"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0076-cloud-instance-flag-portable", "timestamp": "2026-10-29T16:58:57Z"}
 {"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "done", "pr_url": null, "thread_id": "cloud-0077-containment-accounts-for-known-refs", "timestamp": "2026-10-30T16:47:44Z"}
 {"delivery": "undelivered", "executor": "cloud", "instance": "kestrel", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0078-connector-scan-reads-the-api-log", "timestamp": "2026-10-30T18:54:35Z"}
+{"delivery": "delivered", "executor": "cloud", "instance": "kestrel", "outcome": "done", "pr_url": "https://github.com/artemis-owl/kestrel-team/pull/39", "thread_id": "cloud-0079-cloud-ingest-never-accepts-silence", "timestamp": "2026-10-31T18:47:36Z"}
