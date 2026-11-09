@@ -74,13 +74,15 @@ ok   (d) packet cloud-0087-a-sha-the-task-names-is-a-reference: pr_refs.txt and 
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
 ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (116 files)
+ok   (f) session 0007-the-boundary-is-chief-editor-not-sole-author: corr-d08f7d5b44d1d6ac has 1 trace(s) and 1 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
+ok   (f) session 0008-the-provenance-check-lands-green-audit-1: corr-3647e23e77b854e6 has 1 trace(s) and 2 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
-ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
+ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (19 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
-ok   (k) redaction: no home path and no e-mail address in rows/, packets/ or sessions/ (139 files)
+ok   (k) redaction: no home path and no e-mail address in rows/, packets/ or sessions/ (169 files)
 ok   (j) readme: the quoted verifier output in README.md matches this run
-PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 1
+PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3
 ```
 <!-- verify:end -->
 

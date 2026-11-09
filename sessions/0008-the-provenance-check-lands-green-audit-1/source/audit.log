@@ -1,0 +1,580 @@
+[fetch_and_match] $ git clone -q --no-checkout https://github.com/artemis-owl/artemis_home ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit)
+[exit 0]
+
+[fetch_and_match] $ git remote set-url --push origin no-push://audit
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git fetch -q origin '+refs/*:refs/remotes/origin/*'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[containment] $ git ls-remote https://github.com/artemis-owl/artemis_home
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit)
+a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0	HEAD
+9a9c5280079cf8dbe88fe2501a290988e51d5ae6	refs/heads/cloud/0007-the-boundary-is-chief-editor-not-sole-author
+8731b7051f9b7b8986766760865173a3d73f059d	refs/heads/cloud/0008-the-provenance-check-lands-green
+aa183845337736c23261f831b4a69d88b0f4542c	refs/heads/dev
+c7e05f5ee7384b4eedf118bdff91908fb3bbf79f	refs/heads/feat/agent-1785932061
+494497ed7be28ea3ddbc0a23c7a1ed426f33287a	refs/heads/feat/agent-1785939696
+2413c4a1b21fbf3af05a91886669e18458c4d715	refs/heads/feat/agent-1786119634
+1abcf979db1cfd4ee2600693411c5c1abd52135a	refs/heads/feat/agent-1787004063
+a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0	refs/heads/main
+57476c01ce7bd5467290d55e8aceba4d06e50cfb	refs/heads/task/0002-downloads-page-links-the-record
+ef8cf79b702788cf74ac3e1f8ea9a1a9a583a1df	refs/heads/task/0007-the-boundary-is-chief-editor-not-sole-author
+dcf2ef064d6b55cdc0707bdcf9caf6701e6fdd13	refs/heads/task/0008-the-provenance-check-lands-green
+9d95e54fdb94b33dbca7d4461967650ff419484e	refs/pull/1/head
+520160f126b22293fd359a5d6297a81bb306c275	refs/pull/10/head
+f7033e2f1b15015b70c5a45611f8d40ed51dd8d4	refs/pull/11/head
+09ee018e611326c25cf6d5fd57487c1de515b798	refs/pull/12/head
+c7e05f5ee7384b4eedf118bdff91908fb3bbf79f	refs/pull/13/head
+494497ed7be28ea3ddbc0a23c7a1ed426f33287a	refs/pull/14/head
+2413c4a1b21fbf3af05a91886669e18458c4d715	refs/pull/15/head
+1abcf979db1cfd4ee2600693411c5c1abd52135a	refs/pull/16/head
+8e3689d0155158ee859d6c8905a1a45b4de8181d	refs/pull/17/head
+ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f	refs/pull/18/head
+003fdfb9f22a06e4d1491d68cad6c1be0c0a7064	refs/pull/2/head
+5b9b2818f6fbf00554a36d75e6cd69149aabd4b4	refs/pull/3/head
+3cd0a9b170d88ea19b8468f3baf2f63a38df4f15	refs/pull/4/head
+673b08bfb29ed538b1cfdffae119b03b0405eca2	refs/pull/5/head
+67c4f023ba7df28e0bfb72a8f778af1c7730a6c9	refs/pull/6/head
+02b3d0fcead08dafbdabac3dec650050456c898d	refs/pull/7/head
+5c75c70e2a1e97bad9832db25ff1c8998c52903c	refs/pull/8/head
+8df5afe4f2d15b1adfdf244593d1158801b29fd6	refs/pull/9/head
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet '8731b70^{commit}'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+8731b7051f9b7b8986766760865173a3d73f059d
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor 8731b7051f9b7b8986766760865173a3d73f059d 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet '9a9c528^{commit}'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+9a9c5280079cf8dbe88fe2501a290988e51d5ae6
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor 9a9c5280079cf8dbe88fe2501a290988e51d5ae6 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 1]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'a3e53ab^{commit}'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+a3e53ab641cc565cb3acbb609108c8502473b537
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a3e53ab641cc565cb3acbb609108c8502473b537 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'a8f6fde^{commit}'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[fetch_and_match] $ git rev-parse --verify --quiet 'a983e97^{commit}'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+a983e97b5f9325f0faea4378dfe917cd7f567c3d
+[exit 0]
+
+[fetch_and_match] $ git merge-base --is-ancestor a983e97b5f9325f0faea4378dfe917cd7f567c3d 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[containment] $ git diff --name-only a8f6fde6893bafb9d6ebab553bab2370d5fbb9c0..8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+ROADMAP.md
+docs/content-model.md
+package.json
+scripts/check-provenance.mjs
+[exit 0]
+
+[containment] $ git ls-tree -r --name-only 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+.agent-context/strategy_governance.md
+.agent-context/task_lifecycle.md
+.agent-context/tenant_helm.md
+.claude/launch.json
+.github/workflows/ci.yml
+.gitignore
+CLAUDE.md
+DISTRIBUTION.md
+MEDIA.md
+PUBLISHING.md
+ROADMAP.md
+archetypes/artifact.md
+archetypes/default.md
+archetypes/engagement.md
+archetypes/field-note.md
+archetypes/log.md
+assets/css/main.css
+assets/og/og-base.png
+assets/og/owl-mark.png
+config/_default/hugo.toml
+content/_index.md
+content/about/_index.md
+content/artifacts/_index.md
+content/artifacts/context-broker-patterns.md
+content/artifacts/decisionops-control-plane.md
+content/artifacts/extracting-the-ontology-ops-kit.md
+content/artifacts/ontology-ops-kit.md
+content/authors/will-corbett/_index.md
+content/contact/_index.md
+content/downloads/audit-packet.md
+content/engagements/_index.md
+content/engagements/research-partner-sprint.md
+content/engagements/thesis-alignment-session.md
+content/field-notes/_index.md
+content/field-notes/a-cached-answer-is-a-claim-about-the-past.md
+content/field-notes/a-gate-nobody-ran-passed.md
+content/field-notes/a-runaway-token-bill-is-a-diagnosis-problem.md
+content/field-notes/an-ontology-you-dont-enforce-is-a-wiki-page.md
+content/field-notes/finished-and-delivered-are-different-facts.md
+content/field-notes/identity-is-a-runtime-baseline.md
+content/field-notes/media-workflow-demo/diagram.svg
+content/field-notes/media-workflow-demo/index.md
+content/field-notes/media-workflow-demo/reference-sheet.pdf
+content/field-notes/media-workflow-demo/social-card.svg
+content/field-notes/middleware-as-mediation-and-control.md
+content/field-notes/platform-discipline-as-trust-infrastructure.md
+content/field-notes/routing-to-a-model-is-granting-a-capability.md
+content/field-notes/semantic-caching-is-an-authorization-boundary.md
+content/field-notes/semantics-belongs-in-the-runtime.md
+content/field-notes/trust-as-policy-and-evidence-across-boundaries.md
+content/field-notes/trust-needs-visible-interfaces.md
+content/field-notes/version-the-meaning-not-just-the-schema.md
+content/field-notes/what-survives-the-on-behalf-of-chain.md
+content/log/2026-09-23-launch-intro/figure.png
+content/log/2026-09-23-launch-intro/index.md
+content/log/2026-09-29-finished-and-delivered-are-different-facts/figure.png
+content/log/2026-09-29-finished-and-delivered-are-different-facts/index.md
+content/log/2026-10-06-audit-packet/figure.png
+content/log/2026-10-06-audit-packet/index.md
+content/log/2026-10-20-trust-as-policy-and-evidence-across-boundaries/figure.png
+content/log/2026-10-20-trust-as-policy-and-evidence-across-boundaries/index.md
+content/log/_index.md
+content/log/starting-the-log.md
+content/pillars/_index.md
+content/pillars/inference-engineering/_index.md
+content/pillars/middleware/_index.md
+content/pillars/semantics/_index.md
+content/pillars/trust/_index.md
+content/search/_index.md
+data/authors.json
+data/content_targets.json
+data/focus_areas.yaml
+data/homepage.yaml
+data/principles.yaml
+data/socials.yaml
+distribution/METRICS.generated.md
+distribution/README.md
+distribution/RUNWAY.generated.md
+distribution/calendar.json
+distribution/linkedin/a-runaway-token-bill-is-a-diagnosis-problem.md
+distribution/linkedin/an-ontology-you-dont-enforce-is-a-wiki-page.md
+distribution/linkedin/audit-packet.md
+distribution/linkedin/context-broker-patterns.md
+distribution/linkedin/decisionops-control-plane.md
+distribution/linkedin/extracting-the-ontology-ops-kit.md
+distribution/linkedin/finished-and-delivered-are-different-facts.md
+distribution/linkedin/identity-is-a-runtime-baseline.md
+distribution/linkedin/images/audit-packet.override.mmd
+distribution/linkedin/images/audit-packet.png
+distribution/linkedin/images/extracting-the-ontology-ops-kit.override.mmd
+distribution/linkedin/images/extracting-the-ontology-ops-kit.png
+distribution/linkedin/images/finished-and-delivered-are-different-facts.png
+distribution/linkedin/images/launch-intro.override.mmd
+distribution/linkedin/images/launch-intro.png
+distribution/linkedin/images/trust-as-policy-and-evidence-across-boundaries.override.mmd
+distribution/linkedin/images/trust-as-policy-and-evidence-across-boundaries.png
+distribution/linkedin/launch-intro.md
+distribution/linkedin/middleware-as-mediation-and-control.md
+distribution/linkedin/ontology-ops-kit.md
+distribution/linkedin/platform-discipline-as-trust-infrastructure.md
+distribution/linkedin/research-partner-sprint.md
+distribution/linkedin/semantic-caching-is-an-authorization-boundary.md
+distribution/linkedin/semantics-belongs-in-the-runtime.md
+distribution/linkedin/thesis-alignment-session.md
+distribution/linkedin/trust-as-policy-and-evidence-across-boundaries.md
+distribution/linkedin/trust-needs-visible-interfaces.md
+distribution/linkedin/version-the-meaning-not-just-the-schema.md
+distribution/metrics/github-repos.jsonl
+distribution/metrics/github-traffic.jsonl
+distribution/newsletter/README.md
+distribution/newsletter/issue-001.md
+docs/authoring-workflow.md
+docs/cloudflare-pages.md
+docs/component-map.md
+docs/content-engine.md
+docs/content-inventory.generated.md
+docs/content-inventory.md
+docs/content-model.md
+docs/copy-deck.md
+docs/editorial-loop.md
+docs/knowledge/README.md
+docs/knowledge/claims-inference.yaml
+docs/knowledge/claims-middleware.yaml
+docs/knowledge/claims-practice.yaml
+docs/knowledge/claims-semantics.yaml
+docs/knowledge/claims-trust.yaml
+docs/knowledge/concepts.yaml
+docs/knowledge/decisions.yaml
+docs/knowledge/open-questions.yaml
+docs/lab/README.md
+docs/lab/abort-path-integrity.md
+docs/lab/cache-freshness-budgets.md
+docs/lab/delegation-attenuation-demo.md
+docs/lab/dispatch-plane-drain.md
+docs/lab/governed-delegation-first-proof.md
+docs/lab/governed-delegation-saga.md
+docs/lab/interviews/dispatch-plane-drain-fragments.md
+docs/lab/interviews/governed-delegation-first-proof-fragments.md
+docs/lab/interviews/governed-delegation-saga-fragments.md
+docs/lab/interviews/three-fires-fragments.md
+docs/lab/interviews/trust-in-the-loop-fragments.md
+docs/lab/ontology-ops-kit-repo.md
+docs/lab/packets/dispatch-plane-drain-packet.md
+docs/lab/packets/governed-delegation-first-proof-packet.md
+docs/lab/packets/governed-delegation-saga-packet.md
+docs/lab/packets/trust-in-the-loop-packet.md
+docs/lab/signals/2026-W39-W42.md
+docs/lab/signals/README.md
+docs/lab/signals/targets.md
+docs/lab/three-fires-one-paragraph.md
+docs/lab/trust-in-the-loop.md
+docs/lab/turn-economy-audit.md
+docs/lead-generation-strategy.md
+docs/ontologies/brand-reference.png
+docs/ontologies/design-ontology.yaml
+docs/ontologies/site-ontology.yaml
+docs/ontologies/technology-framework-ontology.yaml
+docs/professional-identity-thesis.md
+docs/public-knowledge-strategy.md
+docs/publish-checklist.md
+docs/publishing-flywheel.md
+docs/repo-plan.md
+docs/runbook/ops-guide.md
+docs/site-identity-statement.md
+docs/syndication-strategy.md
+docs/voice-fragments.md
+docs/voice-profile.md
+docs/voice.md
+layouts/404.html
+layouts/_default/_markup/render-codeblock-mermaid.html
+layouts/_default/_markup/render-link.html
+layouts/_default/baseof.html
+layouts/_default/list.html
+layouts/_default/single.html
+layouts/_default/taxonomy.html
+layouts/_default/terms.html
+layouts/about/list.html
+layouts/artifacts/list.html
+layouts/artifacts/single.html
+layouts/authors/term.html
+layouts/contact/list.html
+layouts/downloads/single.html
+layouts/engagements/list.html
+layouts/engagements/single.html
+layouts/field-notes/list.html
+layouts/field-notes/single.html
+layouts/index.html
+layouts/log/list.html
+layouts/log/rss.xml
+layouts/log/single.html
+layouts/partials/analytics.html
+layouts/partials/artifact-card.html
+layouts/partials/byline.html
+layouts/partials/contact-cta.html
+layouts/partials/domain-strip.html
+layouts/partials/engagement-card.html
+layouts/partials/engagements-preview.html
+layouts/partials/featured-artifacts.html
+layouts/partials/focus-areas.html
+layouts/partials/footer.html
+layouts/partials/head.html
+layouts/partials/hero.html
+layouts/partials/jsonld.html
+layouts/partials/latest-field-notes.html
+layouts/partials/log-record.html
+layouts/partials/nav.html
+layouts/partials/note-card.html
+layouts/partials/og-image.html
+layouts/partials/page-header.html
+layouts/partials/principles.html
+layouts/partials/related-links-section.html
+layouts/partials/research-intro.html
+layouts/partials/subscribe-cta.html
+layouts/partials/taxonomy-chips.html
+layouts/pillars/list.html
+layouts/search/list.html
+layouts/series/term.html
+layouts/series/terms.html
+layouts/shortcodes/figure.html
+package-lock.json
+package.json
+postcss.config.js
+scripts/build.sh
+scripts/check-content.mjs
+scripts/check-distribution.mjs
+scripts/check-internal-links.mjs
+scripts/check-provenance.mjs
+scripts/check-voice.mjs
+scripts/content-report.mjs
+scripts/content-status.mjs
+scripts/lib/content.mjs
+scripts/lib/distribution.mjs
+scripts/metrics.mjs
+scripts/newsletter-issue.mjs
+scripts/render-post-image.mjs
+scripts/studio.mjs
+static/apple-touch-icon.png
+static/css/site.css
+static/downloads/audit-packet.zip
+static/favicon-32.png
+static/favicon.png
+static/img/artemis-owl-mark.png
+static/robots.txt
+tailwind.config.js
+[exit 0]
+
+[host_gate] $ git worktree add -q --detach ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/clone)
+[exit 0]
+
+[host_gate] $ bash -c 'npm ci --no-audit --no-fund && npm test'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+
+added 84 packages in 587ms
+
+> artemis-owl-systems@0.1.0 test
+> npm run build && npm run test:links && npm run check:content && npm run check:provenance && npm run check:inventory && npm run check:distribution && npm run check:metrics && npm run voice:check
+
+
+> artemis-owl-systems@0.1.0 build
+> bash ./scripts/build.sh
+
+
+> artemis-owl-systems@0.1.0 build:css
+> tailwindcss -i ./assets/css/main.css -o ./static/css/site.css --minify
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 89ms.
+==> Canonical build — baseURL from hugo.toml
+Start building sites … 
+hugo v0.157.0+extended+withdeploy darwin/arm64 BuildDate=2026-02-25T16:38:33Z VendorInfo=Homebrew
+
+
+                  │ EN  
+──────────────────┼─────
+ Pages            │ 179 
+ Paginator pages  │   0 
+ Non-page files   │   4 
+ Static files     │   7 
+ Processed images │  15 
+ Aliases          │   3 
+ Cleaned          │   0 
+
+Total in 113 ms
+
+Running Pagefind v1.4.0 (Extended)
+Running from: "~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work"
+Source:       "public"
+Output:       "public/pagefind"
+
+[Walking source directory]
+Found 100 files matching **/*.{html}
+
+[Parsing files]
+Found a data-pagefind-body element on the site.
+↳ Ignoring pages without this tag.
+
+[Reading languages]
+Discovered 1 language: en
+
+[Building search indexes]
+Total: 
+  Indexed 1 language
+  Indexed 12 pages
+  Indexed 1576 words
+  Indexed 0 filters
+  Indexed 0 sorts
+
+Finished in 0.058 seconds
+==> Canonical URL verified (artemisowl.io)
+
+> artemis-owl-systems@0.1.0 test:links
+> node ./scripts/check-internal-links.mjs
+
+Internal link check passed for 100 HTML files.
+
+> artemis-owl-systems@0.1.0 check:content
+> node ./scripts/check-content.mjs
+
+Content check passed for 28 content pieces.
+
+> artemis-owl-systems@0.1.0 check:provenance
+> node ./scripts/check-provenance.mjs
+
+Provenance check passed for 2 agent-drafted pieces.
+
+> artemis-owl-systems@0.1.0 check:inventory
+> node ./scripts/content-report.mjs --check
+
+Generated inventory in sync with 17 published pieces.
+
+> artemis-owl-systems@0.1.0 check:distribution
+> node ./scripts/check-distribution.mjs --check
+
+Distribution check passed for 20 posts; runway in sync; 4 derived log entries in sync.
+
+> artemis-owl-systems@0.1.0 check:metrics
+> node ./scripts/metrics.mjs --check
+
+warning: last GitHub snapshot is 20 days old; GitHub drops traffic after 14 — npm run metrics:snapshot
+Metrics report in sync.
+
+> artemis-owl-systems@0.1.0 voice:check
+> node ./scripts/check-voice.mjs --strict
+
+Voice check clean for 17 published pieces.
+[exit 0]
+
+[mutation] $ git status --porcelain
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
+[mutation] $ python3 -c "import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='draft = true';assert s.count(a)==1;p.write_text(s.replace(a,'draft = false',1))"
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
+[mutation] $ git status --porcelain
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+ M content/field-notes/a-gate-nobody-ran-passed.md
+[exit 0]
+
+[mutation] $ git diff --name-only 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+content/field-notes/a-gate-nobody-ran-passed.md
+[exit 0]
+
+[mutation] $ bash -c 'npm ci --no-audit --no-fund && npm test'
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+
+added 84 packages in 518ms
+
+> artemis-owl-systems@0.1.0 test
+> npm run build && npm run test:links && npm run check:content && npm run check:provenance && npm run check:inventory && npm run check:distribution && npm run check:metrics && npm run voice:check
+
+
+> artemis-owl-systems@0.1.0 build
+> bash ./scripts/build.sh
+
+
+> artemis-owl-systems@0.1.0 build:css
+> tailwindcss -i ./assets/css/main.css -o ./static/css/site.css --minify
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 85ms.
+==> Canonical build — baseURL from hugo.toml
+Start building sites … 
+hugo v0.157.0+extended+withdeploy darwin/arm64 BuildDate=2026-02-25T16:38:33Z VendorInfo=Homebrew
+
+
+                  │ EN  
+──────────────────┼─────
+ Pages            │ 182 
+ Paginator pages  │   0 
+ Non-page files   │   4 
+ Static files     │   7 
+ Processed images │  16 
+ Aliases          │   3 
+ Cleaned          │  14 
+
+Total in 115 ms
+
+Running Pagefind v1.4.0 (Extended)
+Running from: "~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work"
+Source:       "public"
+Output:       "public/pagefind"
+
+[Walking source directory]
+Found 102 files matching **/*.{html}
+
+[Parsing files]
+Found a data-pagefind-body element on the site.
+↳ Ignoring pages without this tag.
+
+[Reading languages]
+Discovered 1 language: en
+
+[Building search indexes]
+Total: 
+  Indexed 1 language
+  Indexed 13 pages
+  Indexed 1671 words
+  Indexed 0 filters
+  Indexed 0 sorts
+
+Finished in 0.054 seconds
+==> Canonical URL verified (artemisowl.io)
+
+> artemis-owl-systems@0.1.0 test:links
+> node ./scripts/check-internal-links.mjs
+
+Internal link check passed for 102 HTML files.
+
+> artemis-owl-systems@0.1.0 check:content
+> node ./scripts/check-content.mjs
+
+Content check passed for 28 content pieces.
+
+> artemis-owl-systems@0.1.0 check:provenance
+> node ./scripts/check-provenance.mjs
+
+content/field-notes/a-gate-nobody-ran-passed.md: agent-drafted and published without spotEdited
+[exit 1]
+
+[mutation] $ git reset -q --hard 8731b7051f9b7b8986766760865173a3d73f059d
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
+[mutation] $ git checkout -- .
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
+[mutation] $ git clean -fdq
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
+[mutation] $ git status --porcelain
+  (cwd ~/.kestrel-artemis/cloud-runs/0008-the-provenance-check-lands-green/audit/work)
+[exit 0]
+
