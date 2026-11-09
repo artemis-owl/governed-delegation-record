@@ -34,6 +34,13 @@ VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
 CONTROLS_MD = Path("CONTROLS.md")
 INSTANCE_KEYS = ("instance", "repo", "about")
 REPO_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+$")
+# The two stated redactions (README "What it holds"), enforced by check (k): no operator home path
+# (/Users/<name>; a cloud run's own /home/user is the vendor VM, not the operator) and no
+# e-mail address in the evidence. An address is local@domain.tld not preceded by a backslash or a
+# word character, so an escaped newline before a decorator ("\\n@pytest.fixture") is not one.
+HOME_RE = re.compile(rb"/Users/[A-Za-z0-9._-]+")
+EMAIL_RE = re.compile(rb"(?<![\\\w.+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
+EMAIL_ALLOWED = {b"noreply@anthropic.com"}
 
 # The control map: one row per check, letter -> (title as printed, NIST AI RMF, ISO/IEC 42001,
 # OWASP Agentic Top 10, EU AI Act, rationale). An argued mapping, not a certification claim.
@@ -457,6 +464,22 @@ def check():
     if sorted(names) != sorted(rows):
         fail(what, f"listed instances {sorted(names)} != rows files {sorted(rows)}")
     ok(f"{what}: every rows file names a listed tenant and every listed tenant has a rows file ({len(names)})")
+
+    # (k) the stated redactions hold: no home path and no e-mail address in the evidence.
+    # Printed before (j), which stays last because it quotes every line above it.
+    what = "(k) redaction"
+    scanned = 0
+    for top in (ROWS, PACKETS, SESSIONS):
+        for f in sorted(p for p in top.rglob("*") if p.is_file()):
+            data = f.read_bytes()
+            scanned += 1
+            m = HOME_RE.search(data)
+            if m:
+                fail(what, f"{f} holds a home path: {m.group(0).decode('utf-8', 'replace')}")
+            for m in EMAIL_RE.finditer(data):
+                if m.group(0) not in EMAIL_ALLOWED:
+                    fail(what, f"{f} holds an e-mail address at byte {m.start()} (not printed)")
+    ok(f"{what}: no home path and no e-mail address in rows/, packets/ or sessions/ ({scanned} files)")
 
     # (j) README.md quotes this run's output, byte for byte
     what = "(j) readme"

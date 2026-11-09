@@ -1,0 +1,110 @@
+{
+  "item_id": "0084-a-connector-call-is-a-called-tool",
+  "work_branch": "cloud/0084-a-connector-call-is-a-called-tool",
+  "tip": "a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+  "base_sha": "222a744a6e6baa814a3c61db3629e9029926d60f",
+  "verdict": "PASS",
+  "audited_at": "2026-11-02T12:18:14Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    connectors = sorted(t for t in tools if t.startswith(CONNECTOR_PREFIX))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    connectors = []\\n',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0084-a-connector-call-is-a-called-tool at a6fb565a77b5 descends from base 222a744a6e6b; all 3 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor 222a744a6e6baa814a3c61db3629e9029926d60f a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git rev-parse --verify --quiet '222a744^{commit}'",
+        "git merge-base --is-ancestor 222a744a6e6baa814a3c61db3629e9029926d60f a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git rev-parse --verify --quiet '87db78c^{commit}'",
+        "git merge-base --is-ancestor 87db78c32d6637b1a74ff352419bc072b2db7c29 a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git rev-parse --verify --quiet 'a6fb565^{commit}'",
+        "git merge-base --is-ancestor a6fb565a77b5a9d0975fa7d2560d57b896aa67ad a6fb565a77b5a9d0975fa7d2560d57b896aa67ad"
+      ],
+      "report_commits": [
+        "222a744",
+        "87db78c",
+        "a6fb565"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch and 2 accounted for: refs/heads/main, refs/pull/44/head; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git symbolic-ref --quiet refs/remotes/origin/HEAD",
+        "git merge-base --is-ancestor 222a744a6e6baa814a3c61db3629e9029926d60f a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git rev-list 222a744a6e6baa814a3c61db3629e9029926d60f..a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git rev-list 222a744a6e6baa814a3c61db3629e9029926d60f..a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git rev-list --parents -n1 a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git diff --quiet a6fb565a77b5a9d0975fa7d2560d57b896aa67ad a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git diff --name-only 222a744a6e6baa814a3c61db3629e9029926d60f..a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git ls-tree -r --name-only a6fb565a77b5a9d0975fa7d2560d57b896aa67ad"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0084-a-connector-call-is-a-called-tool",
+        "refs/pull/44/head"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [
+        "refs/heads/main"
+      ],
+      "refs_accounted": {
+        "refs/pull/44/head": "a pull request's head (GitHub-managed; opening a PR is the operator's act)",
+        "refs/heads/main": "the default branch took this run's work by squash of a6fb565a77b5 (refs/pull/44/head is the tip: the operator merged the PR)"
+      }
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1290 passed in 100.96s (0:01:40)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/audit/work a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1290 passed in 100.96s (0:01:40)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    connectors = sorted(t for t in tools if t.startswith(CONNECTOR_PREFIX))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    connectors = []\\n',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    connectors = sorted(t for t in tools if t.startswith(CONNECTOR_PREFIX))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    connectors = []\\n',1))\"",
+        "git status --porcelain",
+        "git diff --name-only a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git show a6fb565a77b5a9d0975fa7d2560d57b896aa67ad:kestrel_team/core/cloud_audit.py",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard a6fb565a77b5a9d0975fa7d2560d57b896aa67ad",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    connectors = sorted(t for t in tools if t.startswith(CONNECTOR_PREFIX))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    connectors = []\\n',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "1 failed, 1289 passed in 90.84s (0:01:30)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d713)",
+      "commands": [
+        "scan ~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 13
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/session/run_report.md",
+  "run_log": "~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/session/run_log.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0084-a-connector-call-is-a-called-tool/audit/audit.log",
+  "notes": []
+}

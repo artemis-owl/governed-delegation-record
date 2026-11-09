@@ -1,0 +1,106 @@
+{
+  "item_id": "0087-a-sha-the-task-names-is-a-reference",
+  "work_branch": "cloud/0087-a-sha-the-task-names-is-a-reference",
+  "tip": "0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+  "base_sha": "0337e754bb5bf31e33af7176ca5bbcd24819d6e9",
+  "verdict": "PASS",
+  "audited_at": "2026-11-05T18:16:04Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    references = task_references(run_dir)\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    references = set()\\n',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0087-a-sha-the-task-names-is-a-reference at 0d269b42d7c9 descends from base 0337e754bb5b; all 4 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor 0337e754bb5bf31e33af7176ca5bbcd24819d6e9 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git rev-parse --verify --quiet '0337e75^{commit}'",
+        "git merge-base --is-ancestor 0337e754bb5bf31e33af7176ca5bbcd24819d6e9 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git rev-parse --verify --quiet '0d269b4^{commit}'",
+        "git merge-base --is-ancestor 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git rev-parse --verify --quiet '87db78c^{commit}'",
+        "git merge-base --is-ancestor 87db78c32d6637b1a74ff352419bc072b2db7c29 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git rev-parse --verify --quiet 'a4fa505^{commit}'",
+        "git merge-base --is-ancestor a4fa5058c129b982e86b878e2d15806005efdaba 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d"
+      ],
+      "report_commits": [
+        "0337e75",
+        "0d269b4",
+        "87db78c",
+        "a4fa505"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch and 2 accounted for: refs/pull/47/head, refs/pull/47/merge; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git diff --name-only 0337e754bb5bf31e33af7176ca5bbcd24819d6e9..0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git ls-tree -r --name-only 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0087-a-sha-the-task-names-is-a-reference",
+        "refs/pull/47/head",
+        "refs/pull/47/merge"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [],
+      "refs_accounted": {
+        "refs/pull/47/head": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/47/merge": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)"
+      }
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1296 passed in 87.32s (0:01:27)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/audit/work 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1296 passed in 87.32s (0:01:27)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    references = task_references(run_dir)\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    references = set()\\n',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    references = task_references(run_dir)\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    references = set()\\n',1))\"",
+        "git status --porcelain",
+        "git diff --name-only 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git show 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d:kestrel_team/core/cloud_audit.py",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 0d269b42d7c9cc62c3a9ee1730b72b24f46ae71d",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    references = task_references(run_dir)\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    references = set()\\n',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "1 failed, 1295 passed in 82.89s (0:01:22)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d712)",
+      "commands": [
+        "scan ~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 12
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/session/run_report.md",
+  "run_log": "~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/session/run_log.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0087-a-sha-the-task-names-is-a-reference/audit/audit.log",
+  "notes": []
+}

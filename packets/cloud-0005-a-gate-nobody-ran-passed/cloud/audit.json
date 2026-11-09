@@ -1,0 +1,116 @@
+{
+  "item_id": "0005-a-gate-nobody-ran-passed",
+  "work_branch": "cloud/0005-a-gate-nobody-ran-passed",
+  "tip": "ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+  "base_sha": "aa183845337736c23261f831b4a69d88b0f4542c",
+  "verdict": "PASS",
+  "audited_at": "2026-11-02T01:00:38Z",
+  "declared_by": "prepared",
+  "gate": "bash -c \"npm ci --no-audit --no-fund && npm test\"",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='focus = \\\"trust\\\"';assert s.count(a)==1;p.write_text(s.replace(a,'focus = \\\"bogus\\\"',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0005-a-gate-nobody-ran-passed at ecbd40f770ed descends from base aa1838453377; all 4 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/artemis_home ~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor aa183845337736c23261f831b4a69d88b0f4542c ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git rev-parse --verify --quiet '2df2989f^{commit}'",
+        "git rev-parse --verify --quiet '7747abbb316b03c8f353fd3be62d5011fa883ee6^{commit}'",
+        "git rev-parse --verify --quiet 'a983e97^{commit}'",
+        "git merge-base --is-ancestor a983e97b5f9325f0faea4378dfe917cd7f567c3d ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git rev-parse --verify --quiet 'aa18384^{commit}'",
+        "git merge-base --is-ancestor aa183845337736c23261f831b4a69d88b0f4542c ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git rev-parse --verify --quiet 'c778468^{commit}'",
+        "git rev-parse --verify --quiet 'ecbd40f^{commit}'",
+        "git merge-base --is-ancestor ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git rev-parse --verify --quiet 'ecbd40f770ed^{commit}'",
+        "git merge-base --is-ancestor ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f"
+      ],
+      "report_commits": [
+        "a983e97",
+        "aa18384",
+        "ecbd40f",
+        "ecbd40f770ed"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch and 2 accounted for: refs/heads/main, refs/pull/18/head; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/artemis_home",
+        "git symbolic-ref --quiet refs/remotes/origin/HEAD",
+        "git merge-base --is-ancestor aa183845337736c23261f831b4a69d88b0f4542c cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87",
+        "git rev-list aa183845337736c23261f831b4a69d88b0f4542c..cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87",
+        "git rev-list aa183845337736c23261f831b4a69d88b0f4542c..ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git rev-list --parents -n1 cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87",
+        "git diff --name-only aa183845337736c23261f831b4a69d88b0f4542c..ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git ls-tree -r --name-only ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0005-a-gate-nobody-ran-passed",
+        "refs/pull/18/head"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [
+        "refs/heads/main"
+      ],
+      "refs_accounted": {
+        "refs/pull/18/head": "a pull request's head (GitHub-managed; opening a PR is the operator's act)",
+        "refs/heads/main": "the default branch took this run's work by merge commit of ecbd40f770ed (refs/pull/18/head is the tip: the operator merged the PR)"
+      }
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`bash -c \"npm ci --no-audit --no-fund && npm test\"` exited 0: Voice check clean for 16 published pieces.",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/audit/work ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "bash -c 'npm ci --no-audit --no-fund && npm test'"
+      ],
+      "gate": "bash -c \"npm ci --no-audit --no-fund && npm test\"",
+      "exit_code": 0,
+      "last_line": "Voice check clean for 16 published pieces."
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='focus = \\\"trust\\\"';assert s.count(a)==1;p.write_text(s.replace(a,'focus = \\\"bogus\\\"',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='focus = \\\"trust\\\"';assert s.count(a)==1;p.write_text(s.replace(a,'focus = \\\"bogus\\\"',1))\"",
+        "git status --porcelain",
+        "git diff --name-only ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "bash -c 'npm ci --no-audit --no-fund && npm test'",
+        "git reset -q --hard ecbd40f770ed1f4e58ffd42f41dfe3b4dbef669f",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='focus = \\\"trust\\\"';assert s.count(a)==1;p.write_text(s.replace(a,'focus = \\\"bogus\\\"',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "- content/field-notes/a-gate-nobody-ran-passed.md: \"focus\" = \"bogus\" is not one of trust, semantics, inference, middleware",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d720, Edit\u00d71, Write\u00d73)",
+      "commands": [
+        "scan ~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 20,
+        "Edit": 1,
+        "Write": 3
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/session/run_report.md",
+  "run_log": "~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/session/run_log.txt",
+  "audit_log": "~/.kestrel-artemis/cloud-runs/0005-a-gate-nobody-ran-passed/audit/audit.log",
+  "notes": []
+}

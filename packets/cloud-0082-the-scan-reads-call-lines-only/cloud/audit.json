@@ -1,0 +1,127 @@
+{
+  "item_id": "0082-the-scan-reads-call-lines-only",
+  "work_branch": "cloud/0082-the-scan-reads-call-lines-only",
+  "tip": "821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+  "base_sha": "a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626",
+  "verdict": "FAIL",
+  "audited_at": "2026-11-02T12:18:03Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a=[l for l in s.splitlines() if l.strip().startswith('text = call_lines(text)')];assert len(a)==1;p.write_text(s.replace(a[0]+chr(10),'',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "FAIL",
+      "reason": "the report names commit(s) not on the branch: c8c8a05",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git rev-parse --verify --quiet '22a3caf^{commit}'",
+        "git rev-parse --verify --quiet '821dcfc^{commit}'",
+        "git merge-base --is-ancestor 821dcfc477a0701d1e83683dde84ec6b1c6955e2 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git rev-parse --verify --quiet '87db78c^{commit}'",
+        "git merge-base --is-ancestor 87db78c32d6637b1a74ff352419bc072b2db7c29 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git rev-parse --verify --quiet 'a5ec494^{commit}'",
+        "git merge-base --is-ancestor a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git rev-parse --verify --quiet 'c8c8a05^{commit}'",
+        "git merge-base --is-ancestor c8c8a05890f3309de5c7719ab2e9e6982c99ddbe 821dcfc477a0701d1e83683dde84ec6b1c6955e2"
+      ],
+      "report_commits": [
+        "821dcfc",
+        "87db78c",
+        "a5ec494",
+        "c8c8a05"
+      ],
+      "report_unreachable": [
+        "c8c8a05"
+      ]
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch and 8 accounted for: refs/heads/cloud/0083-containment-accounts-for-the-operators-merge, refs/heads/cloud/0084-a-connector-call-is-a-called-tool, refs/heads/main, refs/heads/task/0083-containment-accounts-for-the-operators-merge, refs/heads/task/0084-a-connector-call-is-a-called-tool, refs/pull/42/head, refs/pull/43/head, refs/pull/44/head; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git symbolic-ref --quiet refs/remotes/origin/HEAD",
+        "git merge-base --is-ancestor a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626 a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git rev-list a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626..a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git rev-list a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626..821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git rev-list --parents -n1 a4fa5058c129b982e86b878e2d15806005efdaba",
+        "git diff --name-only a5ec494b10cd8ce8e63c130ac3beb3d6a40a1626..821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git ls-tree -r --name-only 821dcfc477a0701d1e83683dde84ec6b1c6955e2"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0082-the-scan-reads-call-lines-only",
+        "refs/heads/cloud/0083-containment-accounts-for-the-operators-merge",
+        "refs/heads/cloud/0084-a-connector-call-is-a-called-tool",
+        "refs/heads/task/0083-containment-accounts-for-the-operators-merge",
+        "refs/heads/task/0084-a-connector-call-is-a-called-tool",
+        "refs/pull/42/head",
+        "refs/pull/43/head",
+        "refs/pull/44/head"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [
+        "refs/heads/main"
+      ],
+      "refs_accounted": {
+        "refs/heads/cloud/0083-containment-accounts-for-the-operators-merge": "another prepared run's branch (0083-containment-accounts-for-the-operators-merge)",
+        "refs/heads/cloud/0084-a-connector-call-is-a-called-tool": "another prepared run's branch (0084-a-connector-call-is-a-called-tool)",
+        "refs/heads/task/0083-containment-accounts-for-the-operators-merge": "another prepared run's branch (0083-containment-accounts-for-the-operators-merge)",
+        "refs/heads/task/0084-a-connector-call-is-a-called-tool": "another prepared run's branch (0084-a-connector-call-is-a-called-tool)",
+        "refs/pull/42/head": "a pull request's head (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/43/head": "a pull request's head (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/44/head": "a pull request's head (GitHub-managed; opening a PR is the operator's act)",
+        "refs/heads/main": "the default branch fast-forwarded a5ec494b10cd..a4fa5058c129 with none of the work branch's commits (someone else's merge)"
+      }
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1284 passed in 95.70s (0:01:35)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/audit/work 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1284 passed in 95.70s (0:01:35)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a=[l for l in s.splitlines() if l.strip().startswith('text = call_lines(text)')];assert len(a)==1;p.write_text(s.replace(a[0]+chr(10),'',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a=[l for l in s.splitlines() if l.strip().startswith('text = call_lines(text)')];assert len(a)==1;p.write_text(s.replace(a[0]+chr(10),'',1))\"",
+        "git status --porcelain",
+        "git diff --name-only 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git show 821dcfc477a0701d1e83683dde84ec6b1c6955e2:kestrel_team/core/cloud_audit.py",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 821dcfc477a0701d1e83683dde84ec6b1c6955e2",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a=[l for l in s.splitlines() if l.strip().startswith('text = call_lines(text)')];assert len(a)==1;p.write_text(s.replace(a[0]+chr(10),'',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "3 failed, 1281 passed in 85.44s (0:01:25)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d78)",
+      "commands": [
+        "scan ~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 8
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/session/run_report.md",
+  "run_log": "~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/session/run_log.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0082-the-scan-reads-call-lines-only/audit/audit.log",
+  "notes": []
+}

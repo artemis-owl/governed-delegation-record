@@ -2,3 +2,6 @@
 {"delivery": "undelivered", "executor": "cloud", "instance": "artemis", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0002-downloads-page-links-the-record", "timestamp": "2026-11-01T13:01:26Z"}
 {"delivery": "undelivered", "executor": "cloud", "instance": "artemis", "outcome": "done", "pr_url": null, "thread_id": "cloud-0003-downloads-page-links-the-record", "timestamp": "2026-11-01T13:37:45Z"}
 {"delivery": "delivered", "executor": "cloud", "instance": "artemis", "outcome": "done", "pr_url": "https://github.com/artemis-owl/artemis_home/pull/17", "thread_id": "cloud-0004-downloads-page-links-the-record", "timestamp": "2026-11-01T13:57:45Z"}
+{"delivery": "delivered", "executor": "cloud", "instance": "artemis", "outcome": "done", "pr_url": "https://github.com/artemis-owl/artemis_home/pull/18", "thread_id": "cloud-0005-a-gate-nobody-ran-passed", "timestamp": "2026-11-02T01:00:38Z"}
+{"delivery": "undelivered", "executor": "cloud", "instance": "artemis", "outcome": "aborted", "pr_url": null, "thread_id": "cloud-0007-the-boundary-is-chief-editor-not-sole-author", "timestamp": "2026-11-02T13:24:44Z"}
+{"delivery": "delivered", "executor": "cloud", "instance": "artemis", "outcome": "done", "pr_url": "https://github.com/artemis-owl/artemis_home/pull/19", "thread_id": "cloud-0008-the-provenance-check-lands-green", "timestamp": "2026-11-09T12:39:41Z"}

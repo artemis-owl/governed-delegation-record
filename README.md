@@ -26,8 +26,8 @@ check (j) fails if this block stops matching what it prints:
 
 <!-- verify:begin -->
 ```text
-ok   (a) rows: every line is a well-formed projected row (83 rows in 5 files: artemis 4, kestrel 67, korlith 2, lark 8, practice 2)
-ok   (b) rows: every delivered row has a pull-request pr_url (62 delivered)
+ok   (a) rows: every line is a well-formed projected row (94 rows in 5 files: artemis 7, kestrel 75, korlith 2, lark 8, practice 2)
+ok   (b) rows: every delivered row has a pull-request pr_url (72 delivered)
 ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
 ok   (d) packet cloud-0002-downloads-page-links-the-record: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0002-downloads-page-links-the-record: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
@@ -37,8 +37,14 @@ ok   (d) packet cloud-0004-downloads-page-links-the-record: provenance and 1 led
 ok   (d) packet cloud-0004-downloads-page-links-the-record: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/17)
 ok   (d) packet cloud-0004-legibility-pass: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0004-legibility-pass: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0005-a-gate-nobody-ran-passed: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0005-a-gate-nobody-ran-passed: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/18)
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/governed-delegation-record/pull/7)
+ok   (d) packet cloud-0007-the-boundary-is-chief-editor-not-sole-author: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0007-the-boundary-is-chief-editor-not-sole-author: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0008-the-provenance-check-lands-green: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0008-the-provenance-check-lands-green: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/19)
 ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet cloud-0076-cloud-instance-flag-portable: provenance and 1 ledger row(s) match rows/
@@ -49,15 +55,32 @@ ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: provenance and 1 le
 ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet cloud-0079-cloud-ingest-never-accepts-silence: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0079-cloud-ingest-never-accepts-silence: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/39)
+ok   (d) packet cloud-0080-a-gate-is-one-argv: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0080-a-gate-is-one-argv: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/40)
+ok   (d) packet cloud-0081-the-scan-counts-calls-not-mentions: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0081-the-scan-counts-calls-not-mentions: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/41)
+ok   (d) packet cloud-0082-the-scan-reads-call-lines-only: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0082-the-scan-reads-call-lines-only: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/42)
+ok   (d) packet cloud-0083-containment-accounts-for-the-operators-merge: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0083-containment-accounts-for-the-operators-merge: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/43)
+ok   (d) packet cloud-0084-a-connector-call-is-a-called-tool: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0084-a-connector-call-is-a-called-tool: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/44)
+ok   (d) packet cloud-0085-a-squash-without-a-pr-is-the-runs-own-push: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0085-a-squash-without-a-pr-is-the-runs-own-push: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/45)
+ok   (d) packet cloud-0086-toolsearch-is-a-pinned-tool: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0086-toolsearch-is-a-pinned-tool: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/46)
+ok   (d) packet cloud-0087-a-sha-the-task-names-is-a-reference: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0087-a-sha-the-task-names-is-a-reference: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/47)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
-ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (51 files)
+ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (116 files)
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
+ok   (k) redaction: no home path and no e-mail address in rows/, packets/ or sessions/ (139 files)
 ok   (j) readme: the quoted verifier output in README.md matches this run
-PASS: record is internally consistent — rows: 83, delivered: 62, packets: 11, resumed runs: 1, sessions: 1
+PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 1
 ```
 <!-- verify:end -->
 
@@ -91,12 +114,13 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
   full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
-  edited; a packet that cannot be published as-is is excluded, not changed. One exception, stated here so it can
-  be checked: paths under the operator's home directory are shortened to `~`, and repository URLs name
-  the organization the repositories moved to; no other byte is changed.
+  edited; a packet that cannot be published as-is is excluded, not changed. The exceptions, stated here so they can
+  be checked: paths under the operator's home directory are shortened to `~`, an e-mail address reads
+  `redacted`, and repository URLs name the organization the repositories moved to; no other byte is
+  changed. Check (k) fails on a home path or an e-mail address anywhere in the evidence.
 - `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
   side holds about it (the task, the vendor's run report and log, the trusted-host audit),
-  byte-verbatim except that same `~` shortening, and repository URLs name the organization the
+  byte-verbatim except those same two redactions, and repository URLs name the organization the
   repositories moved to; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
   `RESULT.md` is that packet verifier's raw output over it.

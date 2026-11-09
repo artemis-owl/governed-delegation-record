@@ -1,0 +1,130 @@
+{
+  "item_id": "0085-a-squash-without-a-pr-is-the-runs-own-push",
+  "work_branch": "cloud/0085-a-squash-without-a-pr-is-the-runs-own-push",
+  "tip": "2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+  "base_sha": "a4fa5058c129b982e86b878e2d15806005efdaba",
+  "verdict": "PASS",
+  "audited_at": "2026-11-05T18:20:00Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    if shape is not None and not pull_heads:\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    if False:\\n',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0085-a-squash-without-a-pr-is-the-runs-own-push at 2ef33917a46f descends from base a4fa5058c129; all 5 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor a4fa5058c129b982e86b878e2d15806005efdaba 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-parse --verify --quiet '222a744^{commit}'",
+        "git merge-base --is-ancestor 222a744a6e6baa814a3c61db3629e9029926d60f 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-parse --verify --quiet '2ef3391^{commit}'",
+        "git merge-base --is-ancestor 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-parse --verify --quiet '2ef33917a46f8281d0d2e77afc5a5b8a22394dd1^{commit}'",
+        "git merge-base --is-ancestor 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-parse --verify --quiet '87db78c^{commit}'",
+        "git merge-base --is-ancestor 87db78c32d6637b1a74ff352419bc072b2db7c29 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-parse --verify --quiet 'a4fa505^{commit}'",
+        "git merge-base --is-ancestor a4fa5058c129b982e86b878e2d15806005efdaba 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1"
+      ],
+      "report_commits": [
+        "222a744",
+        "2ef3391",
+        "2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "87db78c",
+        "a4fa505"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch and 9 accounted for: refs/heads/cloud/0086-toolsearch-is-a-pinned-tool, refs/heads/cloud/0087-a-sha-the-task-names-is-a-reference, refs/heads/main, refs/heads/task/0086-toolsearch-is-a-pinned-tool, refs/heads/task/0087-a-sha-the-task-names-is-a-reference, refs/pull/45/head, refs/pull/46/head, refs/pull/47/head, refs/pull/47/merge; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git symbolic-ref --quiet refs/remotes/origin/HEAD",
+        "git merge-base --is-ancestor a4fa5058c129b982e86b878e2d15806005efdaba 0337e754bb5bf31e33af7176ca5bbcd24819d6e9",
+        "git rev-list a4fa5058c129b982e86b878e2d15806005efdaba..0337e754bb5bf31e33af7176ca5bbcd24819d6e9",
+        "git rev-list a4fa5058c129b982e86b878e2d15806005efdaba..2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git rev-list --parents -n1 0337e754bb5bf31e33af7176ca5bbcd24819d6e9",
+        "git diff --name-only a4fa5058c129b982e86b878e2d15806005efdaba..2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git ls-tree -r --name-only 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0085-a-squash-without-a-pr-is-the-runs-own-push",
+        "refs/heads/cloud/0086-toolsearch-is-a-pinned-tool",
+        "refs/heads/cloud/0087-a-sha-the-task-names-is-a-reference",
+        "refs/heads/task/0086-toolsearch-is-a-pinned-tool",
+        "refs/heads/task/0087-a-sha-the-task-names-is-a-reference",
+        "refs/pull/45/head",
+        "refs/pull/46/head",
+        "refs/pull/47/head",
+        "refs/pull/47/merge"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [
+        "refs/heads/main"
+      ],
+      "refs_accounted": {
+        "refs/heads/cloud/0086-toolsearch-is-a-pinned-tool": "another prepared run's branch (0086-toolsearch-is-a-pinned-tool)",
+        "refs/heads/cloud/0087-a-sha-the-task-names-is-a-reference": "another prepared run's branch (0087-a-sha-the-task-names-is-a-reference)",
+        "refs/heads/task/0086-toolsearch-is-a-pinned-tool": "another prepared run's branch (0086-toolsearch-is-a-pinned-tool)",
+        "refs/heads/task/0087-a-sha-the-task-names-is-a-reference": "another prepared run's branch (0087-a-sha-the-task-names-is-a-reference)",
+        "refs/pull/45/head": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/46/head": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/47/head": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)",
+        "refs/pull/47/merge": "a pull request's head or test-merge ref (GitHub-managed; opening a PR is the operator's act)",
+        "refs/heads/main": "the default branch fast-forwarded a4fa5058c129..0337e754bb5b with none of the work branch's commits (someone else's merge)"
+      }
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1292 passed in 82.76s (0:01:22)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/audit/work 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1292 passed in 82.76s (0:01:22)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    if shape is not None and not pull_heads:\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    if False:\\n',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    if shape is not None and not pull_heads:\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    if False:\\n',1))\"",
+        "git status --porcelain",
+        "git diff --name-only 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git show 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1:kestrel_team/core/cloud_audit.py",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 2ef33917a46f8281d0d2e77afc5a5b8a22394dd1",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud_audit.py');s=p.read_text();a='    if shape is not None and not pull_heads:\\n';assert s.count(a)==1;p.write_text(s.replace(a,'    if False:\\n',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "1 failed, 1291 passed in 80.97s (0:01:20)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d717, ToolSearch\u00d71)",
+      "commands": [
+        "scan ~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 17,
+        "ToolSearch": 1
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/session/run_report.md",
+  "run_log": "~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/session/run_log.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0085-a-squash-without-a-pr-is-the-runs-own-push/audit/audit.log",
+  "notes": []
+}
