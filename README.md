@@ -2,8 +2,8 @@
 
 A record of work that AI agents delivered under governance, published so the governance can
 be checked rather than described. It holds the delivery ledger of one small ecosystem of
-agent-run projects, the evidence packets behind those deliveries, one vendor cloud session
-mapped into an auditable packet, and a verifier that fails when any of it disagrees with
+agent-run projects, the evidence packets behind those deliveries, three vendor cloud sessions
+mapped into auditable packets, and a verifier that fails when any of it disagrees with
 itself.
 
 Five tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
@@ -81,7 +81,7 @@ ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (1
 ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
 ok   (k) redaction: no home path and no e-mail address in rows/, packets/ or sessions/ (169 files)
-ok   (j) readme: the quoted verifier output in README.md matches this run
+ok   (j) readme: the quoted verifier output and the overhead table in README.md match this run
 PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3
 ```
 <!-- verify:end -->
@@ -98,6 +98,30 @@ and it fails:
 ```text
 FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr-f39865b445dc0115/decision_traces.jsonl:1 policy.decision 'allow' != 'deny' (audit verdict FAIL)
 ```
+
+## The overhead, measured
+
+What governing the runs cost, counted from this record's own files and nothing else, at this
+commit (`./verify.sh --overhead` prints it; check (j) fails if this block stops matching):
+
+<!-- overhead:begin -->
+```text
+Governance overhead by tenant, computed from rows/, packets/ and sessions/ of this commit:
+tenant    rows  done  delivered  delivered/rows  packets  ingest audit PASS  ingest audit not PASS  failed audits kept as sessions
+artemis      7     5          4             57%        6                  4                      2                               2
+kestrel     75    58         60             80%       14                  9                      4                               1
+korlith      2     0          1             50%        0                  0                      0                               0
+lark         8     6          6             75%        0                  0                      0                               0
+practice     2     0          1             50%        2                  0                      2                               0
+all         94    69         72             77%       22                 13                      8                               3
+not measured here: time to delivery (a projected row carries one timestamp; every cloud packet's duration_seconds is 0.0) and interventions inside a run (the run logs hold them, uncounted)
+```
+<!-- overhead:end -->
+
+`ingest audit` is the trusted-host audit's verdict recorded in each packet's ledger row at ingest;
+`failed audits kept as sessions` counts the audits that did not pass and were published under
+`sessions/` rather than discarded. Every number here is recomputed from `rows/`, `packets/` and
+`sessions/` on each run, so it is a fact about the commit you are reading, not a status.
 
 ## What it holds
 
@@ -120,7 +144,7 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   be checked: paths under the operator's home directory are shortened to `~`, an e-mail address reads
   `redacted`, and repository URLs name the organization the repositories moved to; no other byte is
   changed. Check (k) fails on a home path or an e-mail address anywhere in the evidence.
-- `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
+- `sessions/` — runs executed by a vendor cloud agent, one directory each. `source/` is what the commissioning
   side holds about it (the task, the vendor's run report and log, the trusted-host audit),
   byte-verbatim except those same two redactions, and repository URLs name the organization the
   repositories moved to; `packet/` is that run mapped into the
@@ -133,12 +157,19 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
   never writes.
 
-## The vendor session
+## The vendor sessions
 
-The one mapped session reported `1187 passed` and `result: success`. The trusted-host audit
+The first mapped session reported `1187 passed` and `result: success`. The trusted-host audit
 re-ran the same gate on the same commit and got `1 failed, 1186 passed`, so the recorded
 decision is `deny`: five pushes happened, and the policy that judges them did not allow
 them. The packet verifier closes its first three checks on that session and cannot run the
 fourth, because a vendor's log does not say which decision each action was taken under.
+
+The other two sessions are audits that did not pass, kept rather than discarded. In
+`0007-the-boundary-is-chief-editor-not-sole-author` the work failed its own gate. In
+`0008-the-provenance-check-lands-green-audit-1` the auditor failed: it read a commit the task had
+named as one the run claimed; the engine fix that followed is why the same run's row reads
+`delivered`. Both were mapped by the packet's `map-session.sh` and checked by its `verify.sh`,
+whose per-check lines each `RESULT.md` quotes.
 
 Intent plane: practice-helm. Apache-2.0.

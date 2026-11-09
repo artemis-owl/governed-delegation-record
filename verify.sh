@@ -7,6 +7,9 @@
 #                             without checking.
 #   ./verify.sh --controls    print, per check, the controls it evidences and exit 0 without
 #                             checking; add --markdown for the table CONTROLS.md is generated from.
+#   ./verify.sh --overhead    print the governance-overhead table computed from rows/, packets/
+#                             and sessions/ and exit 0 without checking; README.md quotes it, and
+#                             check (j) fails if the quote stops matching.
 #
 # Stack: bash + python3 -I, standard library only. No network, no dependencies.
 set -euo pipefail
@@ -238,6 +241,73 @@ def controls_markdown():
     for row in CONTROLS:
         title = row[1].replace("<", "&lt;").replace(">", "&gt;")
         out.append("| " + " | ".join([f"({row[0]}) {title}", *control_codes(row), row[6]]) + " |")
+    return "".join(l + "\n" for l in out)
+
+
+def overhead_text():
+    """Governance overhead by tenant, from the record's own files and nothing else."""
+    what = "overhead"
+    rows, tenant_of = {}, {}
+    for f in sorted(ROWS.glob("*.jsonl")):
+        rows[f.stem] = [r for _, r in read_jsonl(f, what)]
+        for r in rows[f.stem]:
+            tenant_of[r.get("thread_id")] = f.stem
+    ingest = {t: {"PASS": 0, "other": 0} for t in rows}
+    for d in packet_dirs():
+        lr = d / "ledger_rows.jsonl"
+        if not lr.is_file():
+            continue
+        for _, r in read_jsonl(lr, what):
+            t = tenant_of.get(r.get("thread_id"))
+            v = r.get("audit_verdict")
+            if t in ingest and v is not None:
+                ingest[t]["PASS" if v == "PASS" else "other"] += 1
+    repo_of = {}
+    if Path("instances.jsonl").is_file():
+        for _, r in read_jsonl(Path("instances.jsonl"), what):
+            repo_of[str(r.get("repo")).rstrip("/")] = r.get("instance")
+    kept = {t: 0 for t in rows}
+    for d in session_dirs():
+        hit = [tid for tid in tenant_of if tid.startswith("cloud-") and d.name.startswith(tid[len("cloud-"):])]
+        t = tenant_of[max(hit, key=len)] if hit else None
+        prepared = d / "source" / "prepared.json"
+        if t is None and prepared.is_file():
+            try:
+                t = repo_of.get(str(json.loads(prepared.read_text(encoding="utf-8")).get("target_repo")).rstrip("/"))
+            except json.JSONDecodeError:
+                t = None
+        if t in kept:
+            kept[t] += 1
+    head = ("tenant", "rows", "done", "delivered", "delivered/rows", "packets",
+            "ingest audit PASS", "ingest audit not PASS", "failed audits kept as sessions")
+    packets_of = {t: 0 for t in rows}
+    for d in packet_dirs():
+        lr = d / "ledger_rows.jsonl"
+        if lr.is_file():
+            for _, r in read_jsonl(lr, what):
+                t = tenant_of.get(r.get("thread_id"))
+                if t in packets_of:
+                    packets_of[t] += 1
+                    break
+    body = []
+    for t in sorted(rows):
+        rs = rows[t]
+        n, done = len(rs), sum(r.get("outcome") == "done" for r in rs)
+        dl = sum(r.get("delivery") == "delivered" for r in rs)
+        body.append((t, n, done, dl, f"{round(100 * dl / n) if n else 0}%", packets_of[t],
+                     ingest[t]["PASS"], ingest[t]["other"], kept[t]))
+    n = sum(b[1] for b in body)
+    dl = sum(b[3] for b in body)
+    body.append(("all", n, sum(b[2] for b in body), dl, f"{round(100 * dl / n) if n else 0}%",
+                 sum(b[5] for b in body), sum(b[6] for b in body), sum(b[7] for b in body), sum(b[8] for b in body)))
+    widths = [max(len(str(x)) for x in col) for col in zip(head, *body)]
+    def line(cells):
+        return "  ".join(str(c).ljust(w) if i == 0 else str(c).rjust(w) for i, (c, w) in enumerate(zip(cells, widths))).rstrip()
+    out = ["Governance overhead by tenant, computed from rows/, packets/ and sessions/ of this commit:",
+           line(head), *[line(b) for b in body],
+           "not measured here: time to delivery (a projected row carries one timestamp; every cloud "
+           "packet's duration_seconds is 0.0) and interventions inside a run (the run logs hold them, "
+           "uncounted)"]
     return "".join(l + "\n" for l in out)
 
 
@@ -481,11 +551,11 @@ def check():
                     fail(what, f"{f} holds an e-mail address at byte {m.start()} (not printed)")
     ok(f"{what}: no home path and no e-mail address in rows/, packets/ or sessions/ ({scanned} files)")
 
-    # (j) README.md quotes this run's output, byte for byte
+    # (j) README.md quotes this run's output and the overhead table, byte for byte
     what = "(j) readme"
     pass_line = (f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
                  f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
-    j_ok = f"ok   {what}: the quoted verifier output in README.md matches this run"
+    j_ok = f"ok   {what}: the quoted verifier output and the overhead table in README.md match this run"
     expected = PRINTED + [j_ok, pass_line]
     readme = Path("README.md")
     if not readme.is_file():
@@ -502,6 +572,19 @@ def check():
         n = min(len(got), len(expected)) + 1
         line = got[n - 1] if n <= len(got) else "(end of block)"
         fail(what, f"README.md's verify block differs from this run's output: line {n}: {line}")
+    tables = re.findall(r"<!-- overhead:begin -->\n```text\n(.*?)\n```\n<!-- overhead:end -->",
+                        readme.read_text(encoding="utf-8"), re.S)
+    if len(tables) != 1:
+        fail(what, f"README.md has {len(tables)} overhead block(s), expected exactly one")
+    want = overhead_text().rstrip("\n").split("\n")
+    got = tables[0].split("\n")
+    for n, (g, e) in enumerate(zip(got, want), 1):
+        if g != e:
+            fail(what, f"README.md's overhead table differs from `./verify.sh --overhead`: line {n}: {g}")
+    if len(got) != len(want):
+        n = min(len(got), len(want)) + 1
+        fail(what, f"README.md's overhead table differs from `./verify.sh --overhead`: line {n}: "
+                   f"{got[n - 1] if n <= len(got) else '(end of block)'}")
     print(j_ok)
     print(pass_line)
 
@@ -513,9 +596,11 @@ elif args == ["--controls"]:
     sys.stdout.write(controls_text())
 elif args == ["--controls", "--markdown"]:
     sys.stdout.write(controls_markdown())
+elif args == ["--overhead"]:
+    sys.stdout.write(overhead_text())
 elif not args:
     check()
 else:
-    print("usage: ./verify.sh [--write-sums | --controls [--markdown]]", file=sys.stderr)
+    print("usage: ./verify.sh [--write-sums | --controls [--markdown] | --overhead]", file=sys.stderr)
     sys.exit(2)
 PY
