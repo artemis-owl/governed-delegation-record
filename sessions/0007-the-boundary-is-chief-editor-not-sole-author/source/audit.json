@@ -1,0 +1,88 @@
+{
+  "item_id": "0007-the-boundary-is-chief-editor-not-sole-author",
+  "work_branch": "cloud/0007-the-boundary-is-chief-editor-not-sole-author",
+  "tip": "9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+  "base_sha": "cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87",
+  "verdict": "FAIL",
+  "audited_at": "2026-11-02T13:24:44Z",
+  "declared_by": "prepared",
+  "gate": "bash -c \"npm ci --no-audit --no-fund && npm test\"",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='draft = true';assert s.count(a)==1;p.write_text(s.replace(a,'draft = false',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0007-the-boundary-is-chief-editor-not-sole-author at 9a9c5280079c descends from base cbb9d1ac6375; all 4 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/artemis_home ~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git rev-parse --verify --quiet '922630a^{commit}'",
+        "git merge-base --is-ancestor 922630ab290541b503afa7c3022947559908b7fd 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git rev-parse --verify --quiet '9a9c528^{commit}'",
+        "git merge-base --is-ancestor 9a9c5280079cf8dbe88fe2501a290988e51d5ae6 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git rev-parse --verify --quiet 'a983e97^{commit}'",
+        "git merge-base --is-ancestor a983e97b5f9325f0faea4378dfe917cd7f567c3d 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git rev-parse --verify --quiet 'ca9e42f^{commit}'",
+        "git rev-parse --verify --quiet 'cbb9d1a^{commit}'",
+        "git merge-base --is-ancestor cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git rev-parse --verify --quiet 'e2454511^{commit}'"
+      ],
+      "report_commits": [
+        "922630a",
+        "9a9c528",
+        "a983e97",
+        "cbb9d1a"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/artemis_home",
+        "git diff --name-only cbb9d1ac637583df5e76fddfd3b9dca47fd1fb87..9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "git ls-tree -r --name-only 9a9c5280079cf8dbe88fe2501a290988e51d5ae6"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0007-the-boundary-is-chief-editor-not-sole-author"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [],
+      "refs_accounted": {}
+    },
+    "host_gate": {
+      "status": "FAIL",
+      "reason": "`bash -c \"npm ci --no-audit --no-fund && npm test\"` exited 1: content/field-notes/finished-and-delivered-are-different-facts.md: agent-drafted and published without spotEdited",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/audit/work 9a9c5280079cf8dbe88fe2501a290988e51d5ae6",
+        "bash -c 'npm ci --no-audit --no-fund && npm test'"
+      ],
+      "gate": "bash -c \"npm ci --no-audit --no-fund && npm test\"",
+      "exit_code": 1,
+      "last_line": "content/field-notes/finished-and-delivered-are-different-facts.md: agent-drafted and published without spotEdited"
+    },
+    "mutation": {
+      "status": "NOT_RUN",
+      "reason": "the gate is not green on the tip, so red after mutating proves nothing",
+      "commands": [],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('content/field-notes/a-gate-nobody-ran-passed.md');s=p.read_text();a='draft = true';assert s.count(a)==1;p.write_text(s.replace(a,'draft = false',1))\""
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d718)",
+      "commands": [
+        "scan ~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 18
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/session/run_report.md",
+  "run_log": "~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/session/run_log.txt",
+  "audit_log": "~/.kestrel-artemis/cloud-runs/0007-the-boundary-is-chief-editor-not-sole-author/audit/audit.log",
+  "notes": []
+}

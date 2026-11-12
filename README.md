@@ -2,9 +2,9 @@
 
 A record of work that AI agents delivered under governance, published so the governance can
 be checked rather than described. It holds the delivery ledger of one small ecosystem of
-agent-run projects, the evidence packets behind those deliveries, one vendor cloud session
-mapped into an auditable packet, and a verifier that fails when any of it disagrees with
-itself.
+agent-run projects, the evidence packets behind those deliveries, three vendor cloud sessions
+mapped into auditable packets, two governed model calls as one packet each, and a verifier that
+fails when any of it disagrees with itself.
 
 Five tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
 runs and audits delegated work, with its satellite repos. **lark** and **korlith** are two
@@ -26,8 +26,8 @@ check (j) fails if this block stops matching what it prints:
 
 <!-- verify:begin -->
 ```text
-ok   (a) rows: every line is a well-formed projected row (83 rows in 5 files: artemis 4, kestrel 67, korlith 2, lark 8, practice 2)
-ok   (b) rows: every delivered row has a pull-request pr_url (62 delivered)
+ok   (a) rows: every line is a well-formed projected row (94 rows in 5 files: artemis 7, kestrel 75, korlith 2, lark 8, practice 2)
+ok   (b) rows: every delivered row has a pull-request pr_url (72 delivered)
 ok   (c) rows: resumed runs counted, not failed (1: run-1788467602)
 ok   (d) packet cloud-0002-downloads-page-links-the-record: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0002-downloads-page-links-the-record: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
@@ -37,8 +37,14 @@ ok   (d) packet cloud-0004-downloads-page-links-the-record: provenance and 1 led
 ok   (d) packet cloud-0004-downloads-page-links-the-record: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/17)
 ok   (d) packet cloud-0004-legibility-pass: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0004-legibility-pass: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0005-a-gate-nobody-ran-passed: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0005-a-gate-nobody-ran-passed: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/18)
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0005-record-urls-to-artemis-owl: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/governed-delegation-record/pull/7)
+ok   (d) packet cloud-0007-the-boundary-is-chief-editor-not-sole-author: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0007-the-boundary-is-chief-editor-not-sole-author: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
+ok   (d) packet cloud-0008-the-provenance-check-lands-green: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0008-the-provenance-check-lands-green: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/artemis_home/pull/19)
 ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0072-ruling-contract-and-helm-doctor: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet cloud-0076-cloud-instance-flag-portable: provenance and 1 ledger row(s) match rows/
@@ -49,15 +55,37 @@ ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: provenance and 1 le
 ok   (d) packet cloud-0078-connector-scan-reads-the-api-log: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (none)
 ok   (d) packet cloud-0079-cloud-ingest-never-accepts-silence: provenance and 1 ledger row(s) match rows/
 ok   (d) packet cloud-0079-cloud-ingest-never-accepts-silence: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/39)
+ok   (d) packet cloud-0080-a-gate-is-one-argv: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0080-a-gate-is-one-argv: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/40)
+ok   (d) packet cloud-0081-the-scan-counts-calls-not-mentions: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0081-the-scan-counts-calls-not-mentions: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/41)
+ok   (d) packet cloud-0082-the-scan-reads-call-lines-only: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0082-the-scan-reads-call-lines-only: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/42)
+ok   (d) packet cloud-0083-containment-accounts-for-the-operators-merge: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0083-containment-accounts-for-the-operators-merge: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/43)
+ok   (d) packet cloud-0084-a-connector-call-is-a-called-tool: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0084-a-connector-call-is-a-called-tool: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/44)
+ok   (d) packet cloud-0085-a-squash-without-a-pr-is-the-runs-own-push: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0085-a-squash-without-a-pr-is-the-runs-own-push: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/45)
+ok   (d) packet cloud-0086-toolsearch-is-a-pinned-tool: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0086-toolsearch-is-a-pinned-tool: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/46)
+ok   (d) packet cloud-0087-a-sha-the-task-names-is-a-reference: provenance and 1 ledger row(s) match rows/
+ok   (d) packet cloud-0087-a-sha-the-task-names-is-a-reference: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/47)
 ok   (d) packet run-1786647187: provenance and 1 ledger row(s) match rows/; ledger_rows.jsonl:1 has no instance, searched rows/kestrel.jsonl
 ok   (d) packet run-1786647187: pr_refs.txt and provenance runs[].pr_url agree with the packet rows (https://github.com/artemis-owl/kestrel-team/pull/15)
-ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (51 files)
+ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (116 files)
+ok   (f) session 0007-the-boundary-is-chief-editor-not-sole-author: corr-d08f7d5b44d1d6ac has 1 trace(s) and 1 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
+ok   (f) session 0008-the-provenance-check-lands-green-audit-1: corr-3647e23e77b854e6 has 1 trace(s) and 2 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
-ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (7 files)
-ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
+ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (19 files)
+ok   (h) controls: CONTROLS.md matches the verifier's control table (9 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
-ok   (j) readme: the quoted verifier output in README.md matches this run
-PASS: record is internally consistent — rows: 83, delivered: 62, packets: 11, resumed runs: 1, sessions: 1
+ok   (l) inference corr-157d158779c45a55: confidential data allowed on route 'local'; one evidence record from 'mcp-client' on the decision's trace
+ok   (l) inference corr-ff498d6152d67c2c: confidential data denied on route 'anthropic/claude-haiku-5-5'; no evidence record
+ok   (m) inference: SHA256SUMS covers every packet file and every sum matches (16 files)
+ok   (k) redaction: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ (186 files)
+ok   (j) readme: the quoted verifier output and the overhead table in README.md match this run
+PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3, inference packets: 2
 ```
 <!-- verify:end -->
 
@@ -73,6 +101,30 @@ and it fails:
 ```text
 FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr-f39865b445dc0115/decision_traces.jsonl:1 policy.decision 'allow' != 'deny' (audit verdict FAIL)
 ```
+
+## The overhead, measured
+
+What governing the runs cost, counted from this record's own files and nothing else, at this
+commit (`./verify.sh --overhead` prints it; check (j) fails if this block stops matching):
+
+<!-- overhead:begin -->
+```text
+Governance overhead by tenant, computed from rows/, packets/ and sessions/ of this commit:
+tenant    rows  done  delivered  delivered/rows  packets  ingest audit PASS  ingest audit not PASS  failed audits kept as sessions
+artemis      7     5          4             57%        6                  4                      2                               2
+kestrel     75    58         60             80%       14                  9                      4                               1
+korlith      2     0          1             50%        0                  0                      0                               0
+lark         8     6          6             75%        0                  0                      0                               0
+practice     2     0          1             50%        2                  0                      2                               0
+all         94    69         72             77%       22                 13                      8                               3
+not measured here: time to delivery (a projected row carries one timestamp; every cloud packet's duration_seconds is 0.0) and interventions inside a run (the run logs hold them, uncounted)
+```
+<!-- overhead:end -->
+
+`ingest audit` is the trusted-host audit's verdict recorded in each packet's ledger row at ingest;
+`failed audits kept as sessions` counts the audits that did not pass and were published under
+`sessions/` rather than discarded. Every number here is recomputed from `rows/`, `packets/` and
+`sessions/` on each run, so it is a fact about the commit you are reading, not a status.
 
 ## What it holds
 
@@ -91,28 +143,59 @@ FAIL (f) session 0070-cloud-run-audit: sessions/0070-cloud-run-audit/packet/corr
   every delivered row names one, not that a reader can open it.
 - `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
   full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
-  edited; a packet that cannot be published as-is is excluded, not changed. One exception, stated here so it can
-  be checked: paths under the operator's home directory are shortened to `~`, and repository URLs name
-  the organization the repositories moved to; no other byte is changed.
-- `sessions/` — a run executed by a vendor cloud agent. `source/` is what the commissioning
+  edited; a packet that cannot be published as-is is excluded, not changed. The exceptions, stated here so they can
+  be checked: paths under the operator's home directory are shortened to `~`, an e-mail address reads
+  `redacted`, and repository URLs name the organization the repositories moved to; no other byte is
+  changed. Check (k) fails on a home path or an e-mail address anywhere in the evidence.
+- `sessions/` — runs executed by a vendor cloud agent, one directory each. `source/` is what the commissioning
   side holds about it (the task, the vendor's run report and log, the trusted-host audit),
-  byte-verbatim except that same `~` shortening, and repository URLs name the organization the
+  byte-verbatim except those same two redactions, and repository URLs name the organization the
   repositories moved to; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
   `RESULT.md` is that packet verifier's raw output over it.
+- `inference/` — governed model calls, one packet per decision, as trust-steering exported them:
+  the decision trace, the evidence, the policy that decided and its hash, the schemas. Nothing is
+  edited. The export's `supplychain/` directory is left out: its SBOMs describe images that did
+  not run these calls, and its note claims attestations the packet does not carry.
 - `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
   Act Art. 12 item it evidences. An argued mapping, not a certification claim; generated from
   the verifier's own table, and check (h) fails if the two differ by a byte.
-- `SHA256SUMS` in `packets/` and `sessions/` pin every packet file and every session source
-  file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
+- `SHA256SUMS` in `packets/`, `sessions/` and `inference/` pin every packet file and every
+  session source file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
   never writes.
 
-## The vendor session
+## The vendor sessions
 
-The one mapped session reported `1187 passed` and `result: success`. The trusted-host audit
+The first mapped session reported `1187 passed` and `result: success`. The trusted-host audit
 re-ran the same gate on the same commit and got `1 failed, 1186 passed`, so the recorded
 decision is `deny`: five pushes happened, and the policy that judges them did not allow
 them. The packet verifier closes its first three checks on that session and cannot run the
 fourth, because a vendor's log does not say which decision each action was taken under.
+
+The other two sessions are audits that did not pass, kept rather than discarded. In
+`0007-the-boundary-is-chief-editor-not-sole-author` the work failed its own gate. In
+`0008-the-provenance-check-lands-green-audit-1` the auditor failed: it read a commit the task had
+named as one the run claimed; the engine fix that followed is why the same run's row reads
+`delivered`. Both were mapped by the packet's `map-session.sh` and checked by its `verify.sh`,
+whose per-check lines each `RESULT.md` quotes.
+
+## The governed model calls
+
+One consumer, one request declared `confidential`, asked for twice on 2026-11-12. For a route off
+the machine the policy said `deny`, and the packet holds the decision and no evidence. For the
+`local` route it said `allow`; the consumer made the call itself and reported it, so the packet
+holds the decision and one evidence record on the same trace, from the consumer and not from the
+policy service's own worker. Check (l) reads each packet for exactly that, and refuses any packet
+in which data classified `confidential` or `restricted` is allowed on a route other than `local`.
+
+What the packets do not show: that no call was made on the denied route (a denial leaves no
+evidence either way), or that the declared classification was true (the caller declares it; the
+trace records the declaration). The policy service never sees the model traffic.
+
+Rewrite the allowed packet's evidence as the worker's and it fails:
+
+```text
+FAIL (l) inference corr-157d158779c45a55: evidence workload.service_name 'worker' is not the consumer's
+```
 
 Intent plane: practice-helm. Apache-2.0.

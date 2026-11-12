@@ -1,0 +1,101 @@
+{
+  "item_id": "0080-a-gate-is-one-argv",
+  "work_branch": "cloud/0080-a-gate-is-one-argv",
+  "tip": "64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+  "base_sha": "626c87fa9c2c9af380fbe60ee6d0c765d97657f1",
+  "verdict": "PASS",
+  "audited_at": "2026-11-01T17:22:45Z",
+  "declared_by": "prepared",
+  "gate": "uv run --locked python -m pytest tests/ -q",
+  "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();a='    if token is not None:\\n        raise CloudPrepareError(GATE_NOT_ONE_ARGV.format(token=token, gate=item.audit.gate))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'',1))\"",
+  "checks": {
+    "fetch_and_match": {
+      "status": "PASS",
+      "reason": "cloud/0080-a-gate-is-one-argv at 64f7bf63e861 descends from base 626c87fa9c2c; all 4 commit(s) the report names are on the branch, the tip among them",
+      "commands": [
+        "git clone -q --no-checkout https://github.com/artemis-owl/kestrel-team ~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/audit/clone",
+        "git remote set-url --push origin no-push://audit",
+        "git fetch -q origin '+refs/*:refs/remotes/origin/*'",
+        "git merge-base --is-ancestor 626c87fa9c2c9af380fbe60ee6d0c765d97657f1 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git rev-parse --verify --quiet '626c87f^{commit}'",
+        "git merge-base --is-ancestor 626c87fa9c2c9af380fbe60ee6d0c765d97657f1 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git rev-parse --verify --quiet '64f7bf6^{commit}'",
+        "git merge-base --is-ancestor 64f7bf63e8619e9187878df6d0f9eb97b0b95995 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git rev-parse --verify --quiet '64f7bf63e8619e9187878df6d0f9eb97b0b95995^{commit}'",
+        "git merge-base --is-ancestor 64f7bf63e8619e9187878df6d0f9eb97b0b95995 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git rev-parse --verify --quiet '87db78c^{commit}'",
+        "git merge-base --is-ancestor 87db78c32d6637b1a74ff352419bc072b2db7c29 64f7bf63e8619e9187878df6d0f9eb97b0b95995"
+      ],
+      "report_commits": [
+        "626c87f",
+        "64f7bf6",
+        "64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "87db78c"
+      ],
+      "report_unreachable": []
+    },
+    "containment": {
+      "status": "PASS",
+      "reason": "no ref changed but the addition of the work branch; nothing under .github/ changed; no TASK.md in the tree",
+      "commands": [
+        "git ls-remote https://github.com/artemis-owl/kestrel-team",
+        "git diff --name-only 626c87fa9c2c9af380fbe60ee6d0c765d97657f1..64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git ls-tree -r --name-only 64f7bf63e8619e9187878df6d0f9eb97b0b95995"
+      ],
+      "refs_added": [
+        "refs/heads/cloud/0080-a-gate-is-one-argv"
+      ],
+      "refs_deleted": [],
+      "refs_moved": [],
+      "refs_accounted": {}
+    },
+    "host_gate": {
+      "status": "PASS",
+      "reason": "`uv run --locked python -m pytest tests/ -q` exited 0: 1279 passed in 92.29s (0:01:32)",
+      "commands": [
+        "git worktree add -q --detach ~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/audit/work 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "uv run --locked python -m pytest tests/ -q"
+      ],
+      "gate": "uv run --locked python -m pytest tests/ -q",
+      "exit_code": 0,
+      "last_line": "1279 passed in 92.29s (0:01:32)"
+    },
+    "mutation": {
+      "status": "PASS",
+      "reason": "the gate went red after `python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();a='    if token is not None:\\n        raise CloudPrepareError(GATE_NOT_ONE_ARGV.format(token=token, gate=item.audit.gate))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'',1))\"` (exit 1)",
+      "commands": [
+        "git status --porcelain",
+        "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();a='    if token is not None:\\n        raise CloudPrepareError(GATE_NOT_ONE_ARGV.format(token=token, gate=item.audit.gate))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'',1))\"",
+        "git status --porcelain",
+        "git diff --name-only 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git show 64f7bf63e8619e9187878df6d0f9eb97b0b95995:kestrel_team/core/cloud.py",
+        "uv run --locked python -m pytest tests/ -q",
+        "git reset -q --hard 64f7bf63e8619e9187878df6d0f9eb97b0b95995",
+        "git checkout -- .",
+        "git clean -fdq",
+        "git status --porcelain"
+      ],
+      "mutation": "python3 -c \"import pathlib;p=pathlib.Path('kestrel_team/core/cloud.py');s=p.read_text();a='    if token is not None:\\n        raise CloudPrepareError(GATE_NOT_ONE_ARGV.format(token=token, gate=item.audit.gate))\\n';assert s.count(a)==1;p.write_text(s.replace(a,'',1))\"",
+      "prose_only": false,
+      "exit_code": 1,
+      "last_line": "1 failed, 1278 passed in 89.03s (0:01:29)",
+      "restored_clean": true
+    },
+    "connector_scan": {
+      "status": "PASS",
+      "reason": "only pinned tools invoked (seen: Bash\u00d716)",
+      "commands": [
+        "scan ~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/session/run_log.txt"
+      ],
+      "tools_seen": {
+        "Bash": 16
+      },
+      "connector_tokens": [],
+      "not_allowed": []
+    }
+  },
+  "report": "~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/session/run_report.md",
+  "run_log": "~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/session/run_log.txt",
+  "audit_log": "~/.kestrel/cloud-runs/0080-a-gate-is-one-argv/audit/audit.log",
+  "notes": []
+}

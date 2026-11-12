@@ -3,10 +3,13 @@
 #
 #   ./verify.sh               check the record; exit 0 when internally consistent,
 #                             exit 1 naming the first failure otherwise. Writes nothing.
-#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS and sessions/SHA256SUMS and exit 0
-#                             without checking.
+#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS, sessions/SHA256SUMS and
+#                             inference/SHA256SUMS and exit 0 without checking.
 #   ./verify.sh --controls    print, per check, the controls it evidences and exit 0 without
 #                             checking; add --markdown for the table CONTROLS.md is generated from.
+#   ./verify.sh --overhead    print the governance-overhead table computed from rows/, packets/
+#                             and sessions/ and exit 0 without checking; README.md quotes it, and
+#                             check (j) fails if the quote stops matching.
 #
 # Stack: bash + python3 -I, standard library only. No network, no dependencies.
 set -euo pipefail
@@ -30,10 +33,21 @@ PACKETS = Path("packets")
 SUMS = PACKETS / "SHA256SUMS"
 SESSIONS = Path("sessions")
 SESSION_SUMS = SESSIONS / "SHA256SUMS"
+INFERENCE = Path("inference")
+INFERENCE_SUMS = INFERENCE / "SHA256SUMS"
+# A data classification that may not leave the machine: an allow for it is on the local route only.
+KEPT_LOCAL = {"confidential", "restricted"}
 VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
 CONTROLS_MD = Path("CONTROLS.md")
 INSTANCE_KEYS = ("instance", "repo", "about")
 REPO_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+$")
+# The two stated redactions (README "What it holds"), enforced by check (k): no operator home path
+# (/Users/<name>; a cloud run's own /home/user is the vendor VM, not the operator) and no
+# e-mail address in the evidence. An address is local@domain.tld not preceded by a backslash or a
+# word character, so an escaped newline before a decorator ("\\n@pytest.fixture") is not one.
+HOME_RE = re.compile(rb"/Users/[A-Za-z0-9._-]+")
+EMAIL_RE = re.compile(rb"(?<![\\\w.+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
+EMAIL_ALLOWED = {b"noreply@anthropic.com"}
 
 # The control map: one row per check, letter -> (title as printed, NIST AI RMF, ISO/IEC 42001,
 # OWASP Agentic Top 10, EU AI Act, rationale). An argued mapping, not a certification claim.
@@ -89,6 +103,22 @@ CONTROLS = [
      "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
      "EU AI Act Art. 12(1)",
      "the vendor-run source files are hash-covered exactly as packets are."),
+    ("l", "inference <id>: one decision about one model call; an allow carries the consumer's own "
+          "evidence on the same trace, a deny carries none, and data classified to stay on the "
+          "machine is allowed on the local route only",
+     "NIST AI RMF MEASURE 2.10",
+     "ISO/IEC 42001 A.6.2.8 AI system recording of event logs",
+     "OWASP ASI02 Tool Misuse and Exploitation",
+     "EU AI Act Art. 12(2)(c)",
+     "which data went to which model is decided by policy before the call and evidenced by the "
+     "party that made it; a model route is a tool, and sending confidential data off the machine "
+     "is its misuse. Row added 2026-11-12."),
+    ("m", "inference: SHA256SUMS covers every packet file and every sum matches",
+     "NIST AI RMF MEASURE 2.7",
+     "ISO/IEC 42001 7.5.3 Control of documented information",
+     "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
+     "EU AI Act Art. 12(1)",
+     "the governed-inference packets are hash-covered exactly as packets are. Row added 2026-11-12."),
 ]
 FRAMEWORKS = ("NIST AI RMF", "ISO/IEC 42001", "OWASP", "EU AI Act")
 
@@ -129,6 +159,19 @@ def expected_session_sums():
     for d in session_dirs():
         for f in sorted(p for p in (d / "source").rglob("*") if p.is_file()):
             rel = f.relative_to(SESSIONS).as_posix()
+            lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
+    return sorted(lines, key=lambda l: l.split("  ", 1)[1])
+
+
+def inference_dirs():
+    return sorted(p for p in INFERENCE.iterdir() if p.is_dir()) if INFERENCE.is_dir() else []
+
+
+def expected_inference_sums():
+    lines = []
+    for d in inference_dirs():
+        for f in sorted(p for p in d.rglob("*") if p.is_file()):
+            rel = f.relative_to(INFERENCE).as_posix()
             lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
     return sorted(lines, key=lambda l: l.split("  ", 1)[1])
 
@@ -234,12 +277,83 @@ def controls_markdown():
     return "".join(l + "\n" for l in out)
 
 
+def overhead_text():
+    """Governance overhead by tenant, from the record's own files and nothing else."""
+    what = "overhead"
+    rows, tenant_of = {}, {}
+    for f in sorted(ROWS.glob("*.jsonl")):
+        rows[f.stem] = [r for _, r in read_jsonl(f, what)]
+        for r in rows[f.stem]:
+            tenant_of[r.get("thread_id")] = f.stem
+    ingest = {t: {"PASS": 0, "other": 0} for t in rows}
+    for d in packet_dirs():
+        lr = d / "ledger_rows.jsonl"
+        if not lr.is_file():
+            continue
+        for _, r in read_jsonl(lr, what):
+            t = tenant_of.get(r.get("thread_id"))
+            v = r.get("audit_verdict")
+            if t in ingest and v is not None:
+                ingest[t]["PASS" if v == "PASS" else "other"] += 1
+    repo_of = {}
+    if Path("instances.jsonl").is_file():
+        for _, r in read_jsonl(Path("instances.jsonl"), what):
+            repo_of[str(r.get("repo")).rstrip("/")] = r.get("instance")
+    kept = {t: 0 for t in rows}
+    for d in session_dirs():
+        hit = [tid for tid in tenant_of if tid.startswith("cloud-") and d.name.startswith(tid[len("cloud-"):])]
+        t = tenant_of[max(hit, key=len)] if hit else None
+        prepared = d / "source" / "prepared.json"
+        if t is None and prepared.is_file():
+            try:
+                t = repo_of.get(str(json.loads(prepared.read_text(encoding="utf-8")).get("target_repo")).rstrip("/"))
+            except json.JSONDecodeError:
+                t = None
+        if t in kept:
+            kept[t] += 1
+    head = ("tenant", "rows", "done", "delivered", "delivered/rows", "packets",
+            "ingest audit PASS", "ingest audit not PASS", "failed audits kept as sessions")
+    packets_of = {t: 0 for t in rows}
+    for d in packet_dirs():
+        lr = d / "ledger_rows.jsonl"
+        if lr.is_file():
+            for _, r in read_jsonl(lr, what):
+                t = tenant_of.get(r.get("thread_id"))
+                if t in packets_of:
+                    packets_of[t] += 1
+                    break
+    body = []
+    for t in sorted(rows):
+        rs = rows[t]
+        n, done = len(rs), sum(r.get("outcome") == "done" for r in rs)
+        dl = sum(r.get("delivery") == "delivered" for r in rs)
+        body.append((t, n, done, dl, f"{round(100 * dl / n) if n else 0}%", packets_of[t],
+                     ingest[t]["PASS"], ingest[t]["other"], kept[t]))
+    n = sum(b[1] for b in body)
+    dl = sum(b[3] for b in body)
+    body.append(("all", n, sum(b[2] for b in body), dl, f"{round(100 * dl / n) if n else 0}%",
+                 sum(b[5] for b in body), sum(b[6] for b in body), sum(b[7] for b in body), sum(b[8] for b in body)))
+    widths = [max(len(str(x)) for x in col) for col in zip(head, *body)]
+    def line(cells):
+        return "  ".join(str(c).ljust(w) if i == 0 else str(c).rjust(w) for i, (c, w) in enumerate(zip(cells, widths))).rstrip()
+    out = ["Governance overhead by tenant, computed from rows/, packets/ and sessions/ of this commit:",
+           line(head), *[line(b) for b in body],
+           "not measured here: time to delivery (a projected row carries one timestamp; every cloud "
+           "packet's duration_seconds is 0.0) and interventions inside a run (the run logs hold them, "
+           "uncounted)"]
+    return "".join(l + "\n" for l in out)
+
+
 def write_sums():
     SUMS.write_text("".join(l + "\n" for l in expected_sums()), encoding="utf-8")
     print(f"wrote {SUMS} ({len(expected_sums())} files)")
     want = expected_session_sums()
     SESSION_SUMS.write_text("".join(l + "\n" for l in want), encoding="utf-8")
     print(f"wrote {SESSION_SUMS} ({len(want)} files)")
+    if INFERENCE.is_dir():
+        want = expected_inference_sums()
+        INFERENCE_SUMS.write_text("".join(l + "\n" for l in want), encoding="utf-8")
+        print(f"wrote {INFERENCE_SUMS} ({len(want)} files)")
 
 
 def check():
@@ -458,11 +572,97 @@ def check():
         fail(what, f"listed instances {sorted(names)} != rows files {sorted(rows)}")
     ok(f"{what}: every rows file names a listed tenant and every listed tenant has a rows file ({len(names)})")
 
-    # (j) README.md quotes this run's output, byte for byte
+    # (l) governed-inference packets: one decision about one model call each
+    inference = inference_dirs()
+    for d in inference:
+        what = f"(l) inference {d.name}"
+        traces = evidence = None
+        for name in ("decision_traces.jsonl", "evidence.jsonl"):
+            path = d / name
+            if not path.is_file():
+                fail(what, f"{path} missing")
+            recs = [] if not path.read_bytes().strip() else read_jsonl(path, what)
+            for n, r in recs:
+                if r.get("correlation_id") != d.name:
+                    fail(what, f"{path}:{n} correlation_id {r.get('correlation_id')!r} != {d.name!r}")
+            if name == "decision_traces.jsonl":
+                traces = recs
+            else:
+                evidence = recs
+        if len(traces) != 1:
+            fail(what, f"expected exactly one decision trace, found {len(traces)}")
+        trace = traces[0][1]
+        request = trace.get("request") or {}
+        attrs = request.get("attributes") or {}
+        policy = trace.get("policy") or {}
+        if request.get("action") != "inference":
+            fail(what, f"request.action {request.get('action')!r} is not 'inference'")
+        if attrs.get("executor") != "consumer":
+            fail(what, f"request.attributes.executor {attrs.get('executor')!r} is not 'consumer'")
+        rego = d / "policy" / "decision.rego"
+        if not rego.is_file():
+            fail(what, f"{rego} missing")
+        bundle = "sha256:" + hashlib.sha256(rego.read_bytes()).hexdigest()
+        if policy.get("bundle_hash") != bundle:
+            fail(what, f"policy.bundle_hash {policy.get('bundle_hash')!r} is not the hash of {rego} ({bundle})")
+        decision, route = policy.get("decision"), request.get("resource")
+        classification = attrs.get("data_classification")
+        if decision == "allow":
+            if classification in KEPT_LOCAL and route != "local":
+                fail(what, f"data classified {classification!r} is allowed on route {route!r}, not 'local'")
+            if len(evidence) != 1:
+                fail(what, f"an allow carries exactly one evidence record, found {len(evidence)}")
+            ev = evidence[0][1]
+            producer = (ev.get("workload") or {}).get("service_name")
+            for got, want, field in (
+                    (ev.get("evidence_type"), "action.executed", "evidence_type"),
+                    (ev.get("result"), "ok", "result"),
+                    (ev.get("trace_id"), trace.get("trace_id"), "trace_id"),
+                    ((ev.get("details") or {}).get("policy_decision"), "allow", "details.policy_decision")):
+                if got != want:
+                    fail(what, f"evidence {field} {got!r} != {want!r}")
+            if not producer or producer == "worker":
+                fail(what, f"evidence workload.service_name {producer!r} is not the consumer's")
+            ok(f"{what}: {classification} data allowed on route {route!r}; one evidence record from "
+               f"{producer!r} on the decision's trace")
+        elif decision == "deny":
+            if evidence:
+                fail(what, f"a deny carries no evidence, found {len(evidence)} record(s)")
+            ok(f"{what}: {classification} data denied on route {route!r}; no evidence record")
+        else:
+            fail(what, f"policy.decision {decision!r} is neither 'allow' nor 'deny'")
+
+    # (m) governed-inference packet bytes are pinned
+    if INFERENCE.is_dir():
+        what = "(m) inference: SHA256SUMS covers every packet file and every sum matches"
+        n = check_sums(what, INFERENCE_SUMS, expected_inference_sums(), "inference/SHA256SUMS",
+                       "inference packet directory")
+        ok(f"{what} ({n} files)")
+
+    # (k) the stated redactions hold: no home path and no e-mail address in the evidence.
+    # Printed before (j), which stays last because it quotes every line above it.
+    what = "(k) redaction"
+    scanned = 0
+    for top in (ROWS, PACKETS, SESSIONS, INFERENCE):
+        if not top.is_dir():
+            continue
+        for f in sorted(p for p in top.rglob("*") if p.is_file()):
+            data = f.read_bytes()
+            scanned += 1
+            m = HOME_RE.search(data)
+            if m:
+                fail(what, f"{f} holds a home path: {m.group(0).decode('utf-8', 'replace')}")
+            for m in EMAIL_RE.finditer(data):
+                if m.group(0) not in EMAIL_ALLOWED:
+                    fail(what, f"{f} holds an e-mail address at byte {m.start()} (not printed)")
+    ok(f"{what}: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ ({scanned} files)")
+
+    # (j) README.md quotes this run's output and the overhead table, byte for byte
     what = "(j) readme"
     pass_line = (f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
-                 f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
-    j_ok = f"ok   {what}: the quoted verifier output in README.md matches this run"
+                 f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}, "
+                 f"inference packets: {len(inference)}")
+    j_ok = f"ok   {what}: the quoted verifier output and the overhead table in README.md match this run"
     expected = PRINTED + [j_ok, pass_line]
     readme = Path("README.md")
     if not readme.is_file():
@@ -479,6 +679,19 @@ def check():
         n = min(len(got), len(expected)) + 1
         line = got[n - 1] if n <= len(got) else "(end of block)"
         fail(what, f"README.md's verify block differs from this run's output: line {n}: {line}")
+    tables = re.findall(r"<!-- overhead:begin -->\n```text\n(.*?)\n```\n<!-- overhead:end -->",
+                        readme.read_text(encoding="utf-8"), re.S)
+    if len(tables) != 1:
+        fail(what, f"README.md has {len(tables)} overhead block(s), expected exactly one")
+    want = overhead_text().rstrip("\n").split("\n")
+    got = tables[0].split("\n")
+    for n, (g, e) in enumerate(zip(got, want), 1):
+        if g != e:
+            fail(what, f"README.md's overhead table differs from `./verify.sh --overhead`: line {n}: {g}")
+    if len(got) != len(want):
+        n = min(len(got), len(want)) + 1
+        fail(what, f"README.md's overhead table differs from `./verify.sh --overhead`: line {n}: "
+                   f"{got[n - 1] if n <= len(got) else '(end of block)'}")
     print(j_ok)
     print(pass_line)
 
@@ -490,9 +703,11 @@ elif args == ["--controls"]:
     sys.stdout.write(controls_text())
 elif args == ["--controls", "--markdown"]:
     sys.stdout.write(controls_markdown())
+elif args == ["--overhead"]:
+    sys.stdout.write(overhead_text())
 elif not args:
     check()
 else:
-    print("usage: ./verify.sh [--write-sums | --controls [--markdown]]", file=sys.stderr)
+    print("usage: ./verify.sh [--write-sums | --controls [--markdown] | --overhead]", file=sys.stderr)
     sys.exit(2)
 PY
