@@ -3,8 +3,8 @@
 #
 #   ./verify.sh               check the record; exit 0 when internally consistent,
 #                             exit 1 naming the first failure otherwise. Writes nothing.
-#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS and sessions/SHA256SUMS and exit 0
-#                             without checking.
+#   ./verify.sh --write-sums  (re)write packets/SHA256SUMS, sessions/SHA256SUMS and
+#                             inference/SHA256SUMS and exit 0 without checking.
 #   ./verify.sh --controls    print, per check, the controls it evidences and exit 0 without
 #                             checking; add --markdown for the table CONTROLS.md is generated from.
 #   ./verify.sh --overhead    print the governance-overhead table computed from rows/, packets/
@@ -33,6 +33,10 @@ PACKETS = Path("packets")
 SUMS = PACKETS / "SHA256SUMS"
 SESSIONS = Path("sessions")
 SESSION_SUMS = SESSIONS / "SHA256SUMS"
+INFERENCE = Path("inference")
+INFERENCE_SUMS = INFERENCE / "SHA256SUMS"
+# A data classification that may not leave the machine: an allow for it is on the local route only.
+KEPT_LOCAL = {"confidential", "restricted"}
 VERIFIER_EXIT_RE = re.compile(r"^packet-verifier exit: \d+$", re.M)
 CONTROLS_MD = Path("CONTROLS.md")
 INSTANCE_KEYS = ("instance", "repo", "about")
@@ -99,6 +103,22 @@ CONTROLS = [
      "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
      "EU AI Act Art. 12(1)",
      "the vendor-run source files are hash-covered exactly as packets are."),
+    ("l", "inference <id>: one decision about one model call; an allow carries the consumer's own "
+          "evidence on the same trace, a deny carries none, and data classified to stay on the "
+          "machine is allowed on the local route only",
+     "NIST AI RMF MEASURE 2.10",
+     "ISO/IEC 42001 A.6.2.8 AI system recording of event logs",
+     "OWASP ASI02 Tool Misuse and Exploitation",
+     "EU AI Act Art. 12(2)(c)",
+     "which data went to which model is decided by policy before the call and evidenced by the "
+     "party that made it; a model route is a tool, and sending confidential data off the machine "
+     "is its misuse. Row added 2026-11-12."),
+    ("m", "inference: SHA256SUMS covers every packet file and every sum matches",
+     "NIST AI RMF MEASURE 2.7",
+     "ISO/IEC 42001 7.5.3 Control of documented information",
+     "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
+     "EU AI Act Art. 12(1)",
+     "the governed-inference packets are hash-covered exactly as packets are. Row added 2026-11-12."),
 ]
 FRAMEWORKS = ("NIST AI RMF", "ISO/IEC 42001", "OWASP", "EU AI Act")
 
@@ -139,6 +159,19 @@ def expected_session_sums():
     for d in session_dirs():
         for f in sorted(p for p in (d / "source").rglob("*") if p.is_file()):
             rel = f.relative_to(SESSIONS).as_posix()
+            lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
+    return sorted(lines, key=lambda l: l.split("  ", 1)[1])
+
+
+def inference_dirs():
+    return sorted(p for p in INFERENCE.iterdir() if p.is_dir()) if INFERENCE.is_dir() else []
+
+
+def expected_inference_sums():
+    lines = []
+    for d in inference_dirs():
+        for f in sorted(p for p in d.rglob("*") if p.is_file()):
+            rel = f.relative_to(INFERENCE).as_posix()
             lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
     return sorted(lines, key=lambda l: l.split("  ", 1)[1])
 
@@ -317,6 +350,10 @@ def write_sums():
     want = expected_session_sums()
     SESSION_SUMS.write_text("".join(l + "\n" for l in want), encoding="utf-8")
     print(f"wrote {SESSION_SUMS} ({len(want)} files)")
+    if INFERENCE.is_dir():
+        want = expected_inference_sums()
+        INFERENCE_SUMS.write_text("".join(l + "\n" for l in want), encoding="utf-8")
+        print(f"wrote {INFERENCE_SUMS} ({len(want)} files)")
 
 
 def check():
@@ -535,11 +572,80 @@ def check():
         fail(what, f"listed instances {sorted(names)} != rows files {sorted(rows)}")
     ok(f"{what}: every rows file names a listed tenant and every listed tenant has a rows file ({len(names)})")
 
+    # (l) governed-inference packets: one decision about one model call each
+    inference = inference_dirs()
+    for d in inference:
+        what = f"(l) inference {d.name}"
+        traces = evidence = None
+        for name in ("decision_traces.jsonl", "evidence.jsonl"):
+            path = d / name
+            if not path.is_file():
+                fail(what, f"{path} missing")
+            recs = [] if not path.read_bytes().strip() else read_jsonl(path, what)
+            for n, r in recs:
+                if r.get("correlation_id") != d.name:
+                    fail(what, f"{path}:{n} correlation_id {r.get('correlation_id')!r} != {d.name!r}")
+            if name == "decision_traces.jsonl":
+                traces = recs
+            else:
+                evidence = recs
+        if len(traces) != 1:
+            fail(what, f"expected exactly one decision trace, found {len(traces)}")
+        trace = traces[0][1]
+        request = trace.get("request") or {}
+        attrs = request.get("attributes") or {}
+        policy = trace.get("policy") or {}
+        if request.get("action") != "inference":
+            fail(what, f"request.action {request.get('action')!r} is not 'inference'")
+        if attrs.get("executor") != "consumer":
+            fail(what, f"request.attributes.executor {attrs.get('executor')!r} is not 'consumer'")
+        rego = d / "policy" / "decision.rego"
+        if not rego.is_file():
+            fail(what, f"{rego} missing")
+        bundle = "sha256:" + hashlib.sha256(rego.read_bytes()).hexdigest()
+        if policy.get("bundle_hash") != bundle:
+            fail(what, f"policy.bundle_hash {policy.get('bundle_hash')!r} is not the hash of {rego} ({bundle})")
+        decision, route = policy.get("decision"), request.get("resource")
+        classification = attrs.get("data_classification")
+        if decision == "allow":
+            if classification in KEPT_LOCAL and route != "local":
+                fail(what, f"data classified {classification!r} is allowed on route {route!r}, not 'local'")
+            if len(evidence) != 1:
+                fail(what, f"an allow carries exactly one evidence record, found {len(evidence)}")
+            ev = evidence[0][1]
+            producer = (ev.get("workload") or {}).get("service_name")
+            for got, want, field in (
+                    (ev.get("evidence_type"), "action.executed", "evidence_type"),
+                    (ev.get("result"), "ok", "result"),
+                    (ev.get("trace_id"), trace.get("trace_id"), "trace_id"),
+                    ((ev.get("details") or {}).get("policy_decision"), "allow", "details.policy_decision")):
+                if got != want:
+                    fail(what, f"evidence {field} {got!r} != {want!r}")
+            if not producer or producer == "worker":
+                fail(what, f"evidence workload.service_name {producer!r} is not the consumer's")
+            ok(f"{what}: {classification} data allowed on route {route!r}; one evidence record from "
+               f"{producer!r} on the decision's trace")
+        elif decision == "deny":
+            if evidence:
+                fail(what, f"a deny carries no evidence, found {len(evidence)} record(s)")
+            ok(f"{what}: {classification} data denied on route {route!r}; no evidence record")
+        else:
+            fail(what, f"policy.decision {decision!r} is neither 'allow' nor 'deny'")
+
+    # (m) governed-inference packet bytes are pinned
+    if INFERENCE.is_dir():
+        what = "(m) inference: SHA256SUMS covers every packet file and every sum matches"
+        n = check_sums(what, INFERENCE_SUMS, expected_inference_sums(), "inference/SHA256SUMS",
+                       "inference packet directory")
+        ok(f"{what} ({n} files)")
+
     # (k) the stated redactions hold: no home path and no e-mail address in the evidence.
     # Printed before (j), which stays last because it quotes every line above it.
     what = "(k) redaction"
     scanned = 0
-    for top in (ROWS, PACKETS, SESSIONS):
+    for top in (ROWS, PACKETS, SESSIONS, INFERENCE):
+        if not top.is_dir():
+            continue
         for f in sorted(p for p in top.rglob("*") if p.is_file()):
             data = f.read_bytes()
             scanned += 1
@@ -549,12 +655,13 @@ def check():
             for m in EMAIL_RE.finditer(data):
                 if m.group(0) not in EMAIL_ALLOWED:
                     fail(what, f"{f} holds an e-mail address at byte {m.start()} (not printed)")
-    ok(f"{what}: no home path and no e-mail address in rows/, packets/ or sessions/ ({scanned} files)")
+    ok(f"{what}: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ ({scanned} files)")
 
     # (j) README.md quotes this run's output and the overhead table, byte for byte
     what = "(j) readme"
     pass_line = (f"PASS: record is internally consistent — rows: {total}, delivered: {delivered}, "
-                 f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}")
+                 f"packets: {len(dirs)}, resumed runs: {len(resumed)}, sessions: {len(sessions)}, "
+                 f"inference packets: {len(inference)}")
     j_ok = f"ok   {what}: the quoted verifier output and the overhead table in README.md match this run"
     expected = PRINTED + [j_ok, pass_line]
     readme = Path("README.md")

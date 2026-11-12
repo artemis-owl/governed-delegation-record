@@ -3,8 +3,8 @@
 A record of work that AI agents delivered under governance, published so the governance can
 be checked rather than described. It holds the delivery ledger of one small ecosystem of
 agent-run projects, the evidence packets behind those deliveries, three vendor cloud sessions
-mapped into auditable packets, and a verifier that fails when any of it disagrees with
-itself.
+mapped into auditable packets, two governed model calls as one packet each, and a verifier that
+fails when any of it disagrees with itself.
 
 Five tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
 runs and audits delegated work, with its satellite repos. **lark** and **korlith** are two
@@ -78,11 +78,14 @@ ok   (f) session 0007-the-boundary-is-chief-editor-not-sole-author: corr-d08f7d5
 ok   (f) session 0008-the-provenance-check-lands-green-audit-1: corr-3647e23e77b854e6 has 1 trace(s) and 2 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (19 files)
-ok   (h) controls: CONTROLS.md matches the verifier's control table (7 checks)
+ok   (h) controls: CONTROLS.md matches the verifier's control table (9 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
-ok   (k) redaction: no home path and no e-mail address in rows/, packets/ or sessions/ (169 files)
+ok   (l) inference corr-157d158779c45a55: confidential data allowed on route 'local'; one evidence record from 'mcp-client' on the decision's trace
+ok   (l) inference corr-ff498d6152d67c2c: confidential data denied on route 'anthropic/claude-haiku-5-5'; no evidence record
+ok   (m) inference: SHA256SUMS covers every packet file and every sum matches (16 files)
+ok   (k) redaction: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ (186 files)
 ok   (j) readme: the quoted verifier output and the overhead table in README.md match this run
-PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3
+PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3, inference packets: 2
 ```
 <!-- verify:end -->
 
@@ -150,11 +153,15 @@ not measured here: time to delivery (a projected row carries one timestamp; ever
   repositories moved to; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
   `RESULT.md` is that packet verifier's raw output over it.
+- `inference/` — governed model calls, one packet per decision, as trust-steering exported them:
+  the decision trace, the evidence, the policy that decided and its hash, the schemas. Nothing is
+  edited. The export's `supplychain/` directory is left out: its SBOMs describe images that did
+  not run these calls, and its note claims attestations the packet does not carry.
 - `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
   Act Art. 12 item it evidences. An argued mapping, not a certification claim; generated from
   the verifier's own table, and check (h) fails if the two differ by a byte.
-- `SHA256SUMS` in `packets/` and `sessions/` pin every packet file and every session source
-  file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
+- `SHA256SUMS` in `packets/`, `sessions/` and `inference/` pin every packet file and every
+  session source file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
   never writes.
 
 ## The vendor sessions
@@ -171,5 +178,24 @@ The other two sessions are audits that did not pass, kept rather than discarded.
 named as one the run claimed; the engine fix that followed is why the same run's row reads
 `delivered`. Both were mapped by the packet's `map-session.sh` and checked by its `verify.sh`,
 whose per-check lines each `RESULT.md` quotes.
+
+## The governed model calls
+
+One consumer, one request declared `confidential`, asked for twice on 2026-11-12. For a route off
+the machine the policy said `deny`, and the packet holds the decision and no evidence. For the
+`local` route it said `allow`; the consumer made the call itself and reported it, so the packet
+holds the decision and one evidence record on the same trace, from the consumer and not from the
+policy service's own worker. Check (l) reads each packet for exactly that, and refuses any packet
+in which data classified `confidential` or `restricted` is allowed on a route other than `local`.
+
+What the packets do not show: that no call was made on the denied route (a denial leaves no
+evidence either way), or that the declared classification was true (the caller declares it; the
+trace records the declaration). The policy service never sees the model traffic.
+
+Rewrite the allowed packet's evidence as the worker's and it fails:
+
+```text
+FAIL (l) inference corr-157d158779c45a55: evidence workload.service_name 'worker' is not the consumer's
+```
 
 Intent plane: practice-helm. Apache-2.0.

@@ -1,0 +1,5 @@
+{
+  "bundle_hash": "sha256:4d6081eaa027029c0ad08bab0aa7167cd25c12f89848d195f7d0c0182379c917",
+  "bundle_version": "0.1.0",
+  "rego_file": "decision.rego"
+}
