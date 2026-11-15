@@ -77,7 +77,7 @@ ok   (e) packets: SHA256SUMS covers every packet file and every sum matches (116
 ok   (f) session 0007-the-boundary-is-chief-editor-not-sole-author: corr-d08f7d5b44d1d6ac has 1 trace(s) and 1 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (f) session 0008-the-provenance-check-lands-green-audit-1: corr-3647e23e77b854e6 has 1 trace(s) and 2 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
 ok   (f) session 0070-cloud-run-audit: corr-f39865b445dc0115 has 1 trace(s) and 5 evidence record(s); every trace's decision is 'deny' for audit verdict FAIL; RESULT.md records the packet verifier's exit
-ok   (g) sessions: SHA256SUMS covers every source/ file and every sum matches (19 files)
+ok   (g) sessions: SHA256SUMS covers every file of every session and every sum matches (46 files)
 ok   (h) controls: CONTROLS.md matches the verifier's control table (9 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
 ok   (l) inference corr-157d158779c45a55: confidential data allowed on route 'local'; one evidence record from 'mcp-client' on the decision's trace
@@ -139,10 +139,12 @@ not measured here: time to delivery (a projected row carries one timestamp; ever
   not here.
   The artemis rows `cloud-0002` and `cloud-0003` read `undelivered` because those runs stopped at
   their environment precondition and shipped nothing; `cloud-0004` is the same item delivered.
-  The pull requests the rows reference live in private repositories; the verifier checks that
+  Most pull requests the rows reference live in private repositories; the verifier checks that
   every delivered row names one, not that a reader can open it.
-- `packets/` — evidence packets exactly as the engine exported them: provenance, the run's
-  full ledger rows, its PR references, the task as commissioned, and the transcripts. Never
+- `packets/` — evidence packets exactly as the engine exported them. A local run's packet holds
+  provenance, the run's full ledger rows, its PR references, the task as commissioned, and the
+  transcripts; a cloud run's holds provenance, its ledger rows and the trusted-host audit under
+  `cloud/`, with the vendor's run report and log where the run produced them. Never
   edited; a packet that cannot be published as-is is excluded, not changed. The exceptions, stated here so they can
   be checked: paths under the operator's home directory are shortened to `~`, an e-mail address reads
   `redacted`, and repository URLs name the organization the repositories moved to; no other byte is
@@ -152,16 +154,16 @@ not measured here: time to delivery (a projected row carries one timestamp; ever
   byte-verbatim except those same two redactions, and repository URLs name the organization the
   repositories moved to; `packet/` is that run mapped into the
   [Agent Audit Packet](https://github.com/artemis-owl/agent-audit-packet) layout;
-  `RESULT.md` is that packet verifier's raw output over it.
+  `RESULT.md` is that packet verifier's raw output over it, at the verifier commit it names.
 - `inference/` — governed model calls, one packet per decision, as trust-steering exported them:
   the decision trace, the evidence, the policy that decided and its hash, the schemas. Nothing is
   edited. The export's `supplychain/` directory is left out: its SBOMs describe images that did
   not run these calls, and its note claims attestations the packet does not carry.
-- `CONTROLS.md` — per check, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
+- `CONTROLS.md` — for the nine checks that evidence a control, the NIST AI RMF, ISO/IEC 42001, OWASP Agentic Top 10 and EU AI
   Act Art. 12 item it evidences. An argued mapping, not a certification claim; generated from
   the verifier's own table, and check (h) fails if the two differ by a byte.
 - `SHA256SUMS` in `packets/`, `sessions/` and `inference/` pin every packet file and every
-  session source file. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
+  session file: source, mapped packet and `RESULT.md`. `./verify.sh --write-sums` regenerates them and checks nothing; plain `./verify.sh`
   never writes.
 
 ## The vendor sessions
@@ -169,8 +171,9 @@ not measured here: time to delivery (a projected row carries one timestamp; ever
 The first mapped session reported `1187 passed` and `result: success`. The trusted-host audit
 re-ran the same gate on the same commit and got `1 failed, 1186 passed`, so the recorded
 decision is `deny`: five pushes happened, and the policy that judges them did not allow
-them. The packet verifier closes its first three checks on that session and cannot run the
-fourth, because a vendor's log does not say which decision each action was taken under.
+them. The packet verifier at `cd4c2c6`, the commit `RESULT.md` names, closed its first three
+checks on that session and stopped on the fourth; the verifier since then fails that check by
+name, because a vendor's log does not say which decision each action was taken under.
 
 The other two sessions are audits that did not pass, kept rather than discarded. In
 `0007-the-boundary-is-chief-editor-not-sole-author` the work failed its own gate. In

@@ -97,7 +97,7 @@ CONTROLS = [
      "a vendor session's actions are judged by a trusted-host audit after the fact (containment, "
      "gate, mutation, connector scan); a deny verdict is recorded as a deny, and the mapped "
      "decision cannot disagree with it."),
-    ("g", "sessions: SHA256SUMS covers every source/ file and every sum matches",
+    ("g", "sessions: SHA256SUMS covers every file of every session and every sum matches",
      "NIST AI RMF MEASURE 2.7",
      "ISO/IEC 42001 7.5.3 Control of documented information",
      "OWASP ASI04 Agentic Supply Chain Vulnerabilities",
@@ -157,7 +157,7 @@ def session_dirs():
 def expected_session_sums():
     lines = []
     for d in session_dirs():
-        for f in sorted(p for p in (d / "source").rglob("*") if p.is_file()):
+        for f in sorted(p for p in d.rglob("*") if p.is_file()):
             rel = f.relative_to(SESSIONS).as_posix()
             lines.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {rel}")
     return sorted(lines, key=lambda l: l.split("  ", 1)[1])
@@ -530,8 +530,8 @@ def check():
            f"{want_decision!r} for audit verdict {verdict}; RESULT.md records the packet verifier's exit")
 
     # (g) session sources are pinned
-    what = "(g) sessions: SHA256SUMS covers every source/ file and every sum matches"
-    n = check_sums(what, SESSION_SUMS, expected_session_sums(), "sessions/SHA256SUMS", "session source/ directory")
+    what = "(g) sessions: SHA256SUMS covers every file of every session and every sum matches"
+    n = check_sums(what, SESSION_SUMS, expected_session_sums(), "sessions/SHA256SUMS", "session directory")
     ok(f"{what} ({n} files)")
 
     # (h) CONTROLS.md is the verifier's control table, byte for byte
