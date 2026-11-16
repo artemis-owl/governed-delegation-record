@@ -3,7 +3,7 @@
 A record of work that AI agents delivered under governance, published so the governance can
 be checked rather than described. It holds the delivery ledger of one small ecosystem of
 agent-run projects, the evidence packets behind those deliveries, three vendor cloud sessions
-mapped into auditable packets, two governed model calls as one packet each, and a verifier that
+mapped into auditable packets, three governed model-call decisions as one packet each, and a verifier that
 fails when any of it disagrees with itself.
 
 Five tenants appear in the ledger. **kestrel** is the engine: the harness that commissions,
@@ -81,11 +81,12 @@ ok   (g) sessions: SHA256SUMS covers every file of every session and every sum m
 ok   (h) controls: CONTROLS.md matches the verifier's control table (9 checks)
 ok   (i) instances: every rows file names a listed tenant and every listed tenant has a rows file (5)
 ok   (l) inference corr-157d158779c45a55: confidential data allowed on route 'local'; one evidence record from 'mcp-client' on the decision's trace
+ok   (l) inference corr-87850c72eaeb402d: internal data allowed on route 'anthropic/claude-haiku-5-5'; one evidence record from 'mcp-client' on the decision's trace
 ok   (l) inference corr-ff498d6152d67c2c: confidential data denied on route 'anthropic/claude-haiku-5-5'; no evidence record
-ok   (m) inference: SHA256SUMS covers every packet file and every sum matches (16 files)
-ok   (k) redaction: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ (186 files)
+ok   (m) inference: SHA256SUMS covers every packet file and every sum matches (24 files)
+ok   (k) redaction: no home path and no e-mail address in rows/, packets/, sessions/ or inference/ (194 files)
 ok   (j) readme: the quoted verifier output and the overhead table in README.md match this run
-PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3, inference packets: 2
+PASS: record is internally consistent — rows: 94, delivered: 72, packets: 22, resumed runs: 1, sessions: 3, inference packets: 3
 ```
 <!-- verify:end -->
 
@@ -190,6 +191,12 @@ the machine the policy said `deny`, and the packet holds the decision and no evi
 holds the decision and one evidence record on the same trace, from the consumer and not from the
 policy service's own worker. Check (l) reads each packet for exactly that, and refuses any packet
 in which data classified `confidential` or `restricted` is allowed on a route other than `local`.
+
+The other side of the rule, on 2026-11-16: the same consumer declared `internal` and asked for the
+route off the machine. The policy said `allow`; the consumer made one call to a hosted model and
+reported it, so that packet holds the decision and one evidence record on the same trace, from
+the consumer. The evidence carries the route, the model, token counts and latency, and no
+content: neither the prompt nor the reply is in the packet.
 
 What the packets do not show: that no call was made on the denied route (a denial leaves no
 evidence either way), or that the declared classification was true (the caller declares it; the

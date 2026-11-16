@@ -1,0 +1,6 @@
+{
+  "correlation_id": "corr-87850c72eaeb402d",
+  "trace_id": "e45593ce483540689b6a54a891213071",
+  "span_id": "bb368a8f1d18a944",
+  "jaeger_ui": "http://127.0.0.1:16686"
+}
